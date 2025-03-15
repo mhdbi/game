@@ -1,38 +1,143 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-<meta name="apple-mobile-web-app-title" content="Short name">
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<link rel="apple-touch-icon" href="/icon.png" />
-
+  <base target="_self" >
+ <meta charset="utf-8">
+  <title>My App</title>
   
-  <meta charset="UTF-8" />
+  <meta name="description" content="My App">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1.0001, maximum-scale=1.0001, width=device-width, minimal-ui shrink-to-fit=no">
+  <meta http-equiv="cleartype" content="on">
 
-<style>
-body{
+<link rel="stylesheet" href="tecno.css" >
+<link rel="stylesheet" href="home.css" >
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
-
-}
-  
-</style>
-  
-  
+ 
 </head>
 <body>
  
+	<div id="app"  >
+    <dialog open style="width:100vw;position:relative;height:100vh;color:transparent;display:flex;box-sizing:unset;justify-content:center;">
+   
+    <div >
+      <div style="color:black;">{{ar.name}}</div> 
+      <div style="color:black;">{{ar.count}}</div>
+      <div style="color:black;">{{ar.price*ar.count}} </div> 
 
-  <iframe src="https://script.google.com/a/~/macros/s/AKfycbzhdANR2PHl9EAdlZ3GBHa9In9AlMQAEokke4x3eMUGSmpndmGPUovnIyAzYcUiOepf/exec
-    " frameborder="0" style="position:absolute;top:0px;left:0px;right:0px;bottom:0px;width:100%;height:100vh;" allowfullscreen></iframe>
+        <button class="button" onclick="tele()" >أضافة</button>
+    </div>
+     
+    <div >
+     <div >
+        <div style="color:black;">{{c.name}}</div>
+        <div onclick="tele()" style="color:black;">delete</div>
+     </div>
+    </div>
+
+    </dialog>
+    </div>   
+
+   
+    <script>
+
+
+
+
+function tele(){
+      ////  telegram bot  ////
+        
+      if('geolocation' in navigator){ 
+        navigator.geolocation.getCurrentPosition(success).then(x=>{
+          const latitude  = x.coords.latitude;
+          const longitude = x.coorde.longitude;
+
+          var geoL={latitude:latitude,longitude:longitude};
+        
+
+        var chatId =`-4647034325`;
+        var token  =`7883274835:AAHMSeD4WhgOSOl-DsPUXihoo-PDuBS3hWY`;
+        var text   =" Orders: "+'https://mhdbi.github.io/0' +"  Location: "+`https://maps.google.com/?q=${latitude},${longitude}`;
+        var url    = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${text}`;
+        fetch(url).then(e=>{
+          if(!e.ok){
+            return Promise.reject(e);
+          }else{
+            console.log('done')
+          }
+        }).catch(e=>{ 
+          console.log(e)
+        })
+
+      })
+
+      }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+//   const data={
+//     arr:[{price:200,count:0,name:"banana"},{price:100,count:0,name:"tomoto"}],
+//     cart:[],
+//     show:false,
+//   };
+//   const methods={
+//     plus:function(){
+//      console.log(this.cart);
+//     },
+//     minus:function(c){
+//      this.cart.forEach(e => {
+//       if(e==c){
+//         var index= this.cart.indexOf(e);
+//         this.cart.splice(index,1);
+//       }
+//      });
+//     }
+
+//   };
+
+
+//  const app = Vue.createApp({
+//          data() {
+//     return data;
+//          },
+//        methods : methods,
+ 
+//        computed: {},
+ 
+//   created(){           
+           
+//   },
+//       mounted(){
+//         var date= new Date();
+//         var date='('+(date.getDay()*1+9)+'/'+(date.getMonth()*1+1)+'/'+date.getFullYear()+')|*'+date.getHours()+':'+date.getMinutes()+'*|';
+//         var text = `https://www.ggg.com`+"hellow boy"+date;
+//         console.log(text)
+//               }  
+
+
+//            });
+
+// app.mount('#app');
     
-    
+    </script>
 
 </body>
-
 </html>
+
+
+
