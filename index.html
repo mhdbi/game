@@ -54,12 +54,12 @@ function tele(){
         
       if(navigator.geolocation){ 
 
-        navigator.geolocation.getCurrentPosition(x=>{
+        navigator.geolocation.getCurrentPosition((x)=>{
           const latitude  = x.coords.latitude;
-          const longitude = x.coorde.longitude;
+          const longitude = x.coords.longitude;
 
           var geoL={latitude:latitude,longitude:longitude};
-        alert(geoL);
+            
         var chatId =`-4647034325`;
         var token  =`7883274835:AAHMSeD4WhgOSOl-DsPUXihoo-PDuBS3hWY`;
         var text   =" Orders: "+'https://mhdbi.github.io/0' +"  Location: "+`https://maps.google.com/?q=${latitude},${longitude}`;
