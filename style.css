@@ -281,15 +281,21 @@ body, html {
 }
 
 #offlinePage{
-    z-index: 100;
+    top: 0;
+    z-index: 99999;
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     transition: all 2s;
-    display: none;
-    justify-self: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
     background: linear-gradient(0deg ,#000,#fff);
+}
+
+#qr-gen{
+    top: 10vh;
+    position: absolute;
 }
 
 #ui{

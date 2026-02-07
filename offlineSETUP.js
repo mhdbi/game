@@ -1,51 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Offline 3D PWA</title>
-    <style>
-        video, canvas { width: 100%; max-width: 400px; display: block; margin: 10px 0; }
-        #ui { position: fixed; top: 10px; left: 10px; z-index: 10; background: white; padding: 10px; }
-    </style>
-</head>
-<body>
-    <div id="ui">
-        <button id="btnHost">1. Host (Show QR)</button>
-        <button id="btnScan">2. Scan (Camera)</button>
-        <p id="status">Status: Waiting...</p>
-    </div>
 
-    <video id="video" hidden playsinline></video>
-   
-    <canvas id="qr-gen-canvas"></canvas>
-    
-    <script src="../library/QRscan.js"></script>
-    <script src="../library/jsQR.js"></script>
-
-</body>
-</html>
-
-
-
-
-<script type='module'>
-
-
-import { createRoom } from '../library/trystOffline.js'; // The code I gave you in the last step
+import { createRoom } from '/library/trystOffline.js'; // The code I gave you in the last step
 
 const status = document.getElementById('status');
 const video = document.getElementById('video');
-const qrCanvas = document.getElementById('qr-gen-canvas');
+const qrCanvas = document.getElementById('qr-gen');
+
 
 const room = createRoom(() => {
     status.innerText = "CONNECTED!";
     video.srcObject.getTracks().forEach(track => track.stop()); // Turn off camera
 });
+console.log(room)
 
 // --- GENERATING THE QR (HOST) ---
 document.getElementById('btnHost').onclick = async () => {
+    window.isHost = true;
+    qrCanvas.style.display = 'flex';
+    video.style.display = 'none';
+    
     const offer = await room.makeOffer();
     // Use qrcode.js library to draw onto our canvas
-     new QRCode(status, {
+    if(qrCanvas.title) return;
+
+     new QRCode(qrCanvas, {
         text : offer ,
         width: 256,
         height:256,
@@ -58,6 +35,9 @@ document.getElementById('btnHost').onclick = async () => {
 
 // --- SCANNING THE QR (JOINER/HOST) ---
 document.getElementById('btnScan').onclick = () => {
+    qrCanvas.style.display = 'none';
+    video.style.display    = 'flex';
+
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(stream => {
         video.srcObject = stream;
         video.setAttribute("playsinline", true);
@@ -67,21 +47,28 @@ document.getElementById('btnScan').onclick = () => {
     });
 };
 
+// Get the canvas once, outside the tick function
+const canvasElement = document.createElement('canvas');
+const canvas = canvasElement.getContext("2d", { willReadFrequently: true });
+
 function tick() {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        const canvasElement = document.createElement("canvas");
-        const canvas = canvasElement.getContext("2d");
-        canvasElement.height = video.videoHeight;
-        canvasElement.width = video.videoWidth;
+        // Set dimensions only if they changed
+        if (canvasElement.height !== video.videoHeight) {
+            canvasElement.height = video.videoHeight;
+            canvasElement.width = video.videoWidth;
+        }
+        // Draw the current video frame to the canvas
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-       
+        // Get the image data to scan
         const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-         // convert img to code
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        // Scan the data
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {  inversionAttempts: "dontInvert", });
 
-        if (code) {
+        if (code && code.data) {
+           // console.log("Found code:", code.data);
             handleScannedCode(code.data);
-            return; // Stop scanning
+            return; // Stop scanning once found
         }
     }
     requestAnimationFrame(tick);
@@ -91,7 +78,11 @@ async function handleScannedCode(data) {
     if (!window.isHost) {
         // I am the joiner, I just scanned the Host's offer
         const answer = await room.acceptOffer(data);
-            new QRCode(status, {      // Show answer QR to host
+
+              if(answer && typeof answer === 'string' && answer.length>0){
+                console.log(answer)
+              }
+            new QRCode(qrCanvas, {      // Show answer QR to host
                             text : answer,
                             width: 256,
                             height:256,
@@ -108,4 +99,8 @@ async function handleScannedCode(data) {
 }
 
 
-</script>
+
+
+
+
+
