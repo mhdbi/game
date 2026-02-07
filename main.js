@@ -1,4 +1,4 @@
-import * as trystero from '../library/trystero0.js';
+import * as trystero from './library/trystero0.js';
 
 const form = new FormData();
 const SCRIPT_URL ="https://script.google.com/macros/s/AKfycbxrYt-PEUGOh8mw0Ui0aFtP7t0KmgqX3R3_pLdolzZtGBtLooXuqzlDhwfIEQFAi6n5/exec";

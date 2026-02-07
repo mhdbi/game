@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { OrbitControls } from '../library/OrbitControls.js';
-import * as SkeletonUtils from '../library/SkeletonUtils.js';
+import { OrbitControls } from './library/OrbitControls.js';
+import * as SkeletonUtils from './library/SkeletonUtils.js';
 
-import * as trystero from '../library/trystero0.js';
+import * as trystero from './library/trystero0.js';
 
-import * as YUKA from '../library/yuka.module.js';
+import * as YUKA from './library/yuka.module.js';
 
 ////////////////////////////////////////////////////
 import * as meshes from './meshes.js';

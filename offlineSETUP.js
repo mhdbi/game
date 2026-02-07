@@ -10,7 +10,7 @@ const room = createRoom(() => {
     status.innerText = "CONNECTED!";
     video.srcObject.getTracks().forEach(track => track.stop()); // Turn off camera
 });
-console.log(room)
+
 
 // --- GENERATING THE QR (HOST) ---
 document.getElementById('btnHost').onclick = async () => {

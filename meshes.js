@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from '../library/GLTFloader.js';
+import { GLTFLoader } from './library/GLTFloader.js';
 
 ////////////////////// standerd meshes \\\\\\\\\\\\\\\\\\\\\
 

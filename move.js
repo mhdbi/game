@@ -1,4 +1,4 @@
-import * as YUKA from '../library/yuka.module.js';
+import * as YUKA from './library/yuka.module.js';
 
 
 ////////////////////////////////////////////////////////////////////
