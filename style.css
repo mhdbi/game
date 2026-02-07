@@ -3,9 +3,16 @@
 body, html { 
     overflow: hidden; 
     margin: 0;
-     padding: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overscroll-behavior: none;
 }
 
+canvas{
+     overscroll-behavior: none;
+}
 
 #viewport {
     display: flex;

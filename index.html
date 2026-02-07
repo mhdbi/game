@@ -47,7 +47,6 @@
 </head>
 <body>
 
-
   <div id="viewport">
 
     <div id="bottomNav"> 
@@ -224,7 +223,7 @@
                 </div>
 
 <!-- for img backgrond -->
-           <img src="/thin.png"  id="playIMG"/> 
+           <img src="./thin.png"  id="playIMG"/> 
 
 <!-- for play stop -->
                <div class="btnHolder">
@@ -316,6 +315,7 @@
         <lable for="progress-bar"> Loding... </lable>
         <progress id="progress" value="0" max="100" ></progress>
     </div>
+
 
 
 </body>
@@ -824,13 +824,14 @@ let touchStartX = 0,
 
 
 viewPort.addEventListener('touchstart', e => {
+     e.preventDefault();
     touchStartX = e.changedTouches[0].clientX;
     container.style.transition ='none';
 
 }, false);
 
 viewPort.addEventListener('touchmove', (e)=>{
-
+     e.preventDefault();
      move = e.touches[0].clientX - touchStartX;
 
  if(lastT + move/100 >100 || lastT + move/100 < -100)return;
@@ -839,7 +840,7 @@ viewPort.addEventListener('touchmove', (e)=>{
 },false);
 
 viewPort.addEventListener('touchend', e => {
-
+     e.preventDefault();
     touchEndX = e.changedTouches[0].clientX;
     container.style.transition ='transform 0.3s ease-out';
     

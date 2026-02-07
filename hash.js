@@ -46,7 +46,7 @@ function openOffline() {
     document.body.appendChild(div);
 
     // Now, manually load the scripts so they actually run
-    const scripts = [ '../library/QRscan.js',  '../library/jsQR.js'];
+    const scripts = [ './library/QRscan.js',  './library/jsQR.js'];
 
     scripts.forEach(src => {
         let script = document.createElement('script');
@@ -58,6 +58,6 @@ function openOffline() {
     // For your module script
     let moduleScript = document.createElement('script');
         moduleScript.type = 'module';
-        moduleScript.src = 'offlineSETUP.js';
+        moduleScript.src = './offlineSETUP.js';
         document.body.appendChild(moduleScript);
 }
