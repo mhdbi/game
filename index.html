@@ -224,7 +224,7 @@
                 </div>
 
 <!-- for img backgrond -->
-           <img src="../thin.png" onerror='imgER(event)' id="playIMG"/> 
+           <img src="./thin.png" onerror='imgER(event)' id="playIMG"/> 
 
 <!-- for play stop -->
                <div class="btnHolder">
@@ -507,7 +507,7 @@ if(!localNI){
         for(let i=0; i < MYdeck.length; i++){
         var HTMLtext = `
             <div class='entityHolder'  > 
-            <img class='entityImg' src='../GameEntity/Himg/${MYdeck[i]}.webp' data-name='${i}' >
+            <img class='entityImg' src='./GameEntity/Himg/${MYdeck[i]}.webp' data-name='${i}' >
             </div>
         `;
         deck.innerHTML += HTMLtext;
@@ -526,7 +526,7 @@ if(!localNI){
         
         var HTMLtext = `
             <div class='entityHolder'> 
-            <img class='entityImg' src='../GameEntity/Himg/${entityArr[i]}.webp' data-set='${i}' >
+            <img class='entityImg' src='./GameEntity/Himg/${entityArr[i]}.webp' data-set='${i}' >
                 <div class='add' data-set='${i}'> add </div>
             </div>
          `;

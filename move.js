@@ -256,7 +256,7 @@ class TowerAttackState extends YUKA.State {
 //////////////////////////////////////////////////////////
 
 const loaderYuka = new YUKA.NavMeshLoader();
-const loudedNavMesh = await  loaderYuka.load('../GameEntity/navMesh.glb');
+const loudedNavMesh = await  loaderYuka.load('./GameEntity/navMesh.glb');
 
 async function findFromPathTo(v, to) {
     // 1. Convert Three.js positions to Yuka Vector3s

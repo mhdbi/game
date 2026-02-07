@@ -57,7 +57,7 @@ const orbit = new OrbitControls(camera , renderer.domElement);
 ////////////////////////////////////////////////////////////////////////
 
 const loaderYuka = new YUKA.NavMeshLoader();
-const loudedNavMesh = await  loaderYuka.load('../GameEntity/assets/navMesh.glb');
+const loudedNavMesh = await  loaderYuka.load('./GameEntity/assets/navMesh.glb');
 
 ////////////////////////////////////////////////////////////////////
 ///////////////////////  deck   /////////////////////////////////
@@ -75,7 +75,7 @@ function inserUItDeck(){
         // M
         var img   = document.createElement('img');
             img.setAttribute('data-mname' , e);
-            img.src= `../GameEntity/Himg/${e}.webp`;
+            img.src= `./GameEntity/Himg/${e}.webp`;
             img.addEventListener('click', (x)=>{
                         BARmeshN = x.target.dataset.mname;
                         BARmesh = entities[BARmeshN].model;  
@@ -87,7 +87,7 @@ function inserUItDeck(){
             // for H
         var imgH   = document.createElement('img');
             imgH.setAttribute('data-hname' , e);
-            imgH.src= `../GameEntity/Himg/${e}.webp`;
+            imgH.src= `./GameEntity/Himg/${e}.webp`;
             imgH.addEventListener('click', (i)=>{
                 Hname = i.target.dataset.hname;
                 BARmesh = BARmeshN = null;
