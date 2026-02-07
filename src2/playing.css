@@ -1,0 +1,195 @@
+
+.flexy{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.entity-bar1{
+     background: #a7a7a7;
+    position: absolute;
+    z-index: 99;
+    width: 100vw;
+    height: 10vh;
+    bottom: 0px;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+#insideBar{
+    padding-right: 27vw;
+    overflow-y: scroll;
+    display: flex;
+    height: 100%;
+    place-items: center;
+    gap: 2vw;
+}
+
+#tarImg{
+     right: 0;
+    filter: drop-shadow(-3px 0px 6px #000000);
+    background: conic-gradient(from -508deg at 25%, #06060600 118deg, #000000 111deg, #000000 130deg, #0d0200 235deg, #000000 334deg);
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 105%;
+    width: 29%;
+    display: flex;
+}
+
+#insideBar > img{
+         aspect-ratio: 1;
+    box-shadow: 1px 5px 12px #232323;
+    height: 9vh;
+    border-radius: 1rem;
+
+}
+
+
+
+.entity-bar2{
+    filter: drop-shadow(1px 1px 5px #000);
+    pointer-events: none;
+    right: 0;
+    bottom: 9.5vh;
+    height: 65vh;
+    width: 11vw;
+    display: none;
+    background: #151515;
+    z-index: 7;
+    position: absolute;
+    border-start-start-radius: 2rem;
+    border-start-end-radius: 2rem;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-top: 1vh;
+}
+
+.entity-bar2::before{
+      content: '';
+    position: absolute;
+    right: 11vw;
+    top: 60.8vh;
+    width: 5vh;
+    height: 5vh;
+    background-color: #80808000;
+    box-shadow: 10px 5px 0px #151515, 10px 17px 0px #151515;
+    border-bottom-right-radius: 50px;
+    z-index: -1;
+}
+
+.entity-bar2 > img{
+    height: calc(100% / 11);
+    aspect-ratio: 1;
+    border-radius: .3rem;
+    filter: contrast(0.1) brightness(0.5);
+}
+
+
+
+
+
+
+/* for num diget */
+  #display-container { 
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    z-index: 9;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+   }
+
+  #DigtC{    
+    border-bottom: 0.1px solid #000000;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background: #252525;
+    box-shadow: inset 0px -5px 10px #000000, inset 0px 6px 11px #737373;
+    border-radius: 4rem;
+    /* list-style: none; */
+    width: 80%;
+    max-width: 125px;
+    aspect-ratio: 1;
+    text-align: center;
+    position: relative;
+}
+  /* SVG Styling */
+  .digit-svg { width:min(4vw, 13px);  }
+  .segment { fill: #1a1a1a; transition: fill 0.1s; } /* Off state */
+  .on { fill: #ff1d11; filter: drop-shadow(0 0 5px #ff1d11); } /* On state (Matrix Green) */
+
+
+
+
+
+
+
+
+  /* start end game  */
+  #SPcontainer{
+    transform: translate(-2vw, -3vh);
+    width: 85vw;
+    height: 85vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 1rem;
+    border-end-end-radius: 1rem;
+    background: linear-gradient(75deg, black, rgb(96, 96, 96));
+    box-shadow: rgba(0, 0, 0, 0.76) -3.5vw 2.5vh 18px;
+    animation: SP 10s ease-in 0s;
+  }
+@keyframes SP{
+  50%{ transform: translate(2vw, 5vh);}
+  100%{ transform: translate(-2vw, -3vh);}
+}
+
+  #VS{
+    font-size: 9vw;
+    color: #3f3fff;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 9px #000, 1px 2px 3px #000;
+    font-weight: bolder;
+  }
+
+.PNJ{
+    color: #888787;
+    text-shadow: 2px 3px 4px #000;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border-start-start-radius: .5rem;
+    border-start-end-radius: 1rem;
+    border-end-start-radius: 0.2rem;
+    filter: drop-shadow(-5px 7px 8px #000);
+    border-end-end-radius: 1rem;
+    background: linear-gradient(90deg, #000000 4%, #660000);
+    left: -5vw;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7%;
+}
+
+.PNJ::before{
+    left: 0px;
+    top: 5.8vh;
+    position: absolute;
+    z-index: -1;
+    content: "";
+    width: 1px;
+    height: 1px;
+    border-left: none;
+    border-top: none;
+    border-right: 5.1vw solid #000000;
+    border-bottom: 1.5vh solid #00000000;
+}

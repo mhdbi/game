@@ -1,0 +1,958 @@
+
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+
+    <base target="_self" >
+    <meta charset="utf-8">
+    <title>Teleshop</title>
+    
+    <meta name="description" content="Teleshop">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0001, maximum-scale=1.0001, width=device-width, viewport-fit=cover">
+    <meta http-equiv="cleartype" content="on">
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#232323" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#232323" />
+    
+
+    <meta name="apple-mobile-web-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+
+
+
+   <link rel="stylesheet" href="./style.css" >
+   <link rel="stylesheet" href="./playing.css">
+   
+    <!-- "https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js" -->
+    <script async src="../library/es-module-shims.js" ></script> 
+    <script type="importmap">
+        {  "imports": { "three": "../library/three.module.js" }    }
+    </script>
+     <script>
+       function imgER(e){
+            var n = navigator.onLine;
+            if(n){
+                    e.currentTarget.style.display='flex';
+                    e.currentTarget.src=e.currentTarget.src;
+                }else{
+                    e.currentTarget.style.display='none';
+                    e.currentTarget.src=e.currentTarget.src;
+                
+                }
+            }
+     </script>
+</head>
+<body>
+
+
+  <div id="viewport">
+
+    <div id="bottomNav"> 
+        <div id="goL" style="left:0;" > 
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="#e7e7e7" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.4" d="M21 4H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+            <path d="M17 8H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/>
+         </svg>
+        </div>
+        <div id="goR" style="right:0;"> 
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e7e7e7" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+        </div>
+    </div>
+
+    <div id="container">
+        <section class="screen" id="screen0">
+           
+            <div style="height: 200px; margin-bottom: 12vh;">
+                    <nav class="nav">
+                        <div id="deck">
+                        <!-- deck -->
+                        </div>
+                    </nav>
+                    <div id="deckPrice">
+                        <!-- num -->
+                    </div>
+            </div>
+             
+            <div id="entityC">
+                
+                <!-- entity here -->
+            </div>
+
+
+            <!-- entity preview  -->
+            <div class="panelC">
+
+                <div class="panel">
+                        <div class="page2">
+                             <div class="dataTitles">
+                                <div > type : </div>
+                                <div > cost : </div>
+                                <div > range : </div>
+                                <div > health : </div>
+                            </div>
+                            
+                            <div class="data">
+                                <div class="titlee">  </div>
+                                <div class="type">    </div>
+                                <div class="cost">    </div>
+                                <div class="rang">    </div>
+                                <div class="health">  </div>
+                            </div>
+
+                        </div>
+                            
+                        <div class="imgDiv">
+                            <img src="" class="imgg">
+                        </div>
+                        
+
+                        <div class="before" >
+                            <div class="hit"> </div>
+                            <div class="speed">  </div>
+                        </div>
+                </div>
+            </div>
+
+        </section>
+
+
+
+
+
+
+<!--/////////////////////////////////////////// screen1 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+
+
+
+
+
+        <section class="screen" id="screen1">
+            
+<!-- for user nav header -->
+               <div class="header">
+                 <div class="contaiiner">
+                      <div class='downAndai'> 
+                            <div  id="notificIcon">
+                                <svg  width="21" height="21" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path  d="M19.43 12.97C19.47 12.65 19.5 12.33 19.5 12C19.5 11.67 19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.96 19.05 5.05L16.56 6.05C16.04 5.66 15.5 5.32 14.87 5.07L14.5 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.5 2.42L9.13 5.07C8.5 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.73 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.22 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12C4.5 12.33 4.53 12.65 4.57 12.97L2.46 14.63C2.27 14.78 2.22 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.94C7.96 18.34 8.5 18.68 9.13 18.93L9.5 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.5 21.58L14.87 18.93C15.5 18.67 16.04 18.34 16.56 17.94L19.05 18.95C19.27 19.03 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.97Z" fill="#e7e7e7"/>
+                                <path  d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" fill="#ff1d11"/>
+                                </svg>
+                            </div>
+
+
+
+                            <div id="downLBTN">
+                                <svg  width="21" height="21" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path  d="M12 4V16M12 16L8 12M12 16L16 12M4 20H20" stroke="#e7e7e7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                     </div>  <!-- end down ai -->
+                    
+
+
+                      <div  style="padding-right: 10px;" >
+                        <svg class="userDD" width="24" height="24" viewBox="0 0 24 24" fill="#e7e7e7" xmlns="http://www.w3.org/2000/svg">
+                            <path class="userDD" d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path class="userDD" d="M20 22V20C20 18.9391 19.5786 17.9217 18.8284 17.1716C18.0783 16.4214 17.0609 16 16 16H8C6.93913 16 5.92172 16.4214 5.17157 17.1716C4.42143 17.9217 4 18.9391 4 20V22" stroke="#ff1d11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                     </div>
+                    <div class="test3">  </div>
+                 </div>
+               </div>
+
+
+<!-- for user info name and id -->
+            <aside id="userD" >
+                <div class="itemFlex" >
+                    <span style="font-weight: bold; color:#ff1d11;" >my NAME :</span>
+                    <input id="Pname"  type="text"  placeholder="write here ..." style="color: #fff;letter-spacing: 1px;width: 60%; background: none; border: none; font-weight: bolder; box-shadow: none; outline: none; display: flex;">
+                </div>
+                <div class="itemFlex" >
+                    <span style="font-weight: bold; color:#ff1d11;" >my ID :</span>
+                    <div id="Pid" style="width: 60%;color: #fff;letter-spacing: 1px;font-weight: bolder;"> </div>
+                </div>
+
+                
+                 <p id="changeNI" class="addF"> change </p>
+                 <p id="userDX" style="outline: 2px #464646 solid; outline-offset: 2px;color: #ff1d11;font-weight: bold; border-radius: 1rem;background-color:#000; width: 25vw;   display: flex;justify-content: center;align-items: center;"> close </p>
+            </aside>
+             
+
+<!-- for download -->
+               <div class="instruction" id="instruction" style="display: none;">
+                 <div class="downloadH">
+                    <div class="plase">
+                        <div style="display: flex; justify-content: center; align-items: center; width: 100%; color: rgb(255, 255, 255); font-weight: bold;"> VPN لتحميل التطبيق نحتاج </div>
+                    </div>
+
+                    <div  style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="test5"> ثانياً :</div>
+                        <img src="" style="max-width: 100%; height: 16vh; border-radius: 0.5rem; width: 300px;">
+                    </div>
+                       
+                        <div  style="display: flex;flex-direction: column; align-items: center;">
+                            <div class="test5"> ثالثاً :</div>
+                            <img src="" style="width: 95%; border-radius: 0.5rem;">
+                        
+                        </div>
+                        
+                        <div class="okyBtn"> حسناً </div>
+                    </div>
+                </div>
+
+<!-- for notification -->
+              <div class="instruction" id="notificC"  style="display: none;">
+                 <div class="downloadH" style="height: 55vh;justify-content: center;">
+
+                    <div class="plase">
+                        <div style="font-size: 16px; text-align: center;display: flex; justify-content: center; align-items: center; width: 90%; color: rgb(255, 255, 255); font-weight: bold;">
+                             by turning on notification : you can send , recive notification to play with freinds </div>
+                    </div>
+
+                    <div  style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="turnONN">turn on </div>
+                      
+                    </div>
+                        
+                        <div class="notiX"> close </div>
+                    </div>
+                </div>
+
+<!-- for img backgrond -->
+           <img src="../thin.png" onerror='imgER(event)' id="playIMG"/> 
+
+<!-- for play stop -->
+               <div class="btnHolder">
+                 play
+                      <div class="btnBefor"> </div>
+               </div>
+
+                    <div class="btnHolder net" id="online"> online </div>
+                    <div class="btnHolder net" id="offline"> offline </div>
+
+                  <div id="textDot0" class="textDot">finding player  <span></span></div>
+
+
+<!-- ////offline html\\\\ -->
+             <div id="offlinePage">
+                    <video  id="video" hidden playsinline></video>
+                    <canvas id="qr-gen-canvas"></canvas>
+
+                    <div id="ui">
+                         <p id="status">Status: Waiting...</p>
+                        <button id="btnHost" class="offlinee">1. Host (Show QR)</button>
+                        <button id="btnScan" class="offlinee">2. Scan (Camera)</button>
+                        <span   id="offlineX"> رجوع </span>
+                    </div>
+             </div>
+
+
+
+        </section>
+
+
+
+
+
+<!-- ///////////////////////////////////section2 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+        <section class="screen" id="screen2">
+            <nav>
+                <div id="allF"> 
+                    
+                </div>
+            </nav>
+
+
+            <ul class="playWF" >  </ul>
+            <div id="textDot" class="textDot">waiting <span></span></div>
+
+
+            <aside id="AF">
+                <div id="statusF" style="color: red;font-weight: bold;font-size: 15px;margin: 1vh;"> </div>
+                <div class="itemFlex" >
+                    <span style="font-weight: bold; color:#ff1d11;" >NAME :</span>
+                    <input id="Fname"  type="text"  placeholder="write here ..." style="color: #fff;letter-spacing: 1px;width: 60%; background: none; border: none; font-weight: bolder; box-shadow: none; outline: none; display: flex;">
+                </div>
+                <div class="itemFlex" >
+                    <span style="font-weight: bold; color:#ff1d11;" >ID :</span>
+                    <input id="Fid"  type="text"  placeholder="write here ..." style="color: #fff;letter-spacing: 1px; width: 60%; background: none; border: none; font-weight: bolder; box-shadow: none; outline: none; display: flex;">
+                </div>
+
+                
+                 <div id="addF" class="addF"> add freind </div>
+            </aside>
+
+
+
+
+
+        </section>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- start game border -->
+ <div class="instruction" id="SPholder" style="display: none;"> </div>
+
+    <!-- entitys bar H-->
+     <div class="flexy entity-bar2">  
+     </div>
+    
+    
+    <div class="entity-bar1">
+        <div id="insideBar"></div>
+
+       <div id="tarImg"> 
+         <div id="display-container"> </div>
+       </div>
+    </div>
+  
+
+    <!-- progress bar Loader -->
+    <div class="progress-bar">
+        <lable for="progress-bar"> Loding... </lable>
+        <progress id="progress" value="0" max="100" ></progress>
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+
+<!-- import * as trystero from 'https://cdn.jsdelivr.net/npm/trystero@0.22.0/+esm'; -->
+
+<!-- <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script> -->
+<script defer src="./initSW.js"></script>
+<script type="module" src="./cone.js"></script>
+
+
+
+
+
+
+
+<script  type="module" >
+import * as meshes from './meshes.js';
+const {segmentTemplate ,mapping,  entities  } = meshes.default;
+
+    const query = window.location.search;
+    const urlP = new URLSearchParams(query);
+
+    if(urlP.has('RT')){
+      const roomTime = JSON.parse( urlP.get('RT') );
+        let date = new Date();
+      if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -3){
+           // join   let room = roomTime.room;
+      }
+    }
+
+
+const GASurl = 'https://script.google.com/macros/s/AKfycbwpPvFPtWKXL3bsxKULLszGWSH69rS2DLcP0ml4dRdO6sjMhSJWaF3-wi8SvSCZVM6DZg/exec';
+       
+
+
+const meshesData = entities;
+////////////////////////////////////////////////
+let NAME , ID;
+let test3 = document.getElementsByClassName('test3')[0];
+let Pid = document.getElementById('Pid');
+let dots = document.getElementById('textDot');
+
+let screen0 = document.getElementById('screen0');
+let screen1 = document.getElementById('screen1');
+let screen2 = document.getElementById('screen2');
+
+let panelC  = document.getElementsByClassName('panelC')[0];
+let deck    = document.getElementById('deck');
+let entityC = document.getElementById('entityC');
+
+
+
+var l = Object.keys(meshesData);
+var r =  Math.floor(Math.random()*l.length/2);
+let editNuum =null;
+
+let MYdeck = [];
+let entityArr =[...l];
+
+screen0.addEventListener('click', (e)=>{
+
+    if(e.target.className=='add' && editNuum){
+            editNuum = e.target.dataset.set;
+
+            document.getElementsByClassName('active')[0].classList.remove('active');
+            e.target.parentNode.classList.add('active');    
+        
+    }else if(e.target.className=='add' ){
+  
+                    editNuum = e.target.dataset.set;
+                    e.target.parentNode.classList.add('active');
+                    screen0.scrollTo({ top: 0 , behavior: 'smooth'})
+                   deck.querySelectorAll('.entityImg').forEach(e=> e.classList.add('outlineAni'));
+  
+    }else if(e.target.dataset.name && editNuum ){
+               
+                [ MYdeck[e.target.dataset.name] , entityArr[editNuum] ] =
+                [ entityArr[editNuum] , MYdeck[e.target.dataset.name] ];
+
+                cards(); 
+                localStorage.setItem('my-entities', JSON.stringify(MYdeck) );
+                editNuum=null;
+
+    }else if(e.target.dataset && e.target.localName =='img'&& !editNuum){
+                 let mesh;
+                if(e.target.parentNode.parentNode.id == 'deck'){
+                    const n = MYdeck[e.target.dataset.name];
+                     mesh =  meshesData[n].model;
+                }else {
+                    const n = entityArr[e.target.dataset.set];
+                      mesh =  meshesData[n].model;
+                }
+                
+
+            panelC.style.display='flex';
+            panelC.querySelector('.titlee').textContent = mesh.name;
+            panelC.querySelector('.imgg').src           = `../GameEntity/Himg/${mesh.name}.webp`;
+            panelC.querySelector('.type').textContent  = mesh.userData.type;
+            panelC.querySelector('.cost').textContent  = mesh.userData.cost;
+            panelC.querySelector('.speed').textContent ='speed:'+ mesh.userData.maxSpeed*10;
+            panelC.querySelector('.hit').textContent   = 'hit:' + mesh.userData.hit ;
+            panelC.querySelector('.rang').textContent  = mesh.userData.attackRad;
+            panelC.querySelector('.health').textContent= mesh.userData.health;
+
+
+
+            if(!editNuum)return;
+                  editNuum=null;
+                  document.getElementsByClassName('active')[0].classList.remove('active');
+
+
+    }else if(e.target.className == 'panelC'){
+
+             e.target.style.display = 'none';
+    
+    }else{
+            if(!editNuum)return;
+                  editNuum=null;
+                  document.getElementsByClassName('active')[0].classList.remove('active');
+                  deck.querySelectorAll('.entityImg').forEach(e=> e.classList.remove('outlineAni'))
+    }
+    
+ 
+});
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+let localSdata = localStorage.getItem('my-entities');
+{   // init deck cards and all remain cards
+
+if(!localSdata){
+    for(let i=0; i<16; i+=2){ 
+       MYdeck.push(l[i]);
+    }
+     localStorage.setItem('my-entities', JSON.stringify(MYdeck) );
+     window.MYdeck = MYdeck;
+   }else{
+     window.MYdeck = MYdeck= JSON.parse(localSdata);
+  }
+
+
+
+for(let e=0; e < MYdeck.length; e++){
+     entityArr.splice( entityArr.indexOf(MYdeck[e]) ,1);
+    }
+
+
+ cards();
+
+}
+
+
+let localNI = localStorage.getItem('NI');
+{   // init name and ID
+if(!localNI){
+    NAME = 'Noob';
+    ID   = generateUID(8);
+   localStorage.setItem('NI', JSON.stringify( [NAME,ID]) );
+   test3.textContent = NAME;
+   Pid.textContent = ID;
+   setupUser('initUser');
+}else{
+    let a = JSON.parse(localNI);
+     window.NAME = NAME = a[0];
+     ID   = a[1];
+    test3.textContent = NAME;
+    Pid.textContent = ID;
+}
+
+
+}
+
+
+
+ function cards(){
+    deck.innerHTML=''; 
+
+        for(let i=0; i < MYdeck.length; i++){
+        var HTMLtext = `
+            <div class='entityHolder'  > 
+            <img class='entityImg' src='../GameEntity/Himg/${MYdeck[i]}.webp' data-name='${i}' >
+            </div>
+        `;
+        deck.innerHTML += HTMLtext;
+        }
+    /////////////////////////////////////////////////
+ let COST = 0;
+    for(let e=0; e < MYdeck.length; e++){
+    COST+= meshesData[MYdeck[e]].model.userData.cost;
+    }
+  
+    digetNUM(COST)
+
+    /////////////////////////////////////////
+    entityC.innerHTML='';
+    for(let i=0; i < entityArr.length; i++){
+        
+        var HTMLtext = `
+            <div class='entityHolder'> 
+            <img class='entityImg' src='../GameEntity/Himg/${entityArr[i]}.webp' data-set='${i}' >
+                <div class='add' data-set='${i}'> add </div>
+            </div>
+         `;
+        entityC.innerHTML += HTMLtext;
+        
+        }
+}
+
+//////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////  screen 1  //////////////////////////////
+
+
+
+let play =false;
+let offlinePage = document.getElementById('offlinePage');
+let userD = document.getElementById('userD');
+
+screen1.addEventListener('click',(e)=>{
+ 
+    if(e.target.className=='btnHolder'){
+            play=!play
+          if(play){ 
+                    e.target.querySelector('.btnBefor').classList.add('lightAni');
+                    e.target.firstChild.textContent='stop';
+                let arr = screen1.querySelectorAll('.net');
+                    arr[0].classList.add('netR');
+                    arr[1].classList.add('netL');
+           }else{ 
+                    e.target.querySelector('.btnBefor').classList.remove('lightAni');
+                    e.target.firstChild.textContent='play';
+                let arr = screen1.querySelectorAll('.net');
+                    arr[0].classList.remove('netR');
+                    arr[1].classList.remove('netL');
+           }
+    }else if(e.target.id=='offline'){
+          offlinePage.style.display='flex';
+    }else if(e.target.id=='offlineX'){
+          offlinePage.style.display='none';
+  
+
+    }else if(e.target.id=='btnHost'){
+
+    }else if(e.target.id=='btnScan'){
+
+
+
+
+    }else if(e.target.className.animVal=='userDD' || e.target.className=='test3'){
+        userD.style.display = 'flex';
+
+    }else if(e.target.id=='userDX'){
+        userD.style.display = 'none';
+
+    }
+
+})
+
+
+let changeNI = document.getElementById('changeNI');
+let Pname = document.getElementById('Pname');
+
+userD.querySelector('input').oninput=()=>{   
+
+        if(Pname.value ==''){
+            changeNI.style.pointerEvents = 'none';
+            changeNI.style.background = 'gray';
+           
+        }else{
+            changeNI.style.pointerEvents = 'auto';
+            changeNI.style.background = '#ff1d11';
+        } 
+ }
+    
+changeNI.addEventListener('click',()=>{
+        NAME = Pname.value;
+        localStorage.setItem('NI', JSON.stringify( [NAME,ID] ) );
+        test3.textContent = NAME;
+        Pid.textContent = ID;
+        userD.style.display = 'none';
+    
+   // server init
+    setupUser('update');
+
+    })
+
+
+  // callback run only if token changed
+  // swOBJ.notif( ()=>{  setupUser('update')  } );
+
+
+ function setupUser(action) { // for init new user  or update it
+        var x= JSON.stringify([NAME , ID , window.token ])
+        fetch( GASurl+`?y=${action}&x=${x}`)
+            .then(response => response.json())
+            .then(data => { console.log('GAS says:', data);  })
+            .catch(err => {
+            console.log(err);
+          });
+  }
+
+
+///////////////////////////////////////////////////////////////////
+//////////////////// screen 2 \\\\\\\\//////////////////\\\\\\\\\\\
+
+
+let AF = document.getElementById('AF');
+let addF = document.getElementById('addF');
+let Fname = document.getElementById('Fname');
+let Fid = document.getElementById('Fid');
+let statusF = document.getElementById('statusF');
+
+
+
+AF.querySelectorAll('input').forEach(e=> e.oninput=()=>{   
+ 
+        if(Fid.value =='' || Fname.value ==''){
+            addF.style.pointerEvents = 'none';
+            addF.style.background = 'gray';
+           
+        }else if(Fid.value.length > 5){
+            
+            addF.style.pointerEvents = 'auto';
+            addF.style.background = '#ff1d11';
+
+        } 
+ })
+
+
+ let localF = localStorage.getItem('freinds') || null;
+
+addF.addEventListener('click',()=>{
+    Fid.value = '';
+    Fname.value = '';
+    addF.style.pointerEvents = 'none';
+    addF.style.background = 'gray';
+    dots.style.display ='flex';
+    ///////////////// logic ///////////////
+    let arr =[];
+            if(localF!=null){
+                 arr = JSON.parse(localF);
+            }
+            // if(arr.indexOf(Fid.value)!= -1){
+            //     dots.style.display ='none';
+            //     return statusF.textContent = 'freind exists';
+            // }
+
+      var x = JSON.stringify([ID , Fid.value]);
+   fetch(GASurl+`?y=addFreind&x=${x}`  )
+    .then(r=> r.json())
+    .then(data=>{
+        if(data.status== 'true'){
+            dots.style.display ='none';
+            statusF.textContent = 'freind added';
+            statusF.style.color = 'green';
+           
+            setTimeout(()=>{statusF.textContent=''}, 3000)
+           
+             arr.push({name: Fname.value , id: Fid.value})
+             localStorage.setItem('freinds', JSON.stringify(arr))
+             localF = localStorage.getItem('freinds');
+             updatedF()
+        }else{
+            dots.style.display ='none';
+            statusF.textContent = 'Id is not correct!';
+            setTimeout(()=>{statusF.textContent=''}, 3000)
+
+        }
+      
+
+     });
+
+})
+
+
+
+////////////////////////////////////////////////////////////////////
+let allF = document.getElementById('allF');
+let playWF =  document.getElementsByClassName('playWF')[0];
+
+function updatedF() {
+    if(localF!=null){
+            let arr = JSON.parse(localF);
+            allF.innerHTML='';
+            arr.forEach(a=>{
+                let html = `
+                <div class="freinds playerF" data-id=${a.id} data-name=${a.name}>
+                        <img class="playerF" src="" alt="" style="width: 100%;height: 100%;border-radius: 5rem;background: gray;">
+                        <p class="playerF" style="position: absolute;bottom: -7.5vh;font-size: 14px;">${a.name} </p>
+                </div>
+                `;
+             allF.innerHTML +=html;
+            })
+        
+  }
+}
+
+updatedF();
+
+
+function invited(id){
+    playWF.style.display='none';
+    dots.style.display ='flex';
+
+    var x = JSON.stringify([NAME , id])
+    fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json())
+    .then(data=>{ 
+        dots.style.display='none';
+        })
+}
+
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+screen2.addEventListener('click', (e)=>{
+
+  if(e.target.className== 'playerF'){
+    let data = e.target.parentNode.dataset;
+    playWF.style.display='flex';
+    playWF.innerHTML = ` <li class='invited' data-id=${data.id}> invite ${data.name} to play </li>`;
+    setTimeout(()=>{playWF.style.display = 'none'}, 10000);
+
+  }else if(e.target.className=='invited'){
+
+    invited(e.target.dataset.id)
+
+  }
+
+
+})
+
+
+////////////////////////////
+////////////////////////////
+///////////////////////////
+//////////////////////////////
+
+
+  function digetNUM(value) {
+    const container = document.getElementById('deckPrice');
+    container.innerHTML = ''; // Clear current display
+   
+    const chars = value.toString().split(''); // Convert "123" to ['1', '2', '3']
+
+    chars.forEach(char => {
+      // Create a new SVG for each character
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 100 160");
+      svg.classList.add("digit-svg");
+      svg.innerHTML = segmentTemplate;
+     
+      container.appendChild(svg);
+
+      // Light up segments if character is in our map
+      if (mapping[char]) {
+        mapping[char].forEach(segId => {
+          svg.querySelector(`[data-seg="${segId}"]`).classList.add('on');
+        });
+      }
+    });
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+/////////////////////////////////////////
+////////  handle swap left right \\\\\\\\
+
+let viewPort = document.getElementById('viewport');
+let container = document.getElementById('container');
+let goL = document.getElementById('goL');
+let goR = document.getElementById('goR');
+
+let touchStartX = 0,
+    touchEndX = 0,
+    lastT = 0,
+    move ,
+    threshold = 100;
+
+
+
+viewPort.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].clientX;
+    container.style.transition ='none';
+
+}, false);
+
+viewPort.addEventListener('touchmove', (e)=>{
+
+     move = e.touches[0].clientX - touchStartX;
+
+ if(lastT + move/100 >100 || lastT + move/100 < -100)return;
+
+    container.style.transform = `translateX( ${ lastT + move/10 }vw)`;
+},false);
+
+viewPort.addEventListener('touchend', e => {
+
+    touchEndX = e.changedTouches[0].clientX;
+    container.style.transition ='transform 0.3s ease-out';
+    
+  if(Math.abs(move) < threshold ){
+    
+    container.style.transform = `translateX( ${lastT}vw)`;
+  }else{
+      handleGesture();
+  }
+
+
+}, false);
+
+
+ function handleGesture() {
+    const swipeDistance = touchStartX - touchEndX;
+   
+    // Swipe Left (Go to Screen 2)
+    if (swipeDistance > threshold ) {
+        lastT  = Math.max(lastT -= 100 , -100);
+        container.style.transform = `translateX(${lastT}vw)`;
+        lastTime();
+    }
+
+    // Swipe to center (Go back to Screen 1)
+    if (swipeDistance < -threshold ) {
+         lastT  = Math.min(lastT += 100 , 100);
+         container.style.transform = `translateX(${lastT}vw)`;
+         lastTime();
+    }
+
+}
+
+
+goL.addEventListener('click',(e)=>{
+    lastT  = Math.min(lastT += 100 , 100);
+    container.style.transform = `translateX(${lastT}vw)`;
+    lastTime();
+})
+goR.addEventListener('click',(e)=>{
+   lastT  = Math.max(lastT -= 100 , -100);
+   container.style.transform = `translateX(${lastT}vw)`;
+   lastTime();
+})
+
+function lastTime(){
+    if(lastT== 0){
+        goL.style.display = 'flex'; 
+        goR.style.display = 'flex';
+    }else if(lastT== 100){
+        goL.style.display = 'none'; 
+        goR.style.display = 'flex';
+    }else{
+         goL.style.display = 'flex'; 
+         goR.style.display = 'none';
+    }
+}
+
+/////////////////////////////////////////
+
+/////////////////////////////// Gen ID //////////////////////////////////////////////////////////////
+const generateUID = (length = 8) => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return [...Array(length)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+};
+
+
+
+
+
+</script>
+
+<!-- 
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage((payload) => {
+  const promiseChain = clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true
+  }).then((windowClients) => {
+    // Check if any window is currently focused
+    const anyFocused = windowClients.some(client => client.focused);
+
+    if (anyFocused) {
+      // OPTION A: User is on the page.
+      // Send a message to the frontend to show a custom alert.
+      windowClients.forEach(client => {
+        client.postMessage({
+          type: 'PUSH_RECEIVED_IN_FOREGROUND',
+          payload: payload
+        });
+      });
+      return null;
+    } else {
+      // OPTION B: User is away. Show a system notification.
+      return self.registration.showNotification(
+        payload.notification.title,
+        { body: payload.notification.body }
+      );
+    }
+  });
+
+  return promiseChain;
+}); -->
