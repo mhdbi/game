@@ -1,5 +1,5 @@
 //
-window.onload = () => {   window.location.href= `${window.location.origin}/#/`;   };
+// window.onload = () => {   window.location.href= `${window.location.origin}/game/#/`;   };
 window.addEventListener('hashchange', router);
 
 
