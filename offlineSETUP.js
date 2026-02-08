@@ -39,10 +39,11 @@ document.getElementById('btnScan').onclick = () => {
     qrCanvas.style.display = 'none';
     video.style.display    = 'flex';
 
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(stream => {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: {ideal:"environment"} } }).then(stream => {
         video.srcObject = stream;
-        video.setAttribute("playsinline", true);
+        video.setAttribute("playsinline", 'true');
         video.hidden = false;
+        video.muted = true;
         video.play();
         requestAnimationFrame(tick);
     }).catch(e=>{
