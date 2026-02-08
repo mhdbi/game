@@ -39,7 +39,7 @@ a{ text-decoration: none;}
 
 
 #bottomNav{
-    background: conic-gradient(from 225deg at 30% 0%, #111111 45deg, #0000 10deg), conic-gradient(from 90deg at 70% 0%, #111111 45deg, #00000000 10deg), conic-gradient(from 225deg at 30% 80%, #111111 45deg, #0000 10deg), conic-gradient(from 90deg at 70% 80%, #111111 45deg, #00000000 10deg), conic-gradient(from 90deg at 50% 60%, #ff1d11 180deg, #00000000 2deg);
+    background: conic-gradient(from 225deg at 30% 0%, #111111 45deg, #0000 10deg), conic-gradient(from 90deg at 70% 0%, #111111 45deg, #00000000 10deg), conic-gradient(from 225deg at 30% 80%, #111111 45deg, #0000 10deg), conic-gradient(from 90deg at 70% 80%, #111111 45deg, #00000000 10deg), conic-gradient(from 90deg at 50% 60%, #ff4136 180deg, #00000000 2deg);
     width: 100vw;
     position: fixed;
     height: 7vh;
@@ -109,7 +109,7 @@ a{ text-decoration: none;}
 
 .btnBefor{
     content: '';
-    filter: drop-shadow(0px 0px 5px #ff1d11);
+    filter: drop-shadow(0px 0px 5px #ff4136);
     position: absolute;
     z-index: -1;
     width: 110%;
@@ -117,7 +117,7 @@ a{ text-decoration: none;}
     border-radius: 5rem;
     transition: 0.5s;
     transform: rotateZ(0deg);
-    background: conic-gradient(from 207deg, #00000000 60deg, #ff1d11 60deg, #ff1d11 125deg, #99999900 125deg, #99999900 175deg, #ff1d11 175deg, #ff1d11 240deg, #99999900 240deg, #99999900 295deg, #ff1d11 295deg);
+    background: conic-gradient(from 207deg, #00000000 60deg, #ff4136 60deg, #ff4136 125deg, #99999900 125deg, #99999900 175deg, #ff4136 175deg, #ff4136 240deg, #99999900 240deg, #99999900 295deg, #ff4136 295deg);
 
 }
 
@@ -165,7 +165,7 @@ a{ text-decoration: none;}
     display: flex;
     justify-content: center;
     align-items: center;
-   background: conic-gradient(from 270deg at 30% 18.5vh, #ff1d11 135deg, #00000000 56deg), conic-gradient(from -45deg at 70% 18.5vh, #ff1d11 135deg, #b6616100 56deg), radial-gradient(circle at 50% 55%, #000000 19% 10%, #00000000 29%), radial-gradient(circle at 50% 55%, #ff1d11 19%, #232323 33%);
+   background: conic-gradient(from 270deg at 30% 18.5vh, #ff4136 135deg, #00000000 56deg), conic-gradient(from -45deg at 70% 18.5vh, #ff4136 135deg, #b6616100 56deg), radial-gradient(circle at 50% 55%, #000000 19% 10%, #00000000 29%), radial-gradient(circle at 50% 55%, #ff4136 19%, #232323 33%);
    z-index: 3;
  }
 
@@ -219,7 +219,7 @@ a{ text-decoration: none;}
     text-shadow: 0px 16px 6px #945c5c, 0px 15px 8px #000;
     font-size: min(5.5vw, 16px);
     font-weight: 900;
-    background: linear-gradient(90deg, #e4e4e4 3%, #ff1d11 14%, #fff0f0 40%, #ff1d11 34% 18%, hsl(0deg 0% 100%) 56%, #ff1d11 65%, hsl(0deg 0% 66.46%) 100%);
+    background: linear-gradient(90deg, #e4e4e4 3%, #ff4136 14%, #fff0f0 40%, #ff4136 34% 18%, hsl(0deg 0% 100%) 56%, #ff4136 65%, hsl(0deg 0% 66.46%) 100%);
     background-clip: text;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: #ff010100;
@@ -242,7 +242,7 @@ a{ text-decoration: none;}
     font-weight: 600;
     top: 18vh;
     font-size: min(4.5vw, 17px);
-    text-shadow: 0px 0px 4px #ff1d11;
+    text-shadow: 0px 0px 4px #ff4136;
 }
 
 
@@ -376,7 +376,7 @@ video, #qr-gen-canvas {
     z-index: 9;
       background: conic-gradient(from 85deg, #180000 9deg, #180000 60deg, transparent 39deg, transparent 130deg, #180000 131deg, #180000 190deg);
     height: 215px;
-    filter: drop-shadow(0px 1px 1px #ff1d11) drop-shadow(0px 5px 4px black);
+    filter: drop-shadow(0px 1px 1px #ff4136) drop-shadow(0px 5px 4px black);
     width: 100%;
   
 }
@@ -445,7 +445,7 @@ video, #qr-gen-canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #ff1d11;
+    background: #ff4136;
     border-radius: 2rem;
     border-start-start-radius: 0rem;
     border-end-end-radius: 0rem;
@@ -461,9 +461,9 @@ video, #qr-gen-canvas {
 }
 
 @keyframes outline {
-    0%{outline-color: #ff1d11;}
+    0%{outline-color: #ff4136;}
     50%{outline-color: #ffffff;}
-    100%{outline-color: #ff1d11;}
+    100%{outline-color: #ff4136;}
 }
 
 
@@ -549,8 +549,8 @@ video, #qr-gen-canvas {
    content: '';
     inset: 0px 0px;
     position: absolute;
-    filter: drop-shadow(0px 0px 3px #ff1d11);
-    background: conic-gradient(from 362deg, #00000000 60deg, #ff1d11 60deg, #ff1d11 125deg, #99999900 125deg, #99999900 175deg, #ff1d11 175deg, #ff1d11 240deg, #99999900 240deg, #99999900 295deg, #ff1d11 295deg);
+    filter: drop-shadow(0px 0px 3px #ff4136);
+    background: conic-gradient(from 362deg, #00000000 60deg, #ff4136 60deg, #ff4136 125deg, #99999900 125deg, #99999900 175deg, #ff4136 175deg, #ff4136 240deg, #99999900 240deg, #99999900 295deg, #ff4136 295deg);
     z-index: 99;
     border-radius: 50%;
     border: 5px;
@@ -597,7 +597,7 @@ video, #qr-gen-canvas {
     aspect-ratio: 1;
     max-width: 210px;
     position: absolute;
-    filter: brightness(0) drop-shadow(0px 3px 1px #ff1d11);
+    filter: brightness(0) drop-shadow(0px 3px 1px #ff4136);
 }
 
 
@@ -751,7 +751,7 @@ ul{
     width: 99%;
     height: 10vh;
     border-radius: 2rem;
-    color: #ff1d11;
+    color: #ff4136;
     font-size: 15px;
     font-weight: bold;
     box-shadow: 1px 6px 15px #000000d4;
@@ -811,7 +811,7 @@ ul{
     width: 100%;
     height: 100%;
     color: #0c0c0c;
-    background: #ff1d11;
+    background: #ff4136;
     border-radius: 2rem;
     margin: 3vw;
     outline: 2px solid #fff;
@@ -917,6 +917,6 @@ outline-offset: 2px;
     justify-content: center;
     align-items: center;
     box-shadow: 0px 3px 20px #000000;
-        outline: 1px solid #ff1d11;
+        outline: 1px solid #ff4136;
     outline-offset: 4px;
 }

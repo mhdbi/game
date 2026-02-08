@@ -24,7 +24,7 @@ async function router(){
 /////////////////////////////////////////////////////////////////////////////////////
 let html = `
             <div id="offlinePage">
-                    <video  id="video" hidden playsinline></video>
+                    <video  id="video" hidden playsinline muted></video>
                     <div id="qr-gen"></div>
 
                     <div id="ui">

@@ -122,7 +122,7 @@
   /* SVG Styling */
   .digit-svg { width:min(4vw, 13px);  }
   .segment { fill: #1a1a1a; transition: fill 0.1s; } /* Off state */
-  .on { fill: #ff1d11; filter: drop-shadow(0 0 5px #ff1d11); } /* On state (Matrix Green) */
+  .on { fill: #ff4136; filter: drop-shadow(0 0 5px #ff4136); } /* On state (Matrix Green) */
 
 
 

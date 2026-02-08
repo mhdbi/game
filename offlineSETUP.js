@@ -33,6 +33,7 @@ document.getElementById('btnHost').onclick = async () => {
     
 };
 
+
 // --- SCANNING THE QR (JOINER/HOST) ---
 document.getElementById('btnScan').onclick = () => {
     qrCanvas.style.display = 'none';
@@ -44,8 +45,11 @@ document.getElementById('btnScan').onclick = () => {
         video.hidden = false;
         video.play();
         requestAnimationFrame(tick);
-    });
+    }).catch(e=>{
+        alert('camera fialed'+ e.name);
+    })
 };
+
 
 // Get the canvas once, outside the tick function
 const canvasElement = document.createElement('canvas');
