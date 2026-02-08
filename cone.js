@@ -7,8 +7,12 @@ import * as trystero from './library/trystero0.js';
 import * as YUKA from './library/yuka.module.js';
 
 ////////////////////////////////////////////////////
-import * as meshes from './meshes.js';
+//import * as meshes from './meshes.js';
+const meshes = await new Promise((res,rej)=>{
+   return import('./meshes.js');
+})
 const {segmentTemplate ,mapping,   tower,ground,navMesh   ,entities  } = meshes.default;
+
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();

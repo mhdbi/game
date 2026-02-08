@@ -14,6 +14,7 @@ canvas{
      overscroll-behavior: none;
 }
 
+a{ text-decoration: none;}
 #viewport {
     display: flex;
     justify-content: center;
@@ -58,6 +59,7 @@ canvas{
 }
 /* ////////////////////////////////// */
     .progress-bar{
+            z-index: 999;
         top: 0px;
         color: #ffdc62;
         font-weight: bold;
@@ -324,6 +326,10 @@ canvas{
     border: none;
     outline-offset: 4px;
     border-radius: 1rem;
+}
+
+.offlinee:hover{
+    background: #ff8c8c;
 }
 
 #ui>span{

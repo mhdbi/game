@@ -10,7 +10,6 @@ async function router(){
 
   if(path=='/offline'){
 
-    console.log('hi offline')
     openOffline()
 
   }else if(path=='/'){
@@ -51,7 +50,7 @@ function openOffline() {
     scripts.forEach(src => {
         let script = document.createElement('script');
         script.src = src;
-        script.async = false; // Ensures they load in order
+      //  script.async = false; // Ensures they load in order
         document.body.appendChild(script);
     });
 

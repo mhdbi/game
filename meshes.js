@@ -36,34 +36,45 @@ import { GLTFLoader } from './library/GLTFloader.js';
 /////////////////////////////////////////////////////////////////////////////////
 let progress = document.getElementById('progress');
 let container = document.getElementsByClassName('progress-bar')[0];
-
+    container.style.display ='flex';
 const faceLoader = new THREE.LoadingManager();
-      faceLoader.onProgress = (u,l,t)=>{ progress.value = (l/t)*100; }
-      faceLoader.onLoad = ()=>{  container.style.display ='none'; }
+      faceLoader.onProgress = (u,l,t)=>{  progress.value = (l/t)*100; }
+      faceLoader.onLoad = ()=>{ 
+
+      const scripts = [ './main.js',  './cone.js'];
+            scripts.forEach(src => {
+                let moduleScript = document.createElement('script');
+                    moduleScript.type = 'module';
+                    moduleScript.src = src;
+                    moduleScript.async = false;
+                    document.body.appendChild(moduleScript);
+            });
+
+
+        container.style.display ='none'; }
 const gltfLoader = new GLTFLoader(faceLoader);
 ////////////////////////////////////////
 ////////////////////////////////////////
 
  let entities = {};
- let gltf;
+
 //////////////
  let ground;
-  try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/ground.glb')  }catch(e){ }
-     ground = gltf.scene;
-
+       gltfLoader.load('./GameEntity/assets/ground.glb', gltf =>{   ground = gltf.scene; })
  ////////////////////////////////////////////////////////////////////
 let navMesh; 
-try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/navMesh.glb')  }catch(e){ }
+      gltfLoader.load('./GameEntity/assets/navMesh.glb', gltf =>{  
     navMesh = gltf.scene;
     navMesh.visible = false; 
+    })
 ////////////////////////////////////////////////////////////////////
 // let tree;
-// try{  gltf = await gltfLoader.loadAsync('../GameEntity/assets/tree.glb')  }catch(e){ }
+// gltfLoader.load('../GameEntity/assets/tree.glb', gltf =>{  
 //      tree = gltf.scene;
 ///////////////////////////////////////////////////////////////////
 let tower;
-try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch(e){ }
-     tower = await gltf.scene;
+     gltfLoader.load('./GameEntity/assets/tower.glb', gltf =>{  
+     tower =  gltf.scene;
      tower.animations = gltf.animations;
      tower.name = 'tower';
 
@@ -72,6 +83,7 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
     maxHealth : 3000 ,
     attackRad : 5 ,
 }
+})
 ///////////////////////////////////////////////////////////////////
 
 
@@ -80,11 +92,11 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
 /////////////////////////  entities  ////////////////////////////////////    
 //////////////////////////////////////////////////////////////////////
 {  // Alien
-  try{  gltf = await gltfLoader.loadAsync('./GameEntity/Alien.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Alien.glb', gltf =>{  
   
         entities['Alien']={};
 
-    var model = entities['Alien'].model = await gltf.scene;
+    var model = entities['Alien'].model =  gltf.scene;
     // model.traverse( (n)=>{ if(n.isMesh)n.castShadow = true;  })
     model.scale.multiplyScalar(.8);
     model.name = 'Alien';
@@ -101,15 +113,17 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
               }
 
      model.animations = gltf.animations; 
+     })
 }    
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {  // Alpaca
-  try{  gltf = await gltfLoader.loadAsync('./GameEntity/Alpaca.glb')  }catch(e){ }
+  gltfLoader.load('./GameEntity/Alpaca.glb', gltf =>{  
   
         entities['Alpaca']={};
 
-    var model = entities['Alpaca'].model = await gltf.scene;
+    var model = entities['Alpaca'].model =  gltf.scene;
     // model.traverse( (n)=>{ if(n.isMesh)n.castShadow = true;  })
     model.scale.multiplyScalar(.6);
     model.name = 'Alpaca';
@@ -126,15 +140,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
               }
 
      model.animations = gltf.animations; 
+     })
 }    
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {  // Apators
-  try{  gltf = await gltfLoader.loadAsync('./GameEntity/Apators.glb')  }catch(e){ }
+  gltfLoader.load('./GameEntity/Apators.glb', gltf =>{  
   
         entities['Apators']={};
 
-    var model = entities['Apators'].model = await gltf.scene;
+    var model = entities['Apators'].model =  gltf.scene;
     // model.traverse( (n)=>{ if(n.isMesh)n.castShadow = true;  })
     model.scale.multiplyScalar(.18);
    // model.rotation.z +=180;
@@ -152,14 +167,15 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
               }
 
      model.animations = gltf.animations; 
+     })
 }    
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Bat
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Bat.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Bat.glb', gltf =>{  
   
         entities['Bat']={};
-    var model = entities['Bat'].model = await gltf.scene;
+    var model = entities['Bat'].model =  gltf.scene;
         model.scale.multiplyScalar(.35);
         model.name = 'Bat';
 
@@ -174,15 +190,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .5 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Bull
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Bull.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Bull.glb', gltf =>{  
   
         entities['Bull']={};
-    var model = entities['Bull'].model = await gltf.scene;
+    var model = entities['Bull'].model =  gltf.scene;
         model.scale.multiplyScalar(.35);
         model.name = 'Bull';
 
@@ -197,15 +214,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .6 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Cow
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Cow.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Cow.glb', gltf =>{  
   
         entities['Cow']={};
-    var model = entities['Cow'].model = await gltf.scene;
+    var model = entities['Cow'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Cow';
 
@@ -220,15 +238,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Deer
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Deer.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Deer.glb', gltf =>{  
   
         entities['Deer']={};
-    var model = entities['Deer'].model = await gltf.scene;
+    var model = entities['Deer'].model =  gltf.scene;
         model.scale.multiplyScalar(.5);
         model.name = 'Deer';
 
@@ -243,15 +262,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .7 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Donkey
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Donkey.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Donkey.glb', gltf =>{  
   
         entities['Donkey']={};
-    var model = entities['Donkey'].model = await gltf.scene;
+    var model = entities['Donkey'].model =  gltf.scene;
         model.scale.multiplyScalar(.6);
         model.name = 'Donkey'
 
@@ -266,15 +286,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Dragon
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Dragon.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Dragon.glb', gltf =>{  
   
         entities['Dragon']={};
-    var model = entities['Dragon'].model = await gltf.scene;
+    var model = entities['Dragon'].model =  gltf.scene;
         model.scale.multiplyScalar(.7);
         model.name = 'Dragon'
 
@@ -289,15 +310,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Fox
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Fox.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Fox.glb', gltf =>{  
   
         entities['Fox']={};
-    var model = entities['Fox'].model = await gltf.scene;
+    var model = entities['Fox'].model =  gltf.scene;
         model.scale.multiplyScalar(.55);
         model.name = 'Fox'
 
@@ -312,15 +334,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Frog
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Frog.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Frog.glb', gltf =>{  
   
         entities['Frog']={};
-    var model = entities['Frog'].model = await gltf.scene;
+    var model = entities['Frog'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Frog';
 
@@ -335,15 +358,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // George
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/George.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/George.glb', gltf =>{  
   
         entities['George']={};
-    var model = entities['George'].model = await gltf.scene;
+    var model = entities['George'].model =  gltf.scene;
         model.scale.multiplyScalar(.55);
         model.name = 'George'
 
@@ -358,15 +382,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Husky
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Husky.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Husky.glb', gltf =>{  
   
         entities['Husky']={};
-    var model = entities['Husky'].model = await gltf.scene;
+    var model = entities['Husky'].model =  gltf.scene;
         model.scale.multiplyScalar(.55);
         model.name = 'Husky'
 
@@ -381,15 +406,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Parasa
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Parasa.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Parasa.glb', gltf =>{  
   
         entities['Parasa']={};
-    var model = entities['Parasa'].model = await gltf.scene;
+    var model = entities['Parasa'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Parasa'
 
@@ -404,15 +430,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Pig
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Pig.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Pig.glb', gltf =>{  
   
         entities['Pig']={};
-    var model = entities['Pig'].model = await gltf.scene;
+    var model = entities['Pig'].model =  gltf.scene;
         model.scale.multiplyScalar(.6);
         model.name = 'Pig';
 
@@ -427,15 +454,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Pug
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Pug.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Pug.glb', gltf =>{  
   
         entities['Pug']={};
-    var model = entities['Pug'].model = await gltf.scene;
+    var model = entities['Pug'].model =  gltf.scene;
         model.scale.multiplyScalar(.6);
         model.name = 'Pug'
 
@@ -450,15 +478,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Rat
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Rat.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Rat.glb', gltf =>{  
   
         entities['Rat']={};
-    var model = entities['Rat'].model = await gltf.scene;
+    var model = entities['Rat'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Rat';
 
@@ -473,15 +502,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Sheep
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Sheep.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Sheep.glb', gltf =>{  
   
         entities['Sheep']={};
-    var model = entities['Sheep'].model = await gltf.scene;
+    var model = entities['Sheep'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Sheep';
 
@@ -496,15 +526,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Shiba
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Shiba.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Shiba.glb', gltf =>{  
   
         entities['Shiba']={};
-    var model = entities['Shiba'].model = await gltf.scene;
+    var model = entities['Shiba'].model =  gltf.scene;
         model.scale.multiplyScalar(.7);
         model.name = 'Shiba';
 
@@ -519,15 +550,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Snake
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Snake.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Snake.glb', gltf =>{  
   
         entities['Snake']={};
-    var model = entities['Snake'].model = await gltf.scene;
+    var model = entities['Snake'].model =  gltf.scene;
         model.scale.multiplyScalar(.5);
         model.name = 'Snake';
 
@@ -542,15 +574,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Spider
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Spider.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Spider.glb', gltf =>{  
   
         entities['Spider']={};
-    var model = entities['Spider'].model = await gltf.scene;
+    var model = entities['Spider'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Spider'
 
@@ -565,15 +598,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Stag
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Stag.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Stag.glb', gltf =>{  
   
         entities['Stag']={};
-    var model = entities['Stag'].model = await gltf.scene;
+    var model = entities['Stag'].model =  gltf.scene;
         model.scale.multiplyScalar(.7);
         model.name = 'Stag'
 
@@ -588,15 +622,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Stego
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Stego.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Stego.glb', gltf =>{  
   
         entities['Stego']={};
-    var model = entities['Stego'].model = await gltf.scene;
+    var model = entities['Stego'].model =  gltf.scene;
         model.scale.multiplyScalar(.25);
         model.name = 'Stego'
 
@@ -611,15 +646,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Trex
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Trex.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Trex.glb', gltf =>{  
   
         entities['Trex']={};
-    var model = entities['Trex'].model = await gltf.scene;
+    var model = entities['Trex'].model =  gltf.scene;
         model.scale.multiplyScalar(.2);
         model.name = 'Trex';
 
@@ -634,15 +670,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Tricera
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Tricera.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Tricera.glb', gltf =>{  
   
         entities['Tricera']={};
-    var model = entities['Tricera'].model = await gltf.scene;
+    var model = entities['Tricera'].model =  gltf.scene;
         model.scale.multiplyScalar(.35);
         model.name = 'Tricera'
 
@@ -657,15 +694,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Veloci
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Veloci.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Veloci.glb', gltf =>{  
   
         entities['Veloci']={};
-    var model = entities['Veloci'].model = await gltf.scene;
+    var model = entities['Veloci'].model =  gltf.scene;
         model.scale.multiplyScalar(.3);
         model.name = 'Veloci';
 
@@ -680,15 +718,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Wasp
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Wasp.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Wasp.glb', gltf =>{  
   
         entities['Wasp']={};
-    var model = entities['Wasp'].model = await gltf.scene;
+    var model = entities['Wasp'].model =  gltf.scene;
         model.scale.multiplyScalar(.55);
         model.name = 'Wasp'
 
@@ -703,15 +742,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Wolf
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Wolf.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Wolf.glb', gltf =>{  
   
         entities['Wolf']={};
-    var model = entities['Wolf'].model = await gltf.scene;
+    var model = entities['Wolf'].model =  gltf.scene;
         model.scale.multiplyScalar(.6);
         model.name = 'Wolf'
 
@@ -726,15 +766,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : .7 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Zebra
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/Zebra.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/Zebra.glb', gltf =>{  
   
         entities['Zebra']={};
-    var model = entities['Zebra'].model = await gltf.scene;
+    var model = entities['Zebra'].model =  gltf.scene;
         model.scale.multiplyScalar(.4);
         model.name = 'Zebra'
 
@@ -749,7 +790,8 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed  : 1 ,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 
 
@@ -759,10 +801,10 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
 //////////////////////////////  vfx  ///////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 {   // fireWave
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/vfx/fireWave.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/vfx/fireWave.glb', gltf =>{  
   
         entities['fireWave']={};
-    var model = entities['fireWave'].model = await gltf.scene;
+    var model = entities['fireWave'].model =  gltf.scene;
         model.name = 'fireWave'
 
         model.userData = {
@@ -775,15 +817,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed : 5,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 
 
 {   // tornado
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/vfx/tornado.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/vfx/tornado.glb', gltf =>{  
   
         entities['tornado']={};
-    var model = entities['tornado'].model = await gltf.scene;
+    var model = entities['tornado'].model =  gltf.scene;
         model.name = 'tornado';
 
         model.userData = {
@@ -796,15 +839,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     duration : 6
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 
 
 {   // waterWave
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/vfx/waterWave.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/vfx/waterWave.glb', gltf =>{  
   
         entities['waterWave']={};
-    var model = entities['waterWave'].model = await gltf.scene;
+    var model = entities['waterWave'].model =  gltf.scene;
         model.name = 'waterWave';
 
         model.userData = {
@@ -817,15 +861,16 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed : 5,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 
 
 {   // zapWave
-    try{  gltf = await gltfLoader.loadAsync('./GameEntity/vfx/zapWave.glb')  }catch(e){ }
+    gltfLoader.load('./GameEntity/vfx/zapWave.glb', gltf =>{  
   
         entities['zapWave']={};
-    var model = entities['zapWave'].model = await gltf.scene;
+    var model = entities['zapWave'].model =  gltf.scene;
         model.name = 'zapWave';
 
         model.userData = {
@@ -838,7 +883,8 @@ try{  gltf = await gltfLoader.loadAsync('./GameEntity/assets/tower.glb')  }catch
                     maxSpeed : 5,
                 }
 
-        model.animations = gltf.animations;     
+        model.animations = gltf.animations; 
+     })    
 }
 
 
