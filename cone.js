@@ -7,18 +7,16 @@ import * as trystero from './library/trystero0.js';
 import * as YUKA from './library/yuka.module.js';
 
 ////////////////////////////////////////////////////
-//import * as meshes from './meshes.js';
-const meshes = await new Promise((res,rej)=>{
-   return import('./meshes.js');
-})
-const {segmentTemplate ,mapping,   tower,ground,navMesh   ,entities  } = meshes.default;
+import * as meshes from './meshes.js';
+
+const {segmentTemplate ,mapping,   assets ,entities  } = meshes.default;
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 const scene = new THREE.Scene();
 const entityManager = new YUKA.EntityManager();  
 
-      scene.add( navMesh ); 
+      scene.add( assets['navMesh'] ); 
 
 
 /////////////////////  light  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -233,7 +231,7 @@ function animate( time ) {
 
 
 let SPholder= document.getElementById('SPholder');
-console.log(NAME)
+
  async function ready(playerN , opponentN){
 
         SPholder.style.display= 'flex';
@@ -258,7 +256,7 @@ await new Promise((r)=>{
          entityBar1.style.display = 'flex';
          entityBar2.style.display = 'flex';
 
-
+        const tower = assets['tower'];
         const t = SkeletonUtils.clone(tower); 
               t.rotation.y = Math.PI; 
         let s = new spawn( t , new THREE.Vector3(0,0,18 ) ,false , 0);
@@ -297,7 +295,7 @@ let wantPlay = false;
 let Ponline = document.getElementById('online');
 let Poffline= document.getElementById('offline');
 let textDot = document.getElementById("textDot0");
-
+console.log(Ponline)
 window.addEventListener('beforeunload',  async(e)=>{
     if(!roomID || roomID == null ) return;
     navigator.sendBeacon(SCRIPT_URL , form);
@@ -567,6 +565,8 @@ window.addEventListener('resize',()=>{
 
 }
 
+
+
 //////////////////////////////////////////////
 ///////////////// textuer ////////////////////
 
@@ -597,12 +597,12 @@ const TextuerMaterial = new THREE.MeshStandardMaterial({
 //TextuerMaterial.normalScale.set(-1,1)
 
 
-ground.traverse((child)=>{
+assets['ground'].traverse((child)=>{
   if(child.name=='Plane'){
     child.material = TextuerMaterial;
   }
 })
-scene.add(ground)
+scene.add(assets['ground'])
 
 
 

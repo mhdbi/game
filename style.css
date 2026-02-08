@@ -263,7 +263,7 @@ a{ text-decoration: none;}
 #notificIcon{
     display: flex;
     aspect-ratio: 1;
-    animation: .4s shack linear infinite 2s;
+    /* animation: .4s shack linear infinite 2s; */
     justify-content: center;
     align-items: center;
 }

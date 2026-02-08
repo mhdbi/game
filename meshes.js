@@ -57,15 +57,15 @@ const gltfLoader = new GLTFLoader(faceLoader);
 ////////////////////////////////////////
 
  let entities = {};
-
+ let assets = {};
 //////////////
- let ground;
-       gltfLoader.load('./GameEntity/assets/ground.glb', gltf =>{   ground = gltf.scene; })
+       gltfLoader.load('./GameEntity/assets/ground.glb', gltf =>{ 
+         assets['ground'] = gltf.scene;
+         })
  ////////////////////////////////////////////////////////////////////
-let navMesh; 
-      gltfLoader.load('./GameEntity/assets/navMesh.glb', gltf =>{  
-    navMesh = gltf.scene;
-    navMesh.visible = false; 
+      gltfLoader.load('./GameEntity/assets/navMesh.glb', gltf =>{ 
+      assets['navMesh'] = gltf.scene; 
+      assets['navMesh'].visible = false; 
     })
 ////////////////////////////////////////////////////////////////////
 // let tree;
@@ -74,11 +74,11 @@ let navMesh;
 ///////////////////////////////////////////////////////////////////
 let tower;
      gltfLoader.load('./GameEntity/assets/tower.glb', gltf =>{  
-     tower =  gltf.scene;
-     tower.animations = gltf.animations;
-     tower.name = 'tower';
+     assets['tower'] =  gltf.scene;
+     assets['tower'].animations = gltf.animations;
+     assets['tower'].name = 'tower';
 
- tower.userData = {
+ assets['tower'].userData = {
     health : 3000 ,
     maxHealth : 3000 ,
     attackRad : 5 ,
@@ -889,12 +889,12 @@ let tower;
 
 
 
-
+console.log( assets )
 
 
 ////////////////////////////  exports /////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
- export default{segmentTemplate,mapping,   tower,ground,navMesh   ,entities  };
+ export default{segmentTemplate,mapping,   assets   ,entities  };
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
