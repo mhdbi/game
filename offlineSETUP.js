@@ -17,18 +17,19 @@ document.getElementById('btnHost').onclick = async () => {
     window.isHost = true;
     qrCanvas.style.display = 'flex';
     video.style.display = 'none';
-    
-    const offer = await room.makeOffer();
-    // Use qrcode.js library to draw onto our canvas
     if(qrCanvas.title) return;
+    //////////////////////////
+    const offer = await room.makeOffer();
+    const skinnyOffer =  {  s: offer.sdp  ,   t: offer.type  }
+    const encode = btoa(JSON.stringify(skinnyOffer));
 
      new QRCode(qrCanvas, {
-        text : offer ,
+        text : encode ,
         width: 256,
         height:256,
         colorDark : '#000000',
         colorLight: '#ffffff',
-        correctLevel :QRCode.CorrectLevel.H
+        correctLevel :QRCode.CorrectLevel.L
     });
     
 };
@@ -81,14 +82,16 @@ function tick() {
 
 async function handleScannedCode(data) {
     if (!window.isHost) {
-        // I am the joiner, I just scanned the Host's offer
-        const answer = await room.acceptOffer(data);
+        // I am the joiner, I just scanned your code
+         const decode = JSON.parse(atob(data))  
+         const fullOffer = { sdp: decode.s , type: decode.t };
+         const answer = await room.acceptOffer(fullOffer);
+         ///
+         const skinnyOffer =  {  s: answer.sdp  ,   t: answer.type  }
+         const encode = btoa(JSON.stringify(skinnyOffer));
 
-              if(answer && typeof answer === 'string' && answer.length>0){
-                console.log(answer)
-              }
             new QRCode(qrCanvas, {      // Show answer QR to host
-                            text : answer,
+                            text : encode,
                             width: 256,
                             height:256,
                             colorDark : '#000000',
@@ -98,7 +101,9 @@ async function handleScannedCode(data) {
         status.innerText = "Scanned! Now show your Answer QR to Host.";
     } else {
         // I am the host, I just scanned the Joiner's answer
-        await room.finishHandshake(data);
+        const decode = JSON.parse(atob(data))  
+        const fullOffer = { sdp: decode.s , type: decode.t };
+        await room.finishHandshake(fullOffer);
         status.innerText = "Finalizing Connection...";
     }
 }
