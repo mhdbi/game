@@ -71,7 +71,7 @@ function tick() {
         const code = jsQR(imageData.data, imageData.width, imageData.height, {  inversionAttempts: "dontInvert", });
 
         if (code && code.data) {
-           // console.log("Found code:", code.data);
+            console.log("Found code:", code.data);
             handleScannedCode(code.data);
             return; // Stop scanning once found
         }
