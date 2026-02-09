@@ -1,12 +1,12 @@
 //
-// window.onload = () => {   window.location.href= `${window.location.origin}/game/#/`;   };
+ window.onload = () => {   window.location.href=window.location.origin+window.location.pathname+'#/'  };
+ console.log(window.location.href)
 window.addEventListener('hashchange', router);
 
 
 async function router(){
 
   let path= window.location.hash.slice(1) || '/';
-  console.log(window.location)
 
   if(path=='/offline'){
 
@@ -14,8 +14,11 @@ async function router(){
 
   }else if(path=='/'){
        let e = document.getElementById('offlinePAGE');
-        if(e){ e.remove() }
-
+        if(e){ 
+          e.getElementById('video').srcObject.getTracks().forEach(track => track.stop()); 
+          e.remove(); 
+        }
+       
   }
 
 

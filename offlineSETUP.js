@@ -1,124 +1,114 @@
-
-import { createRoom } from './library/trystOffline.js'; // The code I gave you in the last step
-
+import { createRoom } from './library/trystOffline.js';
 const status = document.getElementById('status');
 const video = document.getElementById('video');
 const qrCanvas = document.getElementById('qr-gen');
 
-
 const room = createRoom(() => {
     status.innerText = "CONNECTED!";
-    video.srcObject.getTracks().forEach(track => track.stop()); // Turn off camera
+    if (video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
 });
 
+// --- COMPRESSION (Crucial for QR readability) ---
+const compress = (desc) => {
+    const skinny = {
+        t: desc.type,
+        s: desc.sdp.split('\r\n').filter(line => 
+            !line.startsWith('a=extmap') && 
+            !line.startsWith('a=rtcp-fb') && 
+            !line.startsWith('a=fmtp')
+        ).join('\n')
+    };
+    return btoa(JSON.stringify(skinny));
+};
 
-// --- GENERATING THE QR (HOST) ---
+const decompress = (str) => {
+    const data = JSON.parse(atob(str));
+    return {
+        type: data.t,
+        sdp: data.s.split('\n').join('\r\n')
+    };
+};
+
+// --- HOST ---
 document.getElementById('btnHost').onclick = async () => {
     window.isHost = true;
-    qrCanvas.style.display = 'flex';
-    video.style.display = 'none';
-    if(qrCanvas.title) return;
-    //////////////////////////
-    const offer = await room.makeOffer();
-    const skinnyOffer =  {  s: offer.sdp  ,   t: offer.type  }
-    const encode = btoa(JSON.stringify(skinnyOffer));
-
-     new QRCode(qrCanvas, {
-        text : encode ,
-        width: 256,
-        height:256,
-        colorDark : '#000000',
-        colorLight: '#ffffff',
-        correctLevel :QRCode.CorrectLevel.L
-    });
+    status.innerText = "Generating... Wait 2s";
     
+    await room.makeOffer();
+    await new Promise(r => setTimeout(r, 2000)); // Wait for ICE gathering
+    
+    // We need to get the updated localDescription from the room 
+    // Since it's private in your lib, make sure makeOffer returns pc.localDescription
+    const offer = await room.makeOffer(); 
+    
+    qrCanvas.innerHTML = "";
+    new QRCode(qrCanvas, {
+        text: compress(offer),
+        width: 256,
+        height: 256,
+        correctLevel: QRCode.CorrectLevel.L // Lower level = bigger pixels = easier scan
+    });
+    qrCanvas.style.display = 'block';
+    status.innerText = "Offer Ready! Scan me.";
 };
 
-
-// --- SCANNING THE QR (JOINER/HOST) ---
+// --- SCANNER ---
 document.getElementById('btnScan').onclick = () => {
-    qrCanvas.style.display = 'none';
-    video.style.display    = 'flex';
-
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: {ideal:"environment"} } }).then(stream => {
+    video.style.display = 'block';
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(stream => {
         video.srcObject = stream;
-        video.setAttribute("playsinline", 'true');
-        video.hidden = false;
-        video.muted = true;
         video.play();
         requestAnimationFrame(tick);
-    }).catch(e=>{
-        alert('camera fialed'+ e.name);
-    })
+    });
 };
 
 
-// Get the canvas once, outside the tick function
+// Add these to the top-level of your script (outside any functions)
 const canvasElement = document.createElement('canvas');
 const canvas = canvasElement.getContext("2d", { willReadFrequently: true });
-
 function tick() {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        // Set dimensions only if they changed
-        if (canvasElement.height !== video.videoHeight) {
-            canvasElement.height = video.videoHeight;
-            canvasElement.width = video.videoWidth;
-        }
-        // Draw the current video frame to the canvas
+        canvasElement.height = video.videoHeight;
+        canvasElement.width = video.videoWidth;
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-        // Get the image data to scan
         const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-        // Scan the data
-        const code = jsQR(imageData.data, imageData.width, imageData.height, {  inversionAttempts: "dontInvert", });
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
 
         if (code && code.data) {
-            console.log("Found code:", code.data);
             handleScannedCode(code.data);
-            return; // Stop scanning once found
+            return;
         }
     }
     requestAnimationFrame(tick);
 }
 
+// --- HANDSHAKE ---
 async function handleScannedCode(data) {
     try {
-        // First, check if the data is even valid Base64
-        const rawData = atob(data);
-        const decode = JSON.parse(rawData);
+        const remoteDesc = decompress(data);
         
-        // If we got here, we have a valid object!
         if (!window.isHost) {
-            // I am the joiner, I just scanned your code
-            const fullOffer = { sdp: decode.s, type: decode.t };
-            const answer = await room.acceptOffer(fullOffer);
-
-            const skinnyAnswer = { s: answer.sdp, t: answer.type };
-            const encode = btoa(JSON.stringify(skinnyAnswer));
-
-            // Clear the old QR so they don't overlap
+            status.innerText = "Offer Scanned. Generating Answer...";
+            await room.acceptOffer(remoteDesc);
+            await new Promise(r => setTimeout(r, 2000));
+            
+            const answer = await room.acceptOffer(remoteDesc); // Get updated answer with ICE
+            
             qrCanvas.innerHTML = "";
-           
             new QRCode(qrCanvas, {
-                text: encode,
+                text: compress(answer),
                 width: 256,
                 height: 256,
                 correctLevel: QRCode.CorrectLevel.L
             });
-            status.innerText = "Scanned! Now show your Answer QR to Host.";
+            video.style.display = 'none';
+            qrCanvas.style.display = 'block';
+            status.innerText = "Show this Answer to Host.";
         } else {
-            // I am the host, I just scanned the Joiner's answer
-            const fullAnswer = { sdp: decode.s, type: decode.t };
-            await room.finishHandshake(fullAnswer);
-            status.innerText = "Finalizing Connection...";
+            await room.finishHandshake(remoteDesc);
+            status.innerText = "Connecting...";
         }
     } catch (e) {
-        // If it's an empty object {} or bad text, just ignore it and keep scanning
-        console.log("Waiting for a complete handshake QR...");
+        requestAnimationFrame(tick);
     }
 }
-
-
-
-
-
-
