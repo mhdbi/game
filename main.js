@@ -113,7 +113,12 @@ screen0.addEventListener('click', (e)=>{
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/////////////////////////////// Gen ID //////////////////////////////////////////////////////////////
+const generateUID = (length = 8) => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return [...Array(length)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+};
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 let localSdata = localStorage.getItem('my-entities');
 {   // init deck cards and all remain cards
 
@@ -450,11 +455,6 @@ screen2.addEventListener('click', (e)=>{
     });
   }
 
-/////////////////////////////// Gen ID //////////////////////////////////////////////////////////////
-const generateUID = (length = 8) => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  return [...Array(length)].map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-};
 
 
 

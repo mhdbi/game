@@ -573,9 +573,9 @@ window.addEventListener('resize',()=>{
 const loader = new THREE.TextureLoader();
 
 // Load the optimized images you saved from Squoosh
-const colorTexture = loader.load('../texture.webp');
-const normalTexture = loader.load('../normal.webp');
-const roughnessTexture = loader.load('../rofness.webp');
+const colorTexture = loader.load('./texture.webp');
+const normalTexture = loader.load('./normal.webp');
+const roughnessTexture = loader.load('./rofness.webp');
 
 // normalTexture.colorSpace = THREE.NoColorSpace;
 // normalTexture.type = THREE.HalfFloatType;
