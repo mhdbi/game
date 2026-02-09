@@ -1,5 +1,5 @@
 
-import { createRoom } from '/library/trystOffline.js'; // The code I gave you in the last step
+import { createRoom } from './library/trystOffline.js'; // The code I gave you in the last step
 
 const status = document.getElementById('status');
 const video = document.getElementById('video');
