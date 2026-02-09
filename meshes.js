@@ -38,7 +38,11 @@ let progress = document.getElementById('progress');
 let container = document.getElementsByClassName('progress-bar')[0];
     container.style.display ='flex';
 const faceLoader = new THREE.LoadingManager();
-      faceLoader.onProgress = (u,l,t)=>{  progress.value = (l/t)*100; }
+      faceLoader.onProgress = (u,l,t)=>{ 
+         let v = Math.floor((l/t)*100); 
+         container.firstElementChild.textContent = `Loding   ${v}%`;
+         progress.value = v; 
+        }
       faceLoader.onLoad = ()=>{ 
 
       const scripts = [ './main.js',  './cone.js'];
