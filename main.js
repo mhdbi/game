@@ -226,16 +226,6 @@ screen1.addEventListener('click',(e)=>{
                     arr[0].classList.remove('netR');
                     arr[1].classList.remove('netL');
            }
-    }else if(e.target.id=='offline'){
-          offlinePage.style.display='flex';
-    }else if(e.target.id=='offlineX'){
-          offlinePage.style.display='none';
-  
-
-    }else if(e.target.id=='btnHost'){
-
-    }else if(e.target.id=='btnScan'){
-
 
 
 

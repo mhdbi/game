@@ -295,7 +295,7 @@ let wantPlay = false;
 let Ponline = document.getElementById('online');
 let Poffline= document.getElementById('offline');
 let textDot = document.getElementById("textDot0");
-console.log(Ponline)
+
 window.addEventListener('beforeunload',  async(e)=>{
     if(!roomID || roomID == null ) return;
     navigator.sendBeacon(SCRIPT_URL , form);
@@ -369,6 +369,16 @@ let roomID, sendData , getData , newPOS;
 
 
 
+
+///////////////////////////////////////////////
+Poffline.addEventListener('click', ()=>{
+   textDot.innerHTML = 'soon <span></span> ';
+   textDot.style.display='flex';
+   setTimeout(()=>{
+    textDot.innerHTML = 'finding player <span></span>';
+   textDot.style.display='none';
+   } , 5000)
+})
 
 ////////////////////////////////////////
 ////////////// batching \\\\\\\\\\\\\\\\

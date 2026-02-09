@@ -232,7 +232,7 @@
                </div>
 
                     <div class="btnHolder net" id="online"> online </div>
-                    <a class="btnHolder net" href="#/offline"> offline </a>
+                    <div class="btnHolder net" id="offline"> offline </div>
 
                   <div id="textDot0" class="textDot">finding player  <span></span></div>
 
@@ -330,7 +330,7 @@
 <!-- <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script> -->
 <script defer src="./initSW.js"></script>
-<script defer src="./hash.js"></script>
+<!-- <script defer src="./hash.js"></script> -->
 <script type="module" src="./meshes.js"></script>
 
 
@@ -348,9 +348,11 @@ let goL = document.getElementById('goL');
 let goR = document.getElementById('goR');
 
 let touchStartX = 0,
+    touchStartY ,
     touchEndX = 0,
     lastT = 0,
-    move ,
+    dx ,
+    dy ,
     threshold = 100;
 
 
@@ -358,17 +360,23 @@ let touchStartX = 0,
 viewPort.addEventListener('touchstart', e => {
 
     touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
     container.style.transition ='none';
 
 }, false);
 
 viewPort.addEventListener('touchmove', (e)=>{
-     e.preventDefault();
-     move = e.touches[0].clientX - touchStartX;
+     const touchX = e.touches[0].clientX;
+     const touchY = e.touches[0].clientY;
+      dx = touchX - touchStartX;
+      dy = touchY - touchStartY;
+      if(Math.abs(dy) > Math.abs(dx)) return; 
+      //////////////////
+      if(e.cancelable){ e.preventDefault();}
+ // to prevent from going after next left or right
+  if(lastT + dx/100 >100 || lastT + dx/100 < -100)return;
 
- if(lastT + move/100 >100 || lastT + move/100 < -100)return;
-
-    container.style.transform = `translateX( ${ lastT + move/10 }vw)`;
+    container.style.transform = `translateX( ${ lastT + dx/10 }vw)`;
 },false);
 
 viewPort.addEventListener('touchend', e => {
@@ -376,7 +384,7 @@ viewPort.addEventListener('touchend', e => {
     touchEndX = e.changedTouches[0].clientX;
     container.style.transition ='transform 0.3s ease-out';
     
-  if(Math.abs(move) < threshold ){
+  if(Math.abs(dx) < threshold ){
     
     container.style.transform = `translateX( ${lastT}vw)`;
   }else{

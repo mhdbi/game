@@ -36,7 +36,7 @@ a{ text-decoration: none;}
 
 .screen {
   width: 100vw;
-  height: 100vh;
+     height: 100%;
 }
 
 
@@ -167,8 +167,8 @@ a{ text-decoration: none;}
     display: flex;
     justify-content: center;
     align-items: center;
-   background: conic-gradient(from 270deg at 30% 18.5vh, #ff4136 135deg, #00000000 56deg), conic-gradient(from -45deg at 70% 18.5vh, #ff4136 135deg, #b6616100 56deg), radial-gradient(circle at 50% 55%, #000000 19% 10%, #00000000 29%), radial-gradient(circle at 50% 55%, #ff4136 19%, #232323 33%);
-   z-index: 3;
+     background: conic-gradient(from 270deg at 30% 18.5vh, #ff4136 135deg, #00000000 56deg), conic-gradient(from -45deg at 70% 18.5vh, #ff4136 135deg, #b6616100 56deg);
+     z-index: 3;
  }
 
 
@@ -838,7 +838,7 @@ outline-offset: 2px;
     width: 100vw;
     height: 100vh;
     position: absolute;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgb(38 38 38 / 70%);
     flex-direction: column;
     justify-content: center;
     align-items: center;

@@ -1,7 +1,7 @@
 //
  window.onload = () => {   window.location.href=window.location.origin+window.location.pathname+'#/'  };
- console.log(window.location.href)
-window.addEventListener('hashchange', router);
+
+ window.addEventListener('hashchange', router);
 
 
 async function router(){
