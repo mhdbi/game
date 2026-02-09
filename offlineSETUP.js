@@ -81,33 +81,41 @@ function tick() {
 }
 
 async function handleScannedCode(data) {
-    if (!window.isHost) {
-        // I am the joiner, I just scanned your code
-         const decode = JSON.parse(atob(data))  
-         const fullOffer = { sdp: decode.s , type: decode.t };
-         const answer = await room.acceptOffer(fullOffer);
-         ///
-         const skinnyOffer =  {  s: answer.sdp  ,   t: answer.type  }
-         const encode = btoa(JSON.stringify(skinnyOffer));
+    try {
+        // First, check if the data is even valid Base64
+        const rawData = atob(data);
+        const decode = JSON.parse(rawData);
+        
+        // If we got here, we have a valid object!
+        if (!window.isHost) {
+            // I am the joiner, I just scanned your code
+            const fullOffer = { sdp: decode.s, type: decode.t };
+            const answer = await room.acceptOffer(fullOffer);
 
-            new QRCode(qrCanvas, {      // Show answer QR to host
-                            text : encode,
-                            width: 256,
-                            height:256,
-                            colorDark : '#000000',
-                            colorLight: '#ffffff',
-                            correctLevel :QRCode.CorrectLevel.L
-                        });
-        status.innerText = "Scanned! Now show your Answer QR to Host.";
-    } else {
-        // I am the host, I just scanned the Joiner's answer
-        const decode = JSON.parse(atob(data))  
-        const fullOffer = { sdp: decode.s , type: decode.t };
-        await room.finishHandshake(fullOffer);
-        status.innerText = "Finalizing Connection...";
+            const skinnyAnswer = { s: answer.sdp, t: answer.type };
+            const encode = btoa(JSON.stringify(skinnyAnswer));
+
+            // Clear the old QR so they don't overlap
+            qrCanvas.innerHTML = "";
+           
+            new QRCode(qrCanvas, {
+                text: encode,
+                width: 256,
+                height: 256,
+                correctLevel: QRCode.CorrectLevel.L
+            });
+            status.innerText = "Scanned! Now show your Answer QR to Host.";
+        } else {
+            // I am the host, I just scanned the Joiner's answer
+            const fullAnswer = { sdp: decode.s, type: decode.t };
+            await room.finishHandshake(fullAnswer);
+            status.innerText = "Finalizing Connection...";
+        }
+    } catch (e) {
+        // If it's an empty object {} or bad text, just ignore it and keep scanning
+        console.log("Waiting for a complete handshake QR...");
     }
 }
-
 
 
 
