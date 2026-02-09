@@ -4,7 +4,6 @@ body, html {
     background: #232323;
     overflow: hidden; 
     height: 100vh;
-    height: 100svh;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -37,7 +36,8 @@ a{ text-decoration: none;}
     align-items: center;
    background: #232323;
     width: 100vw;
-  height: 100%;
+     height: 100vh;
+    height: 100svh;
 
   overflow: hidden;
 }
