@@ -108,7 +108,7 @@ function syncUIWithEntities() {
     uiMap.forEach(ui => {
         ui.h.style.filter = 'contrast(0.1) brightness(0.5)';
         ui.h.style.pointerEvents = 'none';
-        ui.m.style.filter = 'none';
+        ui.m.style.filter = ' drop-shadow(0px 15px 9px black)';
         ui.m.style.pointerEvents = 'auto';
     });
 
@@ -166,7 +166,7 @@ if (dx < THRESHOLD && dy < THRESHOLD) {
     mousePDown.x = (contact.clientX / window.innerWidth) * 2 - 1;
     mousePDown.y = -(contact.clientY / window.innerHeight) * 2 + 1;
     rayCaster.setFromCamera(mousePDown , camera);
-    intersectsD = rayCaster.intersectObject(navMesh, true);
+    intersectsD = rayCaster.intersectObject(assets['navMesh'], true);
     
     if(intersectsD.length>0){
       const startPoint = intersectsD[0].point;
@@ -176,12 +176,12 @@ if (dx < THRESHOLD && dy < THRESHOLD) {
       Hname = BARmeshN;
       const BARclone = SkeletonUtils.clone(BARmesh);       
 
-         // send data
-         sendData({ BARmeshN ,pos: new THREE.Vector3().copy(startPoint).multiplyScalar(-1)});
+    // send data
+     wrapperSendGet['sendDEPLOY']({for:'getDEPLOY', BARmeshN ,pos: new THREE.Vector3().copy(startPoint).multiplyScalar(-1)});
 
-        let s = new spawn( BARclone , clickedPos , 'DEPLOY', 0);
-            s[BARclone.userData.class]();
-         BARmesh=null;
+    let s = new spawn( BARclone , clickedPos , 'DEPLOY', 0);
+        s[BARclone.userData.class]();
+        BARmesh=null;
 
                
     }
@@ -231,19 +231,25 @@ function animate( time ) {
 
 
 let SPholder= document.getElementById('SPholder');
-
- async function ready(playerN , opponentN){
+let opponentN;
+ async function ready(){
 
         SPholder.style.display= 'flex';
         let SPHtml = `
         <div id="SPcontainer" >
-                <div class="PNJ"> ${playerN} </div>
+                <div class="PNJ"> ${NAME} </div>
                 <div id='VS'> vs </div>
                 <div class="PNJ"> ${opponentN} </div>
             </div>
         `;
+
+
+        let oppDiv = document.createElement('div');
+            oppDiv.textContent = opponentN;    oppDiv.id='oppN';
+        
         SPholder.innerHTML=SPHtml;
-        document.getElementById('viewport').style.display = 'none';
+        document.body.append(oppDiv);
+        document.getElementById('viewport').remove();
         
          inserUItDeck();  // from local storage
          addDiget();
@@ -316,8 +322,33 @@ const form = new FormData();
 const SCRIPT_URL ='https://script.google.com/macros/s/AKfycbwpPvFPtWKXL3bsxKULLszGWSH69rS2DLcP0ml4dRdO6sjMhSJWaF3-wi8SvSCZVM6DZg/exec';
 
 let roomID, sendData , getData , newPOS;
+let wrapperSendGet={
+
+   'sendPOS'   :(data)=> {sendData(data)} ,
+   'sendDEPLOY':(data)=> {sendData(data)},
+   'sendNAME'  :(data)=> {sendData(data)} ,
+
+   'getPOS'    : function(data){
+       let e = entityManager.entities.find(e=> e.name==data.N && e._uuid==1 );
+                  e.userData.realPos = data.P;
+                  findFromPathTo(e , data.P);
+                  changeA('idle' , 'go' , e);
+   },
+
+   'getDEPLOY' : function(data){
+                let BC = SkeletonUtils.clone(entities[data.BARmeshN].model);       
+                let s  = new spawn( BC , data.pos , 'PATROL', 1 );
+                    s[BC.userData.class]();
+   },
+
+   'getNAME'   : function(data){
+                opponentN =data.name
+                ready();
+   }
+}
 
     Ponline.onclick = async () => {
+
            Ponline.style.pointerEvents = 'none';
            Ponline.style.filter = 'contrast(0.5)';
            textDot.style.display='flex';
@@ -325,6 +356,7 @@ let roomID, sendData , getData , newPOS;
           // 1. Ask Google Sheets for a paired Room ID
           const response = await fetch(SCRIPT_URL+'?y=onlineR&x=0');
                 roomID = await response.text();
+                console.log(roomID)
                 form.append('roomID', roomID);
          
           // 2. Initialize Tystro with that Room ID
@@ -340,22 +372,12 @@ let roomID, sendData , getData , newPOS;
               window.getData  = getData;
   
          game.onPeerJoin( peerId=>{
-             ready();
+           wrapperSendGet['sendNAME']({for:'getNAME' ,name : NAME});
+
          });
 
          getData((data , peerId)=>{
-           if(data.N){ 
-              let e = entityManager.entities.find(e=> e.name==data.N && e._uuid==1 );
-                  e.userData.realPos = data.P;
-                  findFromPathTo(e , data.P);
-                  changeA('idle' , 'go' , e);
-
-             }else{ 
-                const {BARmeshN , pos } = data; 
-                let BC = SkeletonUtils.clone(entities[BARmeshN].model);       
-                let s  = new spawn( BC , pos , 'PATROL', 1 );
-                    s[BC.userData.class]();
-              }
+           wrapperSendGet[data.for](data);
          })
   
       } catch (err) {
@@ -366,7 +388,6 @@ let roomID, sendData , getData , newPOS;
   
 }
       
-
 
 
 
@@ -780,7 +801,7 @@ class PatrolState extends YUKA.State {
            if( vehicle.userData.realPos == clickedPos ){
               return;
            }else{
-               sendData({ N:vehicle.name , P:new THREE.Vector3().copy(clickedPos).multiplyScalar(-1) });
+             wrapperSendGet['sendPOS']({for:'getPOS', N:vehicle.name , P:new THREE.Vector3().copy(clickedPos).multiplyScalar(-1) });
 
                vehicle.userData.realPos = clickedPos;
                changeA('idle', 'go', vehicle)
@@ -885,32 +906,44 @@ class GlobalState extends YUKA.State {
       
         if (mesh) {
              
-            if(mesh.geometry){
-                mesh.geometry.dispose();
- 
-            }
+            if(mesh.geometry){    mesh.geometry.dispose();   }
 
             if(mesh.material){
                 if(Array.isArray(mesh.material)){
                     mesh.material.forEach(m => m.dispose() );
 
                 }else{
-
                     mesh.material.dispose();
                 }
             }
 
-            if (mesh.parent) {
-  
-                mesh.parent.remove(mesh);
+            if (mesh.parent) {   mesh.parent.remove(mesh);  }
 
-            }
         }
         
         // Important: Remove from manager makes vehicle.manager null
         if (vehicle.manager) {
             vehicle.manager.remove(vehicle);
             syncUIWithEntities();
+        }
+          console.log(vehicle)
+        if(vehicle.name== 'tower'){
+            console.log(vehicle)
+            let winner , looser;
+            vehicle._uuid==0?(winner=opponentN,looser=NAME):(winner=NAME,looser=opponentN);
+
+                SPholder.style.display= 'flex';
+            let SPHtml = `
+            <div id="SPcontainer" >
+                    <div class="PNJ" id='winner'> ${winner} is the winner </div>
+                    <div class="PNJ" id='looser'> ${looser} is the looser </div>
+                    <div id='VS' onclick='window.location.reload()'> exit </div>
+                </div>
+            `;
+            SPholder.innerHTML=SPHtml;
+            
+
+            
         }
     }
 }

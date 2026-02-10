@@ -1,9 +1,12 @@
 
 window.token = localStorage.getItem('token') || false;
+let turnON = document.querySelector('.turnONN');
+let info   = document.querySelector('#plase');
 
 const swOBJ = {
 
 checkSW :async function(){
+        if(!window.navigator.onLine) return;
         const re = await navigator.serviceWorker.getRegistration();
         if(re){ 
             var data= await fetch('/check-cache');
@@ -57,7 +60,7 @@ notif:function(callBack){
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
-              console.log(window.token)
+             // console.log(window.token)
              callBack();
             })
           .catch((err) => {
@@ -88,18 +91,24 @@ notif:function(callBack){
 notifINIT:function(){
 
         if (Notification.permission == 'granted' && 'Notification' in window  && window.sw) {
-         // this.notef();
-          // displayInstrution();
+          // this.notef();
+          info.textContent='notifacations is on';
+          turnON.style.display = 'none';
           return;
+          
         }else if(Notification.permission == 'denied'){
-         //  displayInstrution();
+           info.textContent = 'you have to reset the website notifcation permission.!';
+           turnON.style.display = 'none';
 
         }else if(window.sw){
-            c.style.display='flex'; 
-            c.addEventListener('click', ()=>{
-                c.style.display='none';
+            turnON.style.display = 'flex';
+            turnON.addEventListener('click', ()=>{
                 Notification.requestPermission().then(permission => {
-                    if(permission === 'granted'){console.log(23232)} //return this.notef()
+                    if(permission === 'granted'){
+                        info.textContent='notifacations is on';
+                        turnON.style.display='none';
+                        //return this.notef()
+                      } 
                         })
                   })
         }
@@ -111,8 +120,8 @@ notifINIT:function(){
 }
 
 //swOBJ.checkSW();
-
-
+//swOBJ.nonotifINIT();
+swOBJ.notifINIT()
 
 
 

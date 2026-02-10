@@ -20,6 +20,8 @@
 
 
 #insideBar{
+    width: 100%;
+        box-shadow: inset -15px 0px 30px #bcbcbc, inset -15px 0px 10px #d8d8d8;
     padding-right: 27vw;
     overflow-y: scroll;
     display: flex;
@@ -42,7 +44,6 @@
 
 #insideBar > img{
          aspect-ratio: 1;
-    box-shadow: 1px 5px 12px #232323;
     height: 9vh;
     border-radius: 1rem;
 
@@ -89,7 +90,20 @@
 }
 
 
-
+#oppN{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #232323;
+    border: 2px dotted #757575;
+    border-left: none;
+    color: #ea5e5e;
+    font-weight: bold;
+    font-size: min(4vw, 15px);
+    padding: 1vw 3vw;
+    border-start-end-radius: 1rem;
+    border-end-end-radius: 1rem;
+}
 
 
 
@@ -193,3 +207,24 @@
     border-right: 5.1vw solid #000000;
     border-bottom: 1.5vh solid #00000000;
 }
+
+
+
+#winner{
+  background: linear-gradient(90deg, black, blue);
+    color: #ffe27c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

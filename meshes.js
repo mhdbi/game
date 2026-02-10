@@ -76,7 +76,6 @@ const gltfLoader = new GLTFLoader(faceLoader);
 // gltfLoader.load('../GameEntity/assets/tree.glb', gltf =>{  
 //      tree = gltf.scene;
 ///////////////////////////////////////////////////////////////////
-let tower;
      gltfLoader.load('./GameEntity/assets/tower.glb', gltf =>{  
      assets['tower'] =  gltf.scene;
      assets['tower'].animations = gltf.animations;
@@ -454,7 +453,7 @@ let tower;
                     maxHealth : 2000 ,
                     cost : 3 ,
                     hit : 200 ,
-                    attackRad : 2 ,
+                    attackRad : 5 ,
                     maxSpeed  : .3 ,
                 }
 
@@ -718,7 +717,7 @@ let tower;
                     maxHealth : 1500 ,
                     hit : 500 ,
                     cost : 4 ,
-                    attackRad : 2 ,
+                    attackRad : 5 ,
                     maxSpeed  : .3 ,
                 }
 
@@ -790,7 +789,7 @@ let tower;
                     maxHealth : 3000 ,
                     cost : 4 ,
                     hit : 500 ,
-                    attackRad : 2 ,
+                    attackRad : 5 ,
                     maxSpeed  : 1 ,
                 }
 
@@ -892,8 +891,6 @@ let tower;
 }
 
 
-
-console.log( assets )
 
 
 ////////////////////////////  exports /////////////////////////////////////

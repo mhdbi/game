@@ -705,7 +705,8 @@ video, #qr-gen-canvas {
     display: flex;
     flex-direction: column;
     width: 100vw;
-    height: 94vh;
+   height: 94vh;
+    height: 94dvh;
 }
 
 #screen2>nav{
@@ -894,7 +895,7 @@ outline-offset: 2px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
+    justify-content: space-evenly;
     border-radius: 2rem;
     background: linear-gradient(75deg, black, rgb(96, 96, 96));
     box-shadow: rgba(0, 0, 0, 0.76) -3.5vw 2.5vh 18px;
