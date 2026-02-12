@@ -17,9 +17,10 @@ let info   = document.querySelector('#plase');
 // for init new user  or update it 
 window.setupUser = (action )=>{ 
       var x= JSON.stringify([window.NAME , window.ID , window.token ])
+
         fetch( window.GASurl+`?y=${action}&x=${x}`)
             .then(response => response.json())
-            .then(data => { data=='false'?localStorage.setItem('token',false):true;})
+            .then(data => {data.status=='false'?localStorage.setItem('token',false):true;})
             .catch(err => {
             console.log(err);
           });
@@ -57,13 +58,12 @@ window.setupUser = (action )=>{
       const messaging = firebase.messaging();
            // Replace with your Public VAPID key from Step 1
       const publicVapidKey = 'BFjb5Hz9DHFRIWslwn0FJ89P_y-zNE2jHU4sc_wK79g6YulvSkEAjPfJmRidZiqlgxgxzD9VisP9ygQKo5wIPd4';
-         
-        console.log(window.sw)
+  
           messaging.getToken({
             vapidKey: publicVapidKey,
             serviceWorkerRegistration: sw 
           }).then((currentToken) => {
-               console.log(currentToken)
+     
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
