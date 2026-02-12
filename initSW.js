@@ -15,7 +15,8 @@ let turnON = document.querySelector('.turnONN');
 let info   = document.querySelector('#plase');
 
 // for init new user  or update it 
-window.setupUser = (action , x)=>{ 
+window.setupUser = (action )=>{ 
+      var x= JSON.stringify([window.NAME , window.ID , window.token ])
         fetch( window.GASurl+`?y=${action}&x=${x}`)
             .then(response => response.json())
             .then(data => { data=='false'?localStorage.setItem('token',false):true;})
@@ -25,9 +26,9 @@ window.setupUser = (action , x)=>{
   }
 
 //////////////////////////////
-const swOBJ = {
 
-initSW :async function(){
+
+ async function initSW(){
         if(!window.navigator.onLine) return;
         const re = await navigator.serviceWorker.getRegistration();
         if(re){ 
@@ -36,38 +37,38 @@ initSW :async function(){
                 if( test.missing ) {
                     console.log('missing');await re.unregister(); window.location.reload();
                 }else{ 
-                  window.sw = re;
-                  setTimeout(swOBJ.notifINIT(), 2000)
+                  window.sw =  re;
+                  notifINIT()
                 }
         }else{
               if('serviceWorker' in navigator){ 
                  navigator.serviceWorker.register('sw.js').then(registration=>{
                  window.sw = registration; 
-                 setTimeout(swOBJ.notifINIT(), 2000)
+                 notifINIT()
                   }).catch(e=>{console.log(e)});
                }
           }
-},
+}
 
-notif: async function(){
-         firebase.initializeApp(fbConfig);
+ async function notif(){
+         let sw = await navigator.serviceWorker.ready;
+           firebase.initializeApp(fbConfig);
        
       const messaging = firebase.messaging();
            // Replace with your Public VAPID key from Step 1
       const publicVapidKey = 'BFjb5Hz9DHFRIWslwn0FJ89P_y-zNE2jHU4sc_wK79g6YulvSkEAjPfJmRidZiqlgxgxzD9VisP9ygQKo5wIPd4';
          
-    
+        console.log(window.sw)
           messaging.getToken({
             vapidKey: publicVapidKey,
-            serviceWorkerRegistration: window.sw 
+            serviceWorkerRegistration: sw 
           }).then((currentToken) => {
                console.log(currentToken)
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
 
-              var x= JSON.stringify([window.NAME , window.ID , window.token ])
-              window.setupUser('update' , x);
+              window.setupUser('update');
             })
           .catch((err) => {
             console.error(err); // this.FUNrun=true; // this.FUNname= this.notef;
@@ -89,17 +90,18 @@ notif: async function(){
 
  
   
-},      
+}      
 
-notifINIT: async function(){
+ async function notifINIT(){
 
         if (Notification.permission == 'granted' && 'Notification' in window  && window.sw) {
-            info.textContent='notifacations is on';
+            info.textContent='notifications is on';
             turnON.style.display = 'none';
-            return swOBJ.notif();
+            notif();
+            return;
           
         }else if(Notification.permission == 'denied'){
-           info.textContent = 'you have to reset the website notifcation permission.!';
+           info.textContent = 'you have to reset the website notification permission.!';
            turnON.style.display = 'none';
 
         }else if(window.sw){
@@ -107,22 +109,25 @@ notifINIT: async function(){
             turnON.addEventListener('click', ()=>{
                 Notification.requestPermission().then(permission => {
                     if(permission === 'granted'){
-                        info.textContent='notifacations is on';
+                        info.textContent='notification is on';
                         turnON.style.display='none';
-                        return swOBJ.notif();
+                        notif();
+                        return;
                       } 
                         })
                   })
+        }else{
+          setTimeout(notifINIT(), 2000)
         }
 
-    },
+    }
 
   
 
-}
 
 
-swOBJ.initSW();
+
+initSW();
 
 
 
