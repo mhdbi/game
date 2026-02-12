@@ -161,7 +161,7 @@ if(!localNI){
 
 }
 
-initSW();
+await initSW();
 
 
 
@@ -307,8 +307,7 @@ AF.querySelectorAll('input').forEach(e=> e.oninput=()=>{
  let localF = localStorage.getItem('freinds') || null;
 
 addF.addEventListener('click',()=>{
-    Fid.value = '';
-    Fname.value = '';
+
     addF.style.pointerEvents = 'none';
     addF.style.background = 'gray';
     dots.style.display ='flex';
@@ -329,7 +328,7 @@ addF.addEventListener('click',()=>{
             statusF.textContent = 'freind added';
             statusF.style.color = 'green';
             setTimeout(()=>{statusF.textContent=''}, 3000)
-           
+            
              arr.push({name: Fname.value , id: Fid.value})
              localStorage.setItem('freinds', JSON.stringify(arr))
              localF = localStorage.getItem('freinds');
@@ -340,7 +339,8 @@ addF.addEventListener('click',()=>{
             setTimeout(()=>{statusF.textContent=''}, 3000)
 
         }
-      
+       Fid.value = '';
+       Fname.value = '';
 
      });
 
@@ -379,6 +379,7 @@ function invited(id){
     var x = JSON.stringify([NAME , id])
     fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json())
     .then(data=>{ 
+        console.log(data)
         dots.style.display='none';
         })
 }
@@ -397,7 +398,7 @@ screen2.addEventListener('click', (e)=>{
     setTimeout(()=>{playWF.style.display = 'none'}, 10000);
 
   }else if(e.target.className=='invited'){
-
+       console.log(e.target.dataset.id)
     invited(e.target.dataset.id)
 
   }

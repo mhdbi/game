@@ -7,7 +7,7 @@ const fbConfig = {
               appId: "1:150406104185:web:8ee667482a917fd4e7c0a8",
               measurementId: "G-GFMQGWJ0KF"
             };
-window.GASurl = 'https://script.google.com/macros/s/AKfycbwoNq7u1Wa13ZWHGHHvFY31xDUwyRD4yUzQ5LrHPdhmM58k0tq_Gg2ppiPki8px2IjS9A/exec';
+window.GASurl = 'https://script.google.com/macros/s/AKfycbwLHvsp1IpbcG3jtAgsZY2oVVNjHQqDc7oQ3Yq8DuvjChJwl2LK0oFEfkL4mITL1mHuQw/exec';
 ////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 window.token = localStorage.getItem('token') || false;
@@ -17,9 +17,10 @@ let info   = document.querySelector('#plase');
 // for init new user  or update it 
 window.setupUser = (action )=>{ 
       var x= JSON.stringify([window.NAME , window.ID , window.token ])
+       //console.log(x)
         fetch( window.GASurl+`?y=${action}&x=${x}`)
             .then(response => response.json())
-            .then(data => {data.status=='false'?localStorage.setItem('token',false):true;})
+            .then(data => {console.log(data);data.status=='false'?localStorage.setItem('token',false):true;})
             .catch(err => {
             console.log(err);
           });
@@ -52,21 +53,22 @@ window.setupUser = (action )=>{
 
  async function notif(){
          let sw = await navigator.serviceWorker.ready;
+       //  console.log(sw)
            firebase.initializeApp(fbConfig);
        
       const messaging = firebase.messaging();
            // Replace with your Public VAPID key from Step 1
       const publicVapidKey = 'BFjb5Hz9DHFRIWslwn0FJ89P_y-zNE2jHU4sc_wK79g6YulvSkEAjPfJmRidZiqlgxgxzD9VisP9ygQKo5wIPd4';
-  
+          
           messaging.getToken({
             vapidKey: publicVapidKey,
-            serviceWorkerRegistration: sw 
+            serviceWorkerRegistration: sw ,
           }).then((currentToken) => {
-  
+
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
- 
+            //   console.log(window.token)
               window.setupUser('update');
             })
           .catch((err) => {
