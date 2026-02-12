@@ -150,7 +150,8 @@ if(!localNI){
    localStorage.setItem('NI', JSON.stringify( [NAME,ID]) );
    test3.textContent = NAME;
    Pid.textContent = ID;
-   setupUser('initUser');  // from initSW
+   var x= JSON.stringify([window.NAME , window.ID , window.token ])
+   setupUser('initUser' , x);  // from initSW
 }else{
     let a = JSON.parse(localNI);
      window.NAME = a[0];

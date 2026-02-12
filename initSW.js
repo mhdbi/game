@@ -7,7 +7,7 @@ const fbConfig = {
               appId: "1:150406104185:web:8ee667482a917fd4e7c0a8",
               measurementId: "G-GFMQGWJ0KF"
             };
-window.GASurl = 'https://script.google.com/macros/s/AKfycbwpPvFPtWKXL3bsxKULLszGWSH69rS2DLcP0ml4dRdO6sjMhSJWaF3-wi8SvSCZVM6DZg/exec';
+window.GASurl = 'https://script.google.com/macros/s/AKfycbwoNq7u1Wa13ZWHGHHvFY31xDUwyRD4yUzQ5LrHPdhmM58k0tq_Gg2ppiPki8px2IjS9A/exec';
 ////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 window.token = localStorage.getItem('token') || false;
@@ -15,11 +15,10 @@ let turnON = document.querySelector('.turnONN');
 let info   = document.querySelector('#plase');
 
 // for init new user  or update it 
-window.setupUser = (action)=>{ 
-        var x= JSON.stringify([window.NAME , window.ID , window.token ])
+window.setupUser = (action , x)=>{ 
         fetch( window.GASurl+`?y=${action}&x=${x}`)
             .then(response => response.json())
-            .then(data => { console.log('GAS says:', data);  })
+            .then(data => { data=='false'?localStorage.setItem('token',false):true;})
             .catch(err => {
             console.log(err);
           });
@@ -29,7 +28,6 @@ window.setupUser = (action)=>{
 const swOBJ = {
 
 initSW :async function(){
-
         if(!window.navigator.onLine) return;
         const re = await navigator.serviceWorker.getRegistration();
         if(re){ 
@@ -39,34 +37,37 @@ initSW :async function(){
                     console.log('missing');await re.unregister(); window.location.reload();
                 }else{ 
                   window.sw = re;
-                  swOBJ.notifINIT();
+                  setTimeout(swOBJ.notifINIT(), 2000)
                 }
         }else{
               if('serviceWorker' in navigator){ 
-                 navigator.serviceWorker.register('./sw.js').then(registration=>{
+                 navigator.serviceWorker.register('sw.js').then(registration=>{
                  window.sw = registration; 
-                 swOBJ.notifINIT();
+                 setTimeout(swOBJ.notifINIT(), 2000)
                   }).catch(e=>{console.log(e)});
                }
           }
 },
 
 notif: async function(){
-      firebase.initializeApp(fbConfig);
+         firebase.initializeApp(fbConfig);
+       
       const messaging = firebase.messaging();
            // Replace with your Public VAPID key from Step 1
       const publicVapidKey = 'BFjb5Hz9DHFRIWslwn0FJ89P_y-zNE2jHU4sc_wK79g6YulvSkEAjPfJmRidZiqlgxgxzD9VisP9ygQKo5wIPd4';
-          let sw = await navigator.serviceWorker.ready;
+         
+    
           messaging.getToken({
             vapidKey: publicVapidKey,
-            serviceWorkerRegistration: sw 
+            serviceWorkerRegistration: window.sw 
           }).then((currentToken) => {
-
+               console.log(currentToken)
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
-            //  console.log(window.token)
-             setupUser('update');
+
+              var x= JSON.stringify([window.NAME , window.ID , window.token ])
+              window.setupUser('update' , x);
             })
           .catch((err) => {
             console.error(err); // this.FUNrun=true; // this.FUNname= this.notef;
@@ -90,12 +91,12 @@ notif: async function(){
   
 },      
 
-notifINIT:function(){
+notifINIT: async function(){
 
         if (Notification.permission == 'granted' && 'Notification' in window  && window.sw) {
             info.textContent='notifacations is on';
             turnON.style.display = 'none';
-            return this.notif();
+            return swOBJ.notif();
           
         }else if(Notification.permission == 'denied'){
            info.textContent = 'you have to reset the website notifcation permission.!';
@@ -108,7 +109,7 @@ notifINIT:function(){
                     if(permission === 'granted'){
                         info.textContent='notifacations is on';
                         turnON.style.display='none';
-                        return this.notif();
+                        return swOBJ.notif();
                       } 
                         })
                   })
@@ -122,10 +123,6 @@ notifINIT:function(){
 
 
 swOBJ.initSW();
-
-
-
-
 
 
 
