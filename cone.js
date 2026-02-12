@@ -304,12 +304,12 @@ let textDot = document.getElementById("textDot0");
 
 window.addEventListener('beforeunload',  async(e)=>{
     if(!roomID || roomID == null ) return;
-    navigator.sendBeacon(SCRIPT_URL , form);
+    navigator.sendBeacon(GASurl , form);
 })
  document.getElementsByClassName('btnHolder')[0].addEventListener('click',()=>{
         wantPlay = !wantPlay;
     if(!wantPlay ){
-       if(roomID){ navigator.sendBeacon(SCRIPT_URL , form) };
+       if(roomID){ navigator.sendBeacon(GASurl , form) };
        roomID = null;
        Ponline.style.pointerEvents = 'auto';
        Ponline.style.filter = 'none';
@@ -318,9 +318,9 @@ window.addEventListener('beforeunload',  async(e)=>{
 })
 
 
-const form = new FormData();
-const SCRIPT_URL ='https://script.google.com/macros/s/AKfycbwpPvFPtWKXL3bsxKULLszGWSH69rS2DLcP0ml4dRdO6sjMhSJWaF3-wi8SvSCZVM6DZg/exec';
 
+
+const form = new FormData();
 let roomID, sendData , getData , newPOS;
 let wrapperSendGet={
 
@@ -354,7 +354,7 @@ let wrapperSendGet={
            textDot.style.display='flex';
       try {
           // 1. Ask Google Sheets for a paired Room ID
-          const response = await fetch(SCRIPT_URL+'?y=onlineR&x=0');
+          const response = await fetch(GASurl+'?y=onlineR&x=0');
                 roomID = await response.text();
                 console.log(roomID)
                 form.append('roomID', roomID);

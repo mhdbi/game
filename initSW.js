@@ -1,41 +1,4 @@
-
-window.token = localStorage.getItem('token') || false;
-let turnON = document.querySelector('.turnONN');
-let info   = document.querySelector('#plase');
-
-const swOBJ = {
-
-checkSW :async function(){
-        if(!window.navigator.onLine) return;
-        const re = await navigator.serviceWorker.getRegistration();
-        if(re){ 
-            var data= await fetch('/check-cache');
-            var test = await data.json();
-                if( test.missing ) {
-                    console.log('missing');await re.unregister(); window.location.reload();
-                }else{ window.sw = re;}
-        }else{
-            this.SWinit();
-        }
-},
-
-SWinit:function(){
-   if('serviceWorker' in navigator){ 
-     navigator.serviceWorker.register('sw.js').then(registration=>{
-     window.sw = registration; 
-     
-       }).catch(e=>{console.log(e)});
- 
-    //  navigator.serviceWorker.addEventListener('controllerchange',async()=>{ this.sw = navigator.serviceWorker.controller; })
-   }
- 
-
-  },
-
-
-notif:function(callBack){
-      
-     const fbConfig = {
+const fbConfig = {
               apiKey: "AIzaSyCKoCdxnRt497Zq7rP5uP0KFvcA1DPibe0",
               authDomain: "fcm-msg-teleshop.firebaseapp.com",
               projectId: "fcm-msg-teleshop",
@@ -44,13 +7,55 @@ notif:function(callBack){
               appId: "1:150406104185:web:8ee667482a917fd4e7c0a8",
               measurementId: "G-GFMQGWJ0KF"
             };
+window.GASurl = 'https://script.google.com/macros/s/AKfycbwpPvFPtWKXL3bsxKULLszGWSH69rS2DLcP0ml4dRdO6sjMhSJWaF3-wi8SvSCZVM6DZg/exec';
+////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+window.token = localStorage.getItem('token') || false;
+let turnON = document.querySelector('.turnONN');
+let info   = document.querySelector('#plase');
 
-            
+// for init new user  or update it 
+window.setupUser = (action)=>{ 
+        var x= JSON.stringify([window.NAME , window.ID , window.token ])
+        fetch( window.GASurl+`?y=${action}&x=${x}`)
+            .then(response => response.json())
+            .then(data => { console.log('GAS says:', data);  })
+            .catch(err => {
+            console.log(err);
+          });
+  }
+
+//////////////////////////////
+const swOBJ = {
+
+initSW :async function(){
+
+        if(!window.navigator.onLine) return;
+        const re = await navigator.serviceWorker.getRegistration();
+        if(re){ 
+            var data= await fetch('/check-cache');
+            var test = await data.json();
+                if( test.missing ) {
+                    console.log('missing');await re.unregister(); window.location.reload();
+                }else{ 
+                  window.sw = re;
+                  swOBJ.notifINIT();
+                }
+        }else{
+              if('serviceWorker' in navigator){ 
+                 navigator.serviceWorker.register('./sw.js').then(registration=>{
+                 window.sw = registration; 
+                 swOBJ.notifINIT();
+                  }).catch(e=>{console.log(e)});
+               }
+          }
+},
+
+notif:function(){
       firebase.initializeApp(fbConfig);
       const messaging = firebase.messaging();
            // Replace with your Public VAPID key from Step 1
       const publicVapidKey = 'BFjb5Hz9DHFRIWslwn0FJ89P_y-zNE2jHU4sc_wK79g6YulvSkEAjPfJmRidZiqlgxgxzD9VisP9ygQKo5wIPd4';
-        if(!window.sw) {return setTimeout(this.notef,1000);}
 
           messaging.getToken({
             vapidKey: publicVapidKey,
@@ -60,13 +65,11 @@ notif:function(callBack){
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
-             // console.log(window.token)
-             callBack();
+            //  console.log(window.token)
+             setupUser('update');
             })
           .catch((err) => {
-            console.error('Error getting token:', err);
-            // this.FUNrun=true;
-            // this.FUNname= this.notef;
+            console.error(err); // this.FUNrun=true; // this.FUNname= this.notef;
             });
  
 
@@ -91,10 +94,9 @@ notif:function(callBack){
 notifINIT:function(){
 
         if (Notification.permission == 'granted' && 'Notification' in window  && window.sw) {
-          // this.notef();
-          info.textContent='notifacations is on';
-          turnON.style.display = 'none';
-          return;
+            info.textContent='notifacations is on';
+            turnON.style.display = 'none';
+            return this.notif();
           
         }else if(Notification.permission == 'denied'){
            info.textContent = 'you have to reset the website notifcation permission.!';
@@ -107,7 +109,7 @@ notifINIT:function(){
                     if(permission === 'granted'){
                         info.textContent='notifacations is on';
                         turnON.style.display='none';
-                        //return this.notef()
+                        return this.notif();
                       } 
                         })
                   })
@@ -119,9 +121,9 @@ notifINIT:function(){
 
 }
 
-//swOBJ.checkSW();
-//swOBJ.nonotifINIT();
-swOBJ.notifINIT()
+
+swOBJ.initSW();
+
 
 
 

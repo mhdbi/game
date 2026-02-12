@@ -1,7 +1,7 @@
 import * as meshes from './meshes.js';
 
-
 const {segmentTemplate ,mapping,  entities  } = meshes.default;
+
 
     const query = window.location.search;
     const urlP = new URLSearchParams(query);
@@ -15,13 +15,11 @@ const {segmentTemplate ,mapping,  entities  } = meshes.default;
     }
 
 
-const GASurl = 'https://script.google.com/macros/s/AKfycbwpPvFPtWKXL3bsxKULLszGWSH69rS2DLcP0ml4dRdO6sjMhSJWaF3-wi8SvSCZVM6DZg/exec';
-       
+
 
 
 const meshesData = entities;
 ////////////////////////////////////////////////
-let NAME , ID;
 let test3 = document.getElementsByClassName('test3')[0];
 let Pid = document.getElementById('Pid');
 let dots = document.getElementById('textDot');
@@ -147,20 +145,19 @@ for(let e=0; e < MYdeck.length; e++){
 let localNI = localStorage.getItem('NI');
 {   // init name and ID
 if(!localNI){
-    NAME = 'Noob';
-    ID   = generateUID(8);
+    window.NAME = 'Noob';
+    window.ID   = generateUID(8);
    localStorage.setItem('NI', JSON.stringify( [NAME,ID]) );
    test3.textContent = NAME;
    Pid.textContent = ID;
-   setupUser('initUser');
+   setupUser('initUser');  // from initSW
 }else{
     let a = JSON.parse(localNI);
-     window.NAME = NAME = a[0];
-     ID   = a[1];
+     window.NAME = a[0];
+     window.ID   = a[1];
     test3.textContent = NAME;
     Pid.textContent = ID;
 }
-
 
 }
 
@@ -199,6 +196,8 @@ if(!localNI){
         
         }
 }
+
+
 
 //////////////////////////////////////////////////
 /////////////////////////////////////////////////////
@@ -268,23 +267,16 @@ changeNI.addEventListener('click',()=>{
     })
 
 
-  // callback run only if token changed
-  // swOBJ.notif( ()=>{  setupUser('update')  } );
 
 
- function setupUser(action) { // for init new user  or update it
-        var x= JSON.stringify([NAME , ID , window.token ])
-        fetch( GASurl+`?y=${action}&x=${x}`)
-            .then(response => response.json())
-            .then(data => { console.log('GAS says:', data);  })
-            .catch(err => {
-            console.log(err);
-          });
-  }
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////
-//////////////////// screen 2 \\\\\\\\//////////////////\\\\\\\\\\\
+////////////////////////// screen 2 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
 let AF = document.getElementById('AF');
@@ -318,15 +310,13 @@ addF.addEventListener('click',()=>{
     addF.style.pointerEvents = 'none';
     addF.style.background = 'gray';
     dots.style.display ='flex';
+
     ///////////////// logic ///////////////
     let arr =[];
-            if(localF!=null){
-                 arr = JSON.parse(localF);
-            }
-            // if(arr.indexOf(Fid.value)!= -1){
-            //     dots.style.display ='none';
-            //     return statusF.textContent = 'freind exists';
-            // }
+    if(localF!=null){    arr = JSON.parse(localF);  }
+    if(arr.indexOf(Fid.value)!= -1){   dots.style.display ='none'; 
+        statusF.textContent = 'freind exists..!'; return setTimeout(()=>{statusF.textContent=''}, 3000)  }
+    ///////////////////////////////////////
 
       var x = JSON.stringify([ID , Fid.value]);
    fetch(GASurl+`?y=addFreind&x=${x}`  )
@@ -336,7 +326,6 @@ addF.addEventListener('click',()=>{
             dots.style.display ='none';
             statusF.textContent = 'freind added';
             statusF.style.color = 'green';
-           
             setTimeout(()=>{statusF.textContent=''}, 3000)
            
              arr.push({name: Fname.value , id: Fid.value})

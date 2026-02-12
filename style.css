@@ -850,7 +850,7 @@ ul{
     font-size: min(10.5vw, 20px);
     padding: 5px;
     font-weight: 900;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -862,6 +862,10 @@ ul{
     outline: 2px solid #fff;
 outline-offset: 2px;
 }
+.turnONN:hover{
+    background: #cfcfcf;
+}
+
 
 .notiX{
     margin-top: 3vh;

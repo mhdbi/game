@@ -90,17 +90,13 @@ messaging.onBackgroundMessage((payload) => {
     icon: '',
     badge: '',
     data: { url: payload.data?.click_action || '/' , roomTime: payload.data.roomTime},
-    actions: [{
-      action:'open',
-      title: 'OPEN THE SITE',
-      icon :''
-    }]
+    actions: [{ action:'open',  title: 'OPEN THE GAME',    icon :''  }]
   };
 
   self.registration.showNotification(title, options);
 });
 
-// === NOTIFICATION CLICK ===
+////////////////////// === NOTIFICATION CLICK ===\\\\\\\\\\\\\\\\\\\\\\\\\\\
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
 
@@ -175,9 +171,9 @@ function checkAssets( ev ){
 
 
 self.addEventListener('fetch'  , (ev)=>{
-      var url  = new URL(ev.request.url);
-      var onLine = self.navigator.onLine; 
-
+    
+// var outer= ev.request.mode=='cors' || myURL != ev.request.referrer;
+//  var referrer =ev.request.referrer.includes(myURL);
 //  var img  = url.hostname.includes('picsum.photos')||url.pathname.includes('.png')||url.pathname.includes('.jpj')||url.pathname.includes('.svg');
 //  var Json = url.hostname.includes('random-data-api.com');
 //  var css  = url.pathname.includes('.css')||url.hostname.includes('googleapis.com');
@@ -187,11 +183,10 @@ self.addEventListener('fetch'  , (ev)=>{
 //  var icons= url.pathname.includes('icons');
 //  var Gscript=url.hostname.includes('script')||url.pathname.includes('exec');
 
- var myURL= self.location.hostname;
- var outer= ev.request.mode=='cors' || myURL != ev.request.referrer;
- var referrer =ev.request.referrer.includes(myURL);
-
-
+var url  = new URL(ev.request.url);
+var onLine = self.navigator.onLine; 
+var myURL= self.location.hostname;
+ 
 
  if(onLine ){
          if (url.pathname.includes('/check-cache')){
@@ -212,8 +207,6 @@ self.addEventListener('fetch'  , (ev)=>{
       //     return ev.respondWith(cacheF(ev));
       // }
 
- }else{
-   ev.respondWith(html404());
  }
 
 });
@@ -223,8 +216,6 @@ self.addEventListener('fetch'  , (ev)=>{
 
  function cacheF(ev){
  
-  const isNet = ev.request.url.startsWith('http');
-if(isNet){
     caches.match(ev.request).then((cacheRes)=>{
          if(cacheRes){return cacheRes};})
     
@@ -254,15 +245,15 @@ if(isNet){
 
               return modifiedRes;
           })
-     
- } // for if first
 
 }
 
-function html404(){
-  return caches.match('404.html')|| null;
 
-}
+
+// function html404(){
+//   return caches.match('404.html')|| null;
+
+// }
 
 
 
