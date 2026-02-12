@@ -51,15 +51,15 @@ initSW :async function(){
           }
 },
 
-notif:function(){
+notif: async function(){
       firebase.initializeApp(fbConfig);
       const messaging = firebase.messaging();
            // Replace with your Public VAPID key from Step 1
       const publicVapidKey = 'BFjb5Hz9DHFRIWslwn0FJ89P_y-zNE2jHU4sc_wK79g6YulvSkEAjPfJmRidZiqlgxgxzD9VisP9ygQKo5wIPd4';
-
+          let sw = await navigator.serviceWorker.ready;
           messaging.getToken({
             vapidKey: publicVapidKey,
-            serviceWorkerRegistration: window.sw 
+            serviceWorkerRegistration: sw 
           }).then((currentToken) => {
 
              if(window.token && window.token == currentToken) return;
@@ -88,8 +88,7 @@ notif:function(){
 
  
   
-},
-        
+},      
 
 notifINIT:function(){
 
