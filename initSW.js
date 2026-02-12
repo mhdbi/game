@@ -17,7 +17,6 @@ let info   = document.querySelector('#plase');
 // for init new user  or update it 
 window.setupUser = (action )=>{ 
       var x= JSON.stringify([window.NAME , window.ID , window.token ])
-
         fetch( window.GASurl+`?y=${action}&x=${x}`)
             .then(response => response.json())
             .then(data => {data.status=='false'?localStorage.setItem('token',false):true;})
@@ -63,11 +62,11 @@ window.setupUser = (action )=>{
             vapidKey: publicVapidKey,
             serviceWorkerRegistration: sw 
           }).then((currentToken) => {
-     
+  
              if(window.token && window.token == currentToken) return;
               localStorage.setItem('token',currentToken);
               window.token = currentToken;
-
+ 
               window.setupUser('update');
             })
           .catch((err) => {
@@ -127,7 +126,7 @@ window.setupUser = (action )=>{
 
 
 
-initSW();
+
 
 
 

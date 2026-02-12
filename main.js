@@ -161,6 +161,8 @@ if(!localNI){
 
 }
 
+initSW();
+
 
 
  function cards(){
