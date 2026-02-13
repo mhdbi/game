@@ -294,34 +294,36 @@ await new Promise((r)=>{
 
 
 
-/////////////////////////////////////////////////////////////////////
-/////////////// hndle the trystero joins ///////////////////////////
-///////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+/////////////// hundle the trystero joins ///////////////////////////
+////////////////////////////////////////////////////////////////////
 let wantPlay = false;
 let Ponline = document.getElementById('online');
-let Poffline= document.getElementById('offline');
 let textDot = document.getElementById("textDot0");
 
 window.addEventListener('beforeunload',  async(e)=>{
     if(!roomID || roomID == null ) return;
     navigator.sendBeacon(GASurl , form);
 })
- document.getElementsByClassName('btnHolder')[0].addEventListener('click',()=>{
-        wantPlay = !wantPlay;
-    if(!wantPlay ){
-       if(roomID){ navigator.sendBeacon(GASurl , form) };
-       roomID = null;
-       Ponline.style.pointerEvents = 'auto';
-       Ponline.style.filter = 'none';
-       textDot.style.display ='none';
-    }
+let btnHolder = document.getElementsByClassName('btnHolder')[0]
+    btnHolder.addEventListener('click',()=>{
+            wantPlay = !wantPlay;
+        if(!wantPlay ){
+        if(roomID){ navigator.sendBeacon(GASurl , form) };
+        if(game){ game.leave(); game=null; };
+            roomID = null;
+            Ponline.style.pointerEvents = 'auto';
+            Ponline.style.filter = 'none';
+            textDot.style.display ='none';
+         exitWF.click(); // if the ui for W friend is on;
+        }
 })
 
 
 
 
 const form = new FormData();
-let roomID, sendData , getData , newPOS;
+let roomID, sendData , getData , game;
 let wrapperSendGet={
 
    'sendPOS'   :(data)=> {sendData(data)} ,
@@ -347,31 +349,33 @@ let wrapperSendGet={
    }
 }
 
-    Ponline.onclick = async () => {
+ Ponline.onclick = async () => {
 
-           Ponline.style.pointerEvents = 'none';
-           Ponline.style.filter = 'contrast(0.5)';
-           textDot.style.display='flex';
       try {
-          // 1. Ask Google Sheets for a paired Room ID
-          const response = await fetch(GASurl+'?y=onlineR&x=0');
-                roomID = await response.text();
-                console.log(roomID)
-                form.append('roomID', roomID);
-         
-          // 2. Initialize Tystro with that Room ID
+         if(!roomID && roomID == null){
+                Ponline.style.pointerEvents = 'none';
+                Ponline.style.filter = 'contrast(0.5)';
+                textDot.style.display='flex';
+                // 1. Ask Google Sheets for a paired Room ID
+                const response = await fetch(GASurl+'?y=onlineR&x=0');
+                        roomID = await response.text();
+            }
+             console.log(roomID)
+             form.append('roomID', roomID);
+           // 2. Initialize Tystro with that Room ID
           const config = {
               appId: '0000',
               rtcConfig: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }
           };
-          const game = trystero.joinRoom( config , roomID );
-  
+            game = trystero.joinRoom( config , roomID );
+          
           // 3. Handle Connection
           [sendData , getData]= game.makeAction('data');
               window.sendData = sendData;
               window.getData  = getData;
   
          game.onPeerJoin( peerId=>{
+            joined = true;
            wrapperSendGet['sendNAME']({for:'getNAME' ,name : NAME});
 
          });
@@ -379,7 +383,9 @@ let wrapperSendGet={
          getData((data , peerId)=>{
            wrapperSendGet[data.for](data);
          })
-  
+        // clear if none join
+        setTimeout(()=>{ if(!joined){ btnHolder.click();  } },25000);
+
       } catch (err) {
           console.error("Matchmaking failed:", err);
           Ponline.style.pointerEvents = 'auto';
@@ -390,16 +396,59 @@ let wrapperSendGet={
       
 
 
+// play with friends 1v1
+window.invited = async (id)=>{
+   // hundle html ui in main js
+    var x = JSON.stringify([NAME , id])
+   let data = await fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json())
+       if(data.status!='false'){
+        wantPlay = true;
+        roomID = data.status;
+        Ponline.click();
+        return true;
+       }else{
+        return false;
+       }
+        
 
+}
+
+// hundle on load for the html and action notification
+window.onload = () => { 
+    const query = window.location.search;
+    const urlP = new URLSearchParams(query);
+    if(urlP.has('RT')){
+        const roomTime = JSON.parse( urlP.get('RT') );
+            let date = new Date();
+        if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -2){
+                roomID = roomTime.room;
+                wantPlay = true;
+                Ponline.click();
+          }
+      }
+        window.location.href=window.location.origin+window.location.pathname+'#/';
+ };
+
+// for exit waiting friend
+let waitingF = document.getElementById('waitingF');
+let exitWF   = document.getElementById('exitWF');
+    exitWF.onclick =()=>{ 
+            waitingF.style.opacity= 0;
+            waitingF.style.display='none';
+            btnHolder.click();
+        }
+////////////////////////////////////////////////
+////////////////////////////////////////////////
 ///////////////////////////////////////////////
-Poffline.addEventListener('click', ()=>{
-   textDot.innerHTML = 'soon <span></span> ';
-   textDot.style.display='flex';
-   setTimeout(()=>{
-    textDot.innerHTML = 'finding player <span></span>';
-   textDot.style.display='none';
-   } , 5000)
-})
+//let Poffline= document.getElementById('offline');
+// Poffline.addEventListener('click', ()=>{
+//    textDot.innerHTML = 'soon <span></span> ';
+//    textDot.style.display='flex';
+//    setTimeout(()=>{
+//     textDot.innerHTML = 'finding player <span></span>';
+//    textDot.style.display='none';
+//    } , 5000)
+// })
 
 ////////////////////////////////////////
 ////////////// batching \\\\\\\\\\\\\\\\
@@ -604,9 +653,9 @@ window.addEventListener('resize',()=>{
 const loader = new THREE.TextureLoader();
 
 // Load the optimized images you saved from Squoosh
-const colorTexture = loader.load('./texture.webp');
-const normalTexture = loader.load('./normal.webp');
-const roughnessTexture = loader.load('./rofness.webp');
+const colorTexture = loader.load('./public/texture.webp');
+const normalTexture = loader.load('./public/normal.webp');
+const roughnessTexture = loader.load('./public/rofness.webp');
 
 // normalTexture.colorSpace = THREE.NoColorSpace;
 // normalTexture.type = THREE.HalfFloatType;

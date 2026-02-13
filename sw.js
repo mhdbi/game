@@ -84,11 +84,11 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   // console.log('[SW] Background Message:', payload);
 
-  const title = payload.data?.title || 'Notification';
+  const title = payload.data?.title ;
   const options = {
     body: payload.data?.body || '',
-    icon: '',
-    badge: '',
+    icon:  './public/192.png',
+    badge: './public/badge.png',
     data: { url: payload.data?.click_action || '/' , roomTime: payload.data.roomTime},
     actions: [{ action:'open',  title: 'OPEN THE GAME',    icon :''  }]
   };
@@ -110,7 +110,7 @@ self.addEventListener('notificationclick', (event) => {
               for (let client of clientList) {
                 if (client.url === url && 'focus' in client) return client.focus();
               }
-              if (clients.openWindow) return clients.openWindow(`${self.location.origin}/src2/index.html?RT=${roomTime}`);
+              if (clients.openWindow) return clients.openWindow(`${self.location.origin+self.location.pathname}?RT=${roomTime}`);
             })
         );
   }else if(event.action =='unsubscribe'){

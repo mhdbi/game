@@ -3,20 +3,6 @@ import * as meshes from './meshes.js';
 const {segmentTemplate ,mapping,  entities  } = meshes.default;
 
 
-    const query = window.location.search;
-    const urlP = new URLSearchParams(query);
-
-    if(urlP.has('RT')){
-      const roomTime = JSON.parse( urlP.get('RT') );
-        let date = new Date();
-      if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -3){
-           // join   let room = roomTime.room;
-      }
-    }
-
-
-
-
 
 const meshesData = entities;
 ////////////////////////////////////////////////
@@ -359,8 +345,11 @@ function updatedF() {
             arr.forEach(a=>{
                 let html = `
                 <div class="freinds playerF" data-id=${a.id} data-name=${a.name}>
-                        <img class="playerF" src="" alt="" style="width: 100%;height: 100%;border-radius: 5rem;background: gray;">
-                        <p class="playerF" style="position: absolute;bottom: -7.5vh;font-size: 14px;">${a.name} </p>
+                        <svg class="playerF" width="24" height="24" viewBox="0 0 24 24" fill="#e7e7e7" xmlns="http://www.w3.org/2000/svg">
+                            <path class="playerF" d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path class="playerF" d="M20 22V20C20 18.9391 19.5786 17.9217 18.8284 17.1716C18.0783 16.4214 17.0609 16 16 16H8C6.93913 16 5.92172 16.4214 5.17157 17.1716C4.42143 17.9217 4 18.9391 4 20V22" stroke="#ff1d11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                        <p class="playerF" style="position: absolute;bottom: -6.5vh;font-size: 14px;">${a.name} </p>
                 </div>
                 `;
              allF.innerHTML +=html;
@@ -372,36 +361,40 @@ function updatedF() {
 updatedF();
 
 
-function invited(id){
-    playWF.style.display='none';
-    dots.style.display ='flex';
 
-    var x = JSON.stringify([NAME , id])
-    fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json())
-    .then(data=>{ 
-        console.log(data)
-        dots.style.display='none';
-        })
-}
 
 
 
 /////////////////////////////////////////////////////////////////////
+let waitingF = document.getElementById('#waitingF');
 
+screen2.addEventListener('click', async (e)=>{
 
-screen2.addEventListener('click', (e)=>{
-
-  if(e.target.className== 'playerF'){
-    let data = e.target.parentNode.dataset;
-    playWF.style.display='flex';
-    playWF.innerHTML = ` <li class='invited' data-id=${data.id}> invite ${data.name} to play </li>`;
-    setTimeout(()=>{playWF.style.display = 'none'}, 10000);
-
+  if(e.target.className== 'playerF' || e.target.className.animVal == 'playerF'){
+            let data = e.target.parentNode.dataset;
+            playWF.style.display='flex';
+            playWF.innerHTML = ` <li class='invited' data-id=${data.id}> invite ${data.name} to play </li>`;
+            setTimeout(()=>{playWF.style.display = 'none'}, 10000);
+        
+            
   }else if(e.target.className=='invited'){
-       console.log(e.target.dataset.id)
-    invited(e.target.dataset.id)
+              playWF.style.display='none';
+              dots.style.display ='flex';
+            let res = await window.invited(e.target.dataset.id);
 
-  }
+            if (res){ 
+                waitingF.style.display='flex';
+                waitingF.style.opacity= 1;
+                
+            }else{
+                dots.style.color ='#e15c5c';
+                dots.firstChild.textContent='there is an error ';
+                setTimeout(()=>{
+                    dots.style.display ='none';
+                    dots.firstChild.textContent='waiting';
+                }, 5000 )
+             }
+   }
 
 
 })

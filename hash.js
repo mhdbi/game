@@ -1,5 +1,3 @@
-//
- window.onload = () => {   window.location.href=window.location.origin+window.location.pathname+'#/'  };
 
  window.addEventListener('hashchange', router);
 

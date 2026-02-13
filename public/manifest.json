@@ -1,0 +1,71 @@
+
+
+{
+  "name": "The-game-95",
+  "short_name": "The-game-95",
+  "description": "online-game",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#232323" ,
+  "theme_color": "#232323" ,
+  "dir": "ltr",
+  "scope": "/",
+  "id" : "/",
+  "lang" : "en",
+  "orientation": "portrait-primary",
+
+  "lanch_handler": { "client_mode":["navigate-existing","auto"] },
+  "handle_links": "preferred",
+
+  "web_apps": [  { "web_app_identity":"/"  }  ],
+  "categories": ["play" , "game" ],
+
+ 
+
+  "icons": [
+              {
+                "src": "192.png",
+                "sizes": "192x192",
+                "type": "image/png",
+                "purpose": "maskable"
+              },
+              {
+                "src": "512.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "maskable"
+              },
+              {
+                "src": "512.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "maskable"
+              }
+              
+            ],
+
+ "screenshots":[
+              {
+                  "src":"512.png",
+                  "sizes":"512x512",
+                  "type": "image/jpg",
+                  "form_factor":"wide",
+                  "purpose":"any",
+                  "label":"Hi-there"
+              },
+              {
+                "src":"512.png",
+                "sizes":"512x512",
+                "type": "image/jpg",
+                "form_factor":"wide",
+                "purpose":"any",
+                "label":"Hi-there"
+            }
+             
+              ]
+  
+
+}
+
+
+

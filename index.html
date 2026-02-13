@@ -5,7 +5,7 @@
 
     <base target="_self" >
     <meta charset="utf-8">
-    <title>Teleshop</title>
+    <title>The-game-95</title>
     
     <meta name="description" content="Teleshop">
     <meta name="HandheldFriendly" content="True">
@@ -22,7 +22,7 @@
     <meta name="google" content="notranslate">
 
 
-
+   <link rel="manifest"   href="./puplic/manifest.json" />
    <link rel="stylesheet" href="./style.css" >
    <link rel="stylesheet" href="./playing.css">
    
@@ -192,7 +192,7 @@
 
                     <div  style="display: flex; flex-direction: column; align-items: center;">
                         <div class="test5"> ثانياً :</div>
-                        <img src="./down1.jpg" onerror="imgER(event)" style="max-width: 100%; height: 16vh; border-radius: 0.5rem; width: 300px;">
+                        <img src="./public/down1.jpg" onerror="imgER(event)" style="max-width: 100%; height: 16vh; border-radius: 0.5rem; width: 300px;">
                     </div>
                        
                         <div  style="display: flex;flex-direction: column; align-items: center;">
@@ -224,7 +224,7 @@
                 </div>
 
 <!-- for img backgrond -->
-           <img src="./thin.png" onerror="imgER(event)" id="playIMG"/> 
+           <img src="./public/thin.png" onerror="imgER(event)" id="playIMG"/> 
 
 <!-- for play stop -->
                <div class="btnHolder">
@@ -277,8 +277,6 @@
 
 
 
-
-
         </section>
 
     </div>
@@ -288,7 +286,11 @@
 
 
 
-
+ <!-- for wating friends -->
+  <div id="waitingF">
+                <div  class="textDot">waiting friend to join <span></span></div>
+                <div id="exitWF">exit</div>
+  </div>
 
 
 

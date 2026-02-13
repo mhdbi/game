@@ -216,7 +216,27 @@
 }
 
 
+#waitingF{
+      top: 0;
+    display: none;
+    opacity: 0;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    background: linear-gradient(0deg, black, #636363);
+    z-index: 999;
+}
 
+#exitWF{
+    font-size: 9vw;
+    color: #ff693f;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 9px #000, 1px 2px 3px #000;
+    font-weight: bolder;
+}
 
 
 

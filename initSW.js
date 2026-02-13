@@ -7,7 +7,7 @@ const fbConfig = {
               appId: "1:150406104185:web:8ee667482a917fd4e7c0a8",
               measurementId: "G-GFMQGWJ0KF"
             };
-window.GASurl = 'https://script.google.com/macros/s/AKfycbwLHvsp1IpbcG3jtAgsZY2oVVNjHQqDc7oQ3Yq8DuvjChJwl2LK0oFEfkL4mITL1mHuQw/exec';
+window.GASurl = 'https://script.google.com/macros/s/AKfycbzaPxGm6raPkioQsp9uOGdCGLwwGFJeNBxnpyu6oqduZuVtLB_UM8o61sVPO3poo42AFA/exec';
 ////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 window.token = localStorage.getItem('token') || false;
@@ -81,9 +81,10 @@ window.setupUser = (action )=>{
           console.log('Foreground message:', payload);
           
           if (Notification.permission === 'granted') {
-            new Notification(payload.notification?.title || 'FCM Message', {
-              body: payload.notification?.body,
-              icon: ''  // Optional: Add an icon file
+            new Notification(payload.data?.title , {
+              body: payload.data?.body,
+              icon: './public/192.png',  // Optional: Add an icon file
+              badge: './public/badge.png',
             });
           }
         });
