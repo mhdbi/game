@@ -300,22 +300,36 @@ await new Promise((r)=>{
 let wantPlay = false;
 let Ponline = document.getElementById('online');
 let textDot = document.getElementById("textDot0");
+let screen1 = document.getElementById('screen1');
 
 window.addEventListener('beforeunload',  async(e)=>{
     if(!roomID || roomID == null ) return;
     navigator.sendBeacon(GASurl , form);
 })
-let btnHolder = document.getElementsByClassName('btnHolder')[0]
-    btnHolder.addEventListener('click',()=>{
-            wantPlay = !wantPlay;
-        if(!wantPlay ){
-        if(roomID){ navigator.sendBeacon(GASurl , form) };
-        if(game){ game.leave(); game=null; };
-            roomID = null;
-            Ponline.style.pointerEvents = 'auto';
-            Ponline.style.filter = 'none';
-            textDot.style.display ='none';
-         exitWF.click(); // if the ui for W friend is on;
+let btnHolder = document.getElementsByClassName('btnHolder')[0];
+    btnHolder.addEventListener('click',(e)=>{
+
+       wantPlay = !wantPlay;
+          if(wantPlay){ 
+                    btnHolder.querySelector('.btnBefor').classList.add('lightAni');
+                    btnHolder.firstChild.textContent='stop';
+                let arr = screen1.querySelectorAll('.net');
+                    arr[0].classList.add('netR');
+                    arr[1].classList.add('netL');
+           }else{ 
+                    btnHolder.querySelector('.btnBefor').classList.remove('lightAni');
+                    btnHolder.firstChild.textContent='play';
+                let arr = screen1.querySelectorAll('.net');
+                    arr[0].classList.remove('netR');
+                    arr[1].classList.remove('netL');
+           
+            if(roomID){ navigator.sendBeacon(GASurl , form) };
+            if(game){ game.leave(); game=null; };
+                roomID = null;
+                Ponline.style.pointerEvents = 'auto';
+                Ponline.style.filter = 'none';
+                textDot.style.display ='none';
+                
         }
 })
 
@@ -323,7 +337,7 @@ let btnHolder = document.getElementsByClassName('btnHolder')[0]
 
 
 const form = new FormData();
-let roomID, sendData , getData , game;
+let roomID, sendData , getData , game ,joined;
 let wrapperSendGet={
 
    'sendPOS'   :(data)=> {sendData(data)} ,
@@ -383,8 +397,7 @@ let wrapperSendGet={
          getData((data , peerId)=>{
            wrapperSendGet[data.for](data);
          })
-        // clear if none join
-        setTimeout(()=>{ if(!joined){ btnHolder.click();  } },25000);
+        
 
       } catch (err) {
           console.error("Matchmaking failed:", err);
@@ -399,8 +412,9 @@ let wrapperSendGet={
 // play with friends 1v1
 window.invited = async (id)=>{
    // hundle html ui in main js
-    var x = JSON.stringify([NAME , id])
-   let data = await fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json())
+   try{
+    var x = JSON.stringify([NAME , id]);
+   let data = await fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json());
        if(data.status!='false'){
         wantPlay = true;
         roomID = data.status;
@@ -409,26 +423,12 @@ window.invited = async (id)=>{
        }else{
         return false;
        }
-        
+    }catch(e){
+        return false;
+    }
 
 }
-
-// hundle on load for the html and action notification
-window.onload = () => { 
-    const query = window.location.search;
-    const urlP = new URLSearchParams(query);
-    if(urlP.has('RT')){
-        const roomTime = JSON.parse( urlP.get('RT') );
-            let date = new Date();
-        if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -2){
-                roomID = roomTime.room;
-                wantPlay = true;
-                Ponline.click();
-          }
-      }
-        window.location.href=window.location.origin+window.location.pathname+'#/';
- };
-
+/////////////////////////////////////////////
 // for exit waiting friend
 let waitingF = document.getElementById('waitingF');
 let exitWF   = document.getElementById('exitWF');
@@ -437,6 +437,34 @@ let exitWF   = document.getElementById('exitWF');
             waitingF.style.display='none';
             btnHolder.click();
         }
+// hundle on load for the html and action notification
+const openNOT =()=>{
+
+    const query = window.location.search;
+    const urlP = new URLSearchParams(query);
+    if(urlP.has('RT')){
+        const roomTime = JSON.parse( urlP.get('RT') );
+            let date = new Date();
+            console.log(roomTime)
+        if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -2){
+                waitingF.style.display='flex';
+                waitingF.style.opacity= 1;
+                roomID = roomTime.room;
+                wantPlay = true;
+                Ponline.click();
+                return;
+          }
+      }
+        window.location.href=window.location.origin+window.location.pathname+'#/';
+}
+
+if(document.readyState==='complete' || document.readyState=='interactive'){
+       openNOT();
+}else{
+    window.addEventListener('load', openNOT);
+}
+
+
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 ///////////////////////////////////////////////

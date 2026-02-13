@@ -43,19 +43,23 @@ const faceLoader = new THREE.LoadingManager();
          container.firstElementChild.textContent = `Loding   ${v}%`;
          progress.value = v; 
         }
-      faceLoader.onLoad = ()=>{ 
+      faceLoader.onLoad = async ()=>{ 
 
       const scripts = [ './main.js',  './cone.js'];
-            scripts.forEach(src => {
+       for(const src of scripts ){
+              faceLoader.itemStart(src);
+              await new Promise(res=>{
                 let moduleScript = document.createElement('script');
                     moduleScript.type = 'module';
                     moduleScript.src = src;
                     moduleScript.async = false;
+                    moduleScript.onload=()=>{ faceLoader.itemEnd(src); res(); }
                     document.body.appendChild(moduleScript);
-            });
+                })
+            };
 
-
-        container.style.display ='none'; }
+        container.style.display ='none'; 
+    }
 const gltfLoader = new GLTFLoader(faceLoader);
 ////////////////////////////////////////
 ////////////////////////////////////////

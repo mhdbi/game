@@ -98,7 +98,9 @@ messaging.onBackgroundMessage((payload) => {
 
 ////////////////////// === NOTIFICATION CLICK ===\\\\\\\\\\\\\\\\\\\\\\\\\\\
 self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
+     event.notification.close();
+ let swRL = self.location.href;
+ let gameUrl  = swRL.substring(0 , swRL.lastIndexOf('/')+1 );
 
   if (event.action==='open'){
         const url = event.notification.data?.url || '/';
@@ -110,7 +112,7 @@ self.addEventListener('notificationclick', (event) => {
               for (let client of clientList) {
                 if (client.url === url && 'focus' in client) return client.focus();
               }
-              if (clients.openWindow) return clients.openWindow(`${self.location.origin+self.location.pathname}?RT=${roomTime}`);
+              if (clients.openWindow) return clients.openWindow(`${gameUrl}index.html?RT=${roomTime}`);
             })
         );
   }else if(event.action =='unsubscribe'){

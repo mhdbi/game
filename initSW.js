@@ -43,7 +43,7 @@ window.setupUser = (action )=>{
                 }
         }else{
               if('serviceWorker' in navigator){ 
-                 navigator.serviceWorker.register('sw.js').then(registration=>{
+                 navigator.serviceWorker.register('./sw.js').then(registration=>{
                  window.sw = registration; 
                  notifINIT()
                   }).catch(e=>{console.log(e)});
@@ -78,8 +78,8 @@ window.setupUser = (action )=>{
 
       // Handle foreground messages (app open)
        messaging.onMessage((payload) => {
-          console.log('Foreground message:', payload);
-          
+          let room = JSON.parse(payload.data.roomTime).room;
+          console.log(room)
           if (Notification.permission === 'granted') {
             new Notification(payload.data?.title , {
               body: payload.data?.body,
