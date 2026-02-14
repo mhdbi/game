@@ -13,6 +13,7 @@ window.GASurl = 'https://script.google.com/macros/s/AKfycbzaPxGm6raPkioQsp9uOGdC
 window.token = localStorage.getItem('token') || false;
 let turnON = document.querySelector('.turnONN');
 let info   = document.querySelector('#plase');
+let massaging = document.getElementById('massaging'); // for fcm msg opened window
 
 // for init new user  or update it 
 window.setupUser = (action )=>{ 
@@ -79,14 +80,15 @@ window.setupUser = (action )=>{
       // Handle foreground messages (app open)
        messaging.onMessage((payload) => {
           let room = JSON.parse(payload.data.roomTime).room;
-          console.log(room)
-          if (Notification.permission === 'granted') {
-            new Notification(payload.data?.title , {
-              body: payload.data?.body,
-              icon: './public/192.png',  // Optional: Add an icon file
-              badge: './public/badge.png',
-            });
-          }
+              console.log(room)
+              massaging.style.display = 'flex';
+          // if (Notification.permission === 'granted') {
+          //   new Notification(payload.data?.title , {
+          //     body: payload.data?.body,
+          //     icon: './public/192.png',  // Optional: Add an icon file
+          //     badge: './public/badge.png',
+          //   });
+          // }
         });
 
 

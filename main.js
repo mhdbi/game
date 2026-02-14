@@ -64,7 +64,7 @@ screen0.addEventListener('click', (e)=>{
 
             panelC.style.display='flex';
             panelC.querySelector('.titlee').textContent = mesh.name;
-            panelC.querySelector('.imgg').src           = `../GameEntity/Himg/${mesh.name}.webp`;
+            panelC.querySelector('.imgg').src           = `./GameEntity/Himg/${mesh.name}.webp`;
             panelC.querySelector('.type').textContent  = mesh.userData.type;
             panelC.querySelector('.cost').textContent  = mesh.userData.cost;
             panelC.querySelector('.speed').textContent ='speed:'+ mesh.userData.maxSpeed*10;
@@ -324,7 +324,7 @@ function updatedF() {
                 <div class="freinds playerF" data-id=${a.id} data-name=${a.name}>
                         <svg  width="24" height="24" viewBox="0 0 24 24" fill="#e7e7e7" xmlns="http://www.w3.org/2000/svg">
                             <path  d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path  d="M20 22V20C20 18.9391 19.5786 17.9217 18.8284 17.1716C18.0783 16.4214 17.0609 16 16 16H8C6.93913 16 5.92172 16.4214 5.17157 17.1716C4.42143 17.9217 4 18.9391 4 20V22" stroke="#ff1d11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path  d="M20 22V20C20 18.9391 19.5786 17.9217 18.8284 17.1716C18.0783 16.4214 17.0609 16 16 16H8C6.93913 16 5.92172 16.4214 5.17157 17.1716C4.42143 17.9217 4 18.9391 4 20V22" stroke="#f25d28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         <p  style="position: absolute;bottom: -6.5vh;font-size: 14px;">${a.name} </p>
                 </div>

@@ -239,33 +239,52 @@
 }
 
 #delFriend{
-      position: absolute;
-    color: #760000;
-    transform: translateY(7vh);
-    background: #868686;
-    border-radius: 2rem;
-    width: 125px;
+  color: #ff8383;
+    background: repeating-linear-gradient(45deg, black, #0c3900 30px);
+    width: 98%;
+    text-align: center;
     display: flex;
+    height: 20%;
     justify-content: center;
     align-items: center;
+    border-radius: .3rem;
 }
 
 #closeF{
-    position: absolute;
-    color: #d9a300;
-    transform: translateY(13vh);
-    background: #000000;
+   color: #d9a300;
+    background: #2a2a2a;
     border-radius: 2rem;
     width: 95px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid;
+}
+
+.invited{
+    color: #fff;
+    background: repeating-linear-gradient(45deg, black, #0c3900 30px);
+    width: 98%;
+    text-align: center;
+    display: flex;
+    height: 20%;
+    justify-content: center;
+    align-items: center;
+    border-radius: .3rem;
 }
 
 
-
-
-
+#massaging{
+    background: gray;
+    width: 100%;
+    height: 10vh;
+    z-index: 99;
+    position: absolute;
+    top: 0px;
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+}
 
 
 

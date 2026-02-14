@@ -233,7 +233,7 @@ function animate( time ) {
 let SPholder= document.getElementById('SPholder');
 let opponentN;
  async function ready(){
-
+         
         SPholder.style.display= 'flex';
         let SPHtml = `
         <div id="SPcontainer" >
@@ -250,7 +250,10 @@ let opponentN;
         SPholder.innerHTML=SPHtml;
         document.body.append(oppDiv);
         document.getElementById('viewport').remove();
-        
+
+        waitingF.style.opacity= 0;
+        waitingF.style.display='none';
+
          inserUItDeck();  // from local storage
          addDiget();
         
@@ -439,7 +442,7 @@ let exitWF   = document.getElementById('exitWF');
         }
 // hundle on load for the html and action notification
 const openNOT =()=>{
-
+ 
     const query = window.location.search;
     const urlP = new URLSearchParams(query);
     if(urlP.has('RT')){
@@ -549,6 +552,8 @@ if(document.readyState==='complete' || document.readyState=='interactive'){
 
 
 window.addEventListener('resize',()=>{
+    if(!joined){ return init() };
+
     camera.aspect=window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );

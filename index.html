@@ -21,6 +21,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <link rel='apple-touch-icon' href="./public/192.png" />
+    <link rel='icon' type="image/x-icon" href="./favicon.ico" />
 
 
    <link rel="manifest"   href="./public/manifest.json" />
@@ -49,6 +50,7 @@
 <body>
 
   <div id="viewport">
+       <canvas id="flame-canvas"></canvas>
 
     <div id="bottomNav"> 
         <p id="i-us"> i-us </p>
@@ -65,9 +67,15 @@
         </div>
     </div>
 
+    <div id="massaging">
+        <div id="massagingAcc">  </div>
+        <div id="massagingMsg"> hi </div>
+        <div id="massagingDec">  </div>
+    </div>
+
     <div id="container">
 
-        <section class="screen" id="screen0">
+        <section class="screen" id="screen0" style="background-color: #2e2e2eb5;">
            
             <div style="height: 200px; margin-bottom: 12vh;">
                     <nav class="nav">
@@ -133,7 +141,7 @@
 
 
 
-        <section class="screen" id="screen1">
+        <section class="screen" id="screen1" >
             
 <!-- for user nav header -->
                <div class="header">
@@ -142,7 +150,7 @@
                             <div  id="notificIcon">
                                 <svg  width="21" height="21" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path  d="M19.43 12.97C19.47 12.65 19.5 12.33 19.5 12C19.5 11.67 19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.54 5.05 19.27 4.96 19.05 5.05L16.56 6.05C16.04 5.66 15.5 5.32 14.87 5.07L14.5 2.42C14.46 2.18 14.25 2 14 2H10C9.75 2 9.54 2.18 9.5 2.42L9.13 5.07C8.5 5.32 7.96 5.66 7.44 6.05L4.95 5.05C4.73 4.96 4.46 5.05 4.34 5.27L2.34 8.73C2.22 8.95 2.27 9.22 2.46 9.37L4.57 11.02C4.53 11.34 4.5 11.67 4.5 12C4.5 12.33 4.53 12.65 4.57 12.97L2.46 14.63C2.27 14.78 2.22 15.05 2.34 15.27L4.34 18.73C4.46 18.95 4.73 19.03 4.95 18.95L7.44 17.94C7.96 18.34 8.5 18.68 9.13 18.93L9.5 21.58C9.54 21.82 9.75 22 10 22H14C14.25 22 14.46 21.82 14.5 21.58L14.87 18.93C15.5 18.67 16.04 18.34 16.56 17.94L19.05 18.95C19.27 19.03 19.54 18.95 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.97Z" fill="#e7e7e7"/>
-                                <path  d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" fill="#ff1d11"/>
+                                <path  d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" fill="#f25d28"/>
                                 </svg>
                             </div>
 
@@ -160,7 +168,7 @@
                       <div  style="padding-right: 10px;" >
                         <svg class="userDD" width="24" height="24" viewBox="0 0 24 24" fill="#e7e7e7" xmlns="http://www.w3.org/2000/svg">
                             <path class="userDD" d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path class="userDD" d="M20 22V20C20 18.9391 19.5786 17.9217 18.8284 17.1716C18.0783 16.4214 17.0609 16 16 16H8C6.93913 16 5.92172 16.4214 5.17157 17.1716C4.42143 17.9217 4 18.9391 4 20V22" stroke="#ff1d11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path class="userDD" d="M20 22V20C20 18.9391 19.5786 17.9217 18.8284 17.1716C18.0783 16.4214 17.0609 16 16 16H8C6.93913 16 5.92172 16.4214 5.17157 17.1716C4.42143 17.9217 4 18.9391 4 20V22" stroke="#f25d28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                      </div>
                     <div class="test3">  </div>
@@ -171,17 +179,17 @@
 <!-- for user info name and id -->
             <aside id="userD" >
                 <div class="itemFlex" >
-                    <span style="font-weight: bold; color:#ff1d11;" >my NAME :</span>
+                    <span style="font-weight: bold; color:#f25d28;" >my NAME :</span>
                     <input id="Pname"  type="text"  placeholder="write here ..." style="color: #fff;letter-spacing: 1px;width: 60%; background: none; border: none; font-weight: bolder; box-shadow: none; outline: none; display: flex;">
                 </div>
                 <div class="itemFlex" >
-                    <span style="font-weight: bold; color:#ff1d11;" >my ID :</span>
+                    <span style="font-weight: bold; color:#f25d28;" >my ID :</span>
                     <div id="Pid" style="width: 60%;color: #fff;letter-spacing: 1px;font-weight: bolder;"> </div>
                 </div>
 
                 
                  <p id="changeNI" class="addF"> change </p>
-                 <p id="userDX" style="outline: 2px #464646 solid; outline-offset: 2px;color: #ff1d11;font-weight: bold; border-radius: 1rem;background-color:#000; width: 25vw;   display: flex;justify-content: center;align-items: center;"> close </p>
+                 <p id="userDX" style="outline: 2px #464646 solid; outline-offset: 2px;color: #f25d28;font-weight: bold; border-radius: 1rem;background-color:#000; width: 25vw;   display: flex;justify-content: center;align-items: center;"> close </p>
             </aside>
              
 
@@ -265,11 +273,11 @@
             <aside id="AF">
                 <div id="statusF" style="color: red;font-weight: bold;font-size: 15px;margin: 1vh;"> </div>
                 <div class="itemFlex" >
-                    <span style="font-weight: bold; color:#ff1d11;" >NAME :</span>
+                    <span style="font-weight: bold; color:#f25d28;" >NAME :</span>
                     <input id="Fname"  type="text"  placeholder="write here ..." style="color: #fff;letter-spacing: 1px;width: 60%; background: none; border: none; font-weight: bolder; box-shadow: none; outline: none; display: flex;">
                 </div>
                 <div class="itemFlex" >
-                    <span style="font-weight: bold; color:#ff1d11;" >ID :</span>
+                    <span style="font-weight: bold; color:#f25d28;" >ID :</span>
                     <input id="Fid"  type="text"  placeholder="write here ..." style="color: #fff;letter-spacing: 1px; width: 60%; background: none; border: none; font-weight: bolder; box-shadow: none; outline: none; display: flex;">
                 </div>
 
@@ -450,6 +458,108 @@ function lastTime(){
 
 
 </script>
+
+
+
+
+<script>
+
+    // --- Canvas Setup ---
+const canvas = document.getElementById('flame-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+const numberOfParticles = 200;
+
+// --- Particle Class ---
+class FlameParticle {
+    constructor() {
+        this.reset();
+    }
+
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 50;
+        
+        this.radius = Math.random() * 6 + 2;
+        this.initialRadius = this.radius;
+        
+        this.speedY = Math.random() * 2 + 1;
+        this.life = Math.random() * 300 + 200;
+        this.maxLife = this.life;
+        
+        const hue = Math.random() * 30 + 10;
+        this.color = `hsl(${hue}, 100%, 50%)`;
+        
+        this.waver = Math.random() * 2 - 1;
+        this.waverSpeed = Math.random() * 0.05 + 0.01;
+    }
+
+    update() {
+        this.life--;
+        this.y -= this.speedY;
+        
+        this.waver += this.waverSpeed;
+        this.x += Math.sin(this.waver) * 1.0;
+
+        this.radius = this.initialRadius * (this.life / this.maxLife);
+        
+        if (this.life <= 0 || this.radius <= 0.1) {
+            this.reset();
+        }
+    }
+
+    draw() {
+        const opacity = this.life / this.maxLife;
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 15;
+        
+        ctx.fillStyle = `hsla(${parseInt(this.color.substring(4))}, 100%, 50%, ${opacity * 0.7})`;
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+    }
+}
+
+// --- Initialization and Animation Loop ---
+window.init = ()=> {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    particles = [];
+    for (let i = 0; i < numberOfParticles; i++) {
+        particles.push(new FlameParticle());
+    }
+}
+
+function animate() {
+    // Clear the canvas completely each frame
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const particle of particles) {
+        particle.update();
+        particle.draw();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+
+// --- Start ---
+init();
+animate();
+
+
+
+</script>
+
+
+
+
+
+
 
 <!-- 
 
