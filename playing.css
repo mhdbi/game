@@ -238,7 +238,29 @@
     font-weight: bolder;
 }
 
+#delFriend{
+      position: absolute;
+    color: #760000;
+    transform: translateY(7vh);
+    background: #868686;
+    border-radius: 2rem;
+    width: 125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+#closeF{
+    position: absolute;
+    color: #d9a300;
+    transform: translateY(13vh);
+    background: #000000;
+    border-radius: 2rem;
+    width: 95px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 

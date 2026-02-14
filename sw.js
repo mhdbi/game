@@ -1,5 +1,5 @@
 
-const version =3;
+const version =7;
 var cacheName =`staticCahe-${version}`;
 var dynamicName="dynamicCache";
 
@@ -163,8 +163,10 @@ function checkAssets( ev ){
               const ca = await c.match(a);
               if(!ca){ missing = true}           
           };
-        //  console.log(missing)
+         // console.log(missing)
         return  new Response(JSON.stringify({missing: missing}) ,{ headers : {'Content-Type' : 'application/json'}  } );
+      }).catch(er=>{
+        console.log(er)
       })
     )
   }
@@ -189,10 +191,10 @@ var url  = new URL(ev.request.url);
 var onLine = self.navigator.onLine; 
 var myURL= self.location.hostname;
  
-
  if(onLine ){
          if (url.pathname.includes('/check-cache')){
-                 checkAssets( ev ); return;         
+                 checkAssets( ev ); 
+                 return;         
           // }else if(referrer ){
           //  return ev.respondWith(cacheF(ev));
         //  }else if(html){ 

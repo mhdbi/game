@@ -338,14 +338,29 @@ function updatedF() {
             p.addEventListener('click', (e)=>{
                 let data = e.currentTarget.dataset;
                     playWF.style.display='flex';
+                    playWF.innerHTML='';
                   let li = document.createElement('li');
                         li.className   = 'invited';
                         li.textContent = `invite ${data.name} to play`;
                         li.onclick = async ()=>{ await invitedF(data.id);}
-                        playWF.innerHTML='';
                         playWF.append(li);
+                        // delete btn 
+                        let delFriend = document.createElement('li');
+                            delFriend.id = 'delFriend';
+                            delFriend.textContent = `delete ${data.name}`;
+                            delFriend.onclick =  ()=>{ delFriendF(data.id , arr) }
+                            playWF.append(delFriend);
+                        // close 
+                        let closeF = document.createElement('li');
+                            closeF.id = 'closeF';
+                            closeF.textContent= 'close';
+                            closeF.onclick = ()=>{ playWF.style.display='none'; }
+                            playWF.append(closeF);
               })
             })
+         ///////
+            dots.style.display ='none';
+
   }
 }
 
@@ -369,8 +384,17 @@ const invitedF= async (id)=>{
                 }, 5000 )
              }
       }
-
-
+const delFriendF = (id , arr)=>{
+         playWF.style.display='none';
+         dots.style.display ='flex';
+         for(let i=0; i<arr.length; i++){
+            if(arr[i].id==id){
+                arr.splice(i ,1);
+               return localStorage.setItem('freinds',arr);
+            }
+         }
+         updatedF()
+      }
 
 
 

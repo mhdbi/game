@@ -47,15 +47,15 @@ const faceLoader = new THREE.LoadingManager();
 
       const scripts = [ './main.js',  './cone.js'];
        for(const src of scripts ){
-              faceLoader.itemStart(src);
-              await new Promise(res=>{
+            //  faceLoader.itemStart(src);
+             // await new Promise(res=>{
                 let moduleScript = document.createElement('script');
                     moduleScript.type = 'module';
                     moduleScript.src = src;
                     moduleScript.async = false;
-                    moduleScript.onload=()=>{ faceLoader.itemEnd(src); res(); }
+              //      moduleScript.onload=()=>{ faceLoader.itemEnd(src); res(); }
                     document.body.appendChild(moduleScript);
-                })
+             //   })
             };
 
         container.style.display ='none'; 
