@@ -370,15 +370,17 @@ const invitedF= async (id)=>{
               dots.style.display ='flex';
             let res = await window.invited(id);
               
-            if (res){ 
+            if (res ){ 
                 dots.style.display ='none';
                 waitingF.style.display='flex';
                 waitingF.style.opacity= 1;
                 
             }else{
-                dots.firstChild.textContent='there is an error ';
+                dots.firstChild.textContent='sending error .. retry it ';
+                dots.style.color = 'red'; dots.style.textShadow = '0px 0px 3px #000';
                 setTimeout(()=>{
                     dots.style.display ='none';
+                    dots.style.color = '#fff';
                     dots.firstChild.textContent='waiting';
                 }, 5000 )
              }
@@ -394,7 +396,7 @@ const delFriendF = (id , arr)=>{
          }
          updatedF()
       }
-
+ 
 
 
 ////////////////////////////

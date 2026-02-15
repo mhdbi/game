@@ -405,8 +405,7 @@ let wrapperSendGet={
 
       } catch (err) {
           console.error("Matchmaking failed:", err);
-          Ponline.style.pointerEvents = 'auto';
-          Ponline.style.filter = 'none';
+          Ponline.click()
       }
   
 }
@@ -419,7 +418,7 @@ window.invited = async (id)=>{
    try{
     var x = JSON.stringify([NAME , id]);
    let data = await fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json());
-       if(data.status!='false'){
+       if(data.status && data.status!='false'){
         wantPlay = true;
         roomID = data.status;
         Ponline.click();
@@ -432,6 +431,16 @@ window.invited = async (id)=>{
     }
 
 }
+// hundle incoming notification
+window.openNOT = (room)=>{
+  // return console.log(room)
+    waitingF.style.display='flex';
+    waitingF.style.opacity= 1;
+    roomID = room;
+    wantPlay = true;
+    Ponline.click();
+ 
+}
 /////////////////////////////////////////////
 // for exit waiting friend
 let waitingF = document.getElementById('waitingF');
@@ -441,32 +450,8 @@ let exitWF   = document.getElementById('exitWF');
             waitingF.style.display='none';
             btnHolder.click();
         }
-// hundle on load for the html and action notification
-const openNOT =()=>{
- 
-    const query = window.location.search;
-    const urlP = new URLSearchParams(query);
-    if(urlP.has('RT')){
-        const roomTime = JSON.parse( urlP.get('RT') );
-            let date = new Date();
-            console.log(roomTime)
-        if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -2){
-                waitingF.style.display='flex';
-                waitingF.style.opacity= 1;
-                roomID = roomTime.room;
-                wantPlay = true;
-                Ponline.click();
-                return;
-          }
-      }
-        window.location.href=window.location.origin+window.location.pathname+'#/';
-}
+//////////////////////////////////////////////
 
-if(document.readyState==='complete' || document.readyState=='interactive'){
-       openNOT();
-}else{
-    window.addEventListener('load', openNOT);
-}
 
 
 ////////////////////////////////////////////////

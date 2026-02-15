@@ -7,13 +7,16 @@ const fbConfig = {
               appId: "1:150406104185:web:8ee667482a917fd4e7c0a8",
               measurementId: "G-GFMQGWJ0KF"
             };
-window.GASurl = 'https://script.google.com/macros/s/AKfycbzaPxGm6raPkioQsp9uOGdCGLwwGFJeNBxnpyu6oqduZuVtLB_UM8o61sVPO3poo42AFA/exec';
+window.GASurl = 'https://script.google.com/macros/s/AKfycby4BOqh8iM729l6z2XiVkQag4YPa23yghQ4KanfQGjHS6uIOOep5p6RU0hM4vDaHGI97w/exec';
 ////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 window.token = localStorage.getItem('token') || false;
 let turnON = document.querySelector('.turnONN');
 let info   = document.querySelector('#plase');
-let massaging = document.getElementById('massaging'); // for fcm msg opened window
+// for fcm msg opened window
+let massaging = document.getElementById('massaging'); 
+let mDec = document.getElementById('mDec'); 
+let mAcc = document.getElementById('mAcc'); 
 
 // for init new user  or update it 
 window.setupUser = (action )=>{ 
@@ -82,16 +85,20 @@ window.setupUser = (action )=>{
 
       // Handle foreground messages (app open)
        messaging.onMessage((payload) => {
-          let room = JSON.parse(payload.data.roomTime).room;
-              console.log(room)
+         let roomTime = JSON.parse(payload.data.roomTime);
+         let date = new Date();
+          if(roomTime.time.H - date.getHours()>-1&& roomTime.time.M - date.getMinutes()> -2){
+             let room = roomTime.room;
+                 console.log(room)
               massaging.style.display = 'flex';
-          // if (Notification.permission === 'granted') {
-          //   new Notification(payload.data?.title , {
-          //     body: payload.data?.body,
-          //     icon: './public/192.png',  // Optional: Add an icon file
-          //     badge: './public/badge.png',
-          //   });
-          // }
+              mDec.addEventListener('click', ()=>{ massaging.style.display = 'none'; });
+              mAcc.addEventListener('click', ()=>{ 
+                  window.openNOT(room);
+                  massaging.style.display = 'none';
+                })
+              
+            }   
+
         });
 
 
@@ -129,7 +136,6 @@ window.setupUser = (action )=>{
 
 }
 
-  
 
 
 

@@ -112,7 +112,7 @@ self.addEventListener('notificationclick', (event) => {
               for (let client of clientList) {
                 if (client.url === url && 'focus' in client) return client.focus();
               }
-              if (clients.openWindow) return clients.openWindow(`${gameUrl}index.html?RT=${roomTime}`);
+              if (clients.openWindow) return clients.openWindow(`${gameUrl}index.html`);
             })
         );
   }else if(event.action =='unsubscribe'){
