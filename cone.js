@@ -10,6 +10,7 @@ import * as YUKA from './library/yuka.module.js';
 import * as meshes from './meshes.js';
 
 const {segmentTemplate ,mapping,   assets ,entities  } = meshes.default;
+let ONLINE = window.navigator.onLine;
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -367,7 +368,7 @@ let wrapperSendGet={
 }
 
  Ponline.onclick = async () => {
-
+     if(online)
       try {
          if(!roomID && roomID == null){
                 Ponline.style.pointerEvents = 'none';

@@ -266,17 +266,16 @@ AF.querySelectorAll('input').forEach(e=> e.oninput=()=>{
  })
 
 
- let localF = localStorage.getItem('freinds') || null;
 
 addF.addEventListener('click',()=>{
+ let localF = localStorage.getItem('freinds');
 
     addF.style.pointerEvents = 'none';
     addF.style.background = 'gray';
     dots.style.display ='flex';
 
     ///////////////// logic ///////////////
-    let arr =[];
-    if(localF!=null){    arr = JSON.parse(localF);  }
+    let arr = JSON.parse(localF || '[]');
     if(arr.indexOf(Fid.value)!= -1){   dots.style.display ='none'; 
         statusF.textContent = 'freind exists..!'; return setTimeout(()=>{statusF.textContent=''}, 3000)  }
     ///////////////////////////////////////
@@ -316,8 +315,9 @@ let playWF =  document.getElementsByClassName('playWF')[0];
 let waitingF = document.getElementById('waitingF');
 
 function updatedF() {
-    if(localF!=null){
-            let arr = JSON.parse(localF);
+     let localF = localStorage.getItem('freinds') ;
+            let arr = JSON.parse(localF || '[]');
+            if(arr.length==0)return allF.innerHTML='';
             allF.innerHTML='';
             arr.forEach(a=>{
                 let html = `
@@ -361,7 +361,6 @@ function updatedF() {
          ///////
             dots.style.display ='none';
 
-  }
 }
 
 updatedF();
@@ -390,7 +389,7 @@ const delFriendF = (id , arr)=>{
          for(let i=0; i<arr.length; i++){
             if(arr[i].id==id){
                 arr.splice(i ,1);
-               return localStorage.setItem('freinds',arr);
+                localStorage.setItem('freinds',JSON.stringify(arr));
             }
          }
          updatedF()

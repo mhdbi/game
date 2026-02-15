@@ -33,14 +33,17 @@ window.setupUser = (action )=>{
  async function initSW(){
         if(!window.navigator.onLine) return;
         const re = await navigator.serviceWorker.getRegistration();
-        if(re){ 
+        if(re ){ 
+             let sw   = await navigator.serviceWorker.ready;
+            if(!navigator.serviceWorker.controller) return setTimeout(()=>{initSW()},5000);
+
            var data= await fetch('/check-cache');
            var test = await data.json();
                if( test.missing ) {
                    console.log('missing');await re.unregister(); window.location.reload();
                }else{ 
-                  window.sw =  re;
-                  notifINIT()
+                  window.sw =  sw;
+                  notifINIT();
                 }
         }else{
               if('serviceWorker' in navigator){ 
@@ -124,7 +127,7 @@ window.setupUser = (action )=>{
           setTimeout(notifINIT(), 2000)
         }
 
-    }
+}
 
   
 

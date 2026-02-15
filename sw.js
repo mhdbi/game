@@ -1,9 +1,9 @@
 
-const version =7;
+const version =2;
 var cacheName =`staticCahe-${version}`;
 var dynamicName="dynamicCache";
 
-let assets=['/','index.html','style.css'];
+let assets=[ './','./index.html','./style.css'];
   
 
 self.addEventListener("install" , (ev)=>{ 
@@ -21,7 +21,7 @@ self.addEventListener("install" , (ev)=>{
               caches.match(as).then((cacheRes)=>{if(cacheRes)return cacheRes;
                let url = new URL(as , self.location).href;
                   return fetch(url).then(netRes=>{
-                     // if(!netRes || netRes.status !==200 || netRes.type!=='basic'){ return netRes }
+                      if(!netRes || netRes.status !==200 || netRes.type!=='basic'){ return netRes }
 
                             const resTOcache  = netRes, newMaxAge ='public , max-age=31536000,s-maxage=31536000'; 
                               
@@ -44,7 +44,6 @@ self.addEventListener("install" , (ev)=>{
                   })
  }
 
- 
 
 self.addEventListener('activate' ,(ev)=>{
   clients.claim().then(c=>{      });
@@ -55,7 +54,8 @@ self.addEventListener('activate' ,(ev)=>{
 
 
 ////////////////////////////////notific////////////////////////////////////////////////////
-////////////////////////////msg/////msg///////////////////////////////////////////////////
+////////////////////////////msg/////////msg///////////////////////////////////////////////
+
 
 self.addEventListener('sync',(e)=>{});
 self.addEventListener('periodicsync', (e)=>{});
@@ -175,9 +175,8 @@ function checkAssets( ev ){
 
 
 self.addEventListener('fetch'  , (ev)=>{
-    
+//   var referrer =ev.request.referrer.includes(myURL);
 // var outer= ev.request.mode=='cors' || myURL != ev.request.referrer;
-//  var referrer =ev.request.referrer.includes(myURL);
 //  var img  = url.hostname.includes('picsum.photos')||url.pathname.includes('.png')||url.pathname.includes('.jpj')||url.pathname.includes('.svg');
 //  var Json = url.hostname.includes('random-data-api.com');
 //  var css  = url.pathname.includes('.css')||url.hostname.includes('googleapis.com');
@@ -188,9 +187,11 @@ self.addEventListener('fetch'  , (ev)=>{
 //  var Gscript=url.hostname.includes('script')||url.pathname.includes('exec');
 
 var url  = new URL(ev.request.url);
+var fcm = ev.request.url.includes('firebase') || ev.request.url.includes('gstatic')|| ev.request.url.includes('googleapis');
 var onLine = self.navigator.onLine; 
 var myURL= self.location.hostname;
- 
+
+
  if(onLine ){
          if (url.pathname.includes('/check-cache')){
                  checkAssets( ev ); 
@@ -202,29 +203,34 @@ var myURL= self.location.hostname;
            
         }else if(ev.request.url.includes('script.google.com')) {
           return;
-        
-        }else{ 
-           return ev.respondWith(fetch(ev.request,{mode: "cors",redirect:"follow",credentials:"omit"}));
-        }
       
-      // }else{
-      //     return ev.respondWith(cacheF(ev));
-      // }
+        }else if (fcm){
+          return;
+      
+        }else { 
+          return ev.respondWith(cacheF(ev));
+           
+        }
 
- }
-
+ }else{
+   if (fcm){
+          return new Response('Offline: firebase not there' ,{ status:404 , statusText:'not found'});
+        }else{ 
+          return ev.respondWith( cacheF(ev) )
+   }
+  }
 });
 
 
 
 
- function cacheF(ev){
+ async function cacheF(ev){
  
-    caches.match(ev.request).then((cacheRes)=>{
-         if(cacheRes){return cacheRes};})
+  let cacheRes = await caches.match(ev.request);
+         if(cacheRes){    return cacheRes };
     
           return fetch(ev.request).then(netRes=>{
-              if(!netRes || netRes.status !==200 || netRes.type!=='basic'){ return netRes }
+              if(!netRes || netRes.status !==200 || netRes.type!=='basic'){ return false; }
 
             const resTOcache  = netRes.clone(), resTObroser = netRes, newMaxAge ='public , max-age=31536000,s-maxage=31536000';
 

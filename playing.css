@@ -239,12 +239,12 @@
 }
 
 #delFriend{
-  color: #ff8383;
-    background: repeating-linear-gradient(45deg, black, #0c3900 30px);
-    width: 98%;
+    color: #8a8a8a;
+    background: #5b0e04;
+    width: 77%;
     text-align: center;
     display: flex;
-    height: 20%;
+    height: 10%;
     justify-content: center;
     align-items: center;
     border-radius: .3rem;
