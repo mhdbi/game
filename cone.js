@@ -176,7 +176,8 @@ if (dx < THRESHOLD && dy < THRESHOLD) {
    // handle th pos changes
     let vehicle =entityManager.entities.filter(x=>{if(x.name==Hname&&x._uuid==0)return true;})[0];
         vehicle.userData.realPos = clickedPos;
-        wrapperSendGet['sendPOS']({for:'getPOS', N: Hname, P: clickedPos });
+        vehicle.userData.going = true;
+        wrapperSendGet['sendPOS']({ for:'getPOS', N: Hname, P: clickedPos });
         changeA('idle', 'go', vehicle)
         findFromPathTo(vehicle , clickedPos);
                
@@ -359,10 +360,12 @@ let wrapperSendGet={
 
    'getPOS'    : function(data){
         // player 0 control 1 in enymy device
+        console.log(data.P)
        let v = entityManager.entities.find(e=> e.name==data.N && e._uuid==1 );
        if(!v.userData) return;
        let RP = new THREE.Vector3().copy(data.P).multiplyScalar(-1);
                   v.userData.realPos = RP;
+                  vehicle.userData.going = true;
                   findFromPathTo(v , RP);
                   changeA('idle' , 'go' , v);
    },
@@ -431,10 +434,10 @@ window.invited = async (id)=>{
     var x = JSON.stringify([NAME , id]);
    let data = await fetch(GASurl+`?y=invited&x=${x}`).then(x=>x.json());
        if(data.status && data.status!='false'){
-        wantPlay = true;
-        roomID = data.status;
-        Ponline.click();
-        return true;
+            wantPlay = true;
+            roomID = data.status;
+            Ponline.click();
+          return true;
        }else{
         return false;
        }
@@ -840,6 +843,8 @@ class PatrolState extends YUKA.State {
       const idle = vehicle.animations.get('idle');
             idle.reset().fadeIn(vehicle.crossFadeDuration);
 
+            entity.maxSpeed = entity.userData.maxSpeed;
+            vehicle.userData.going = false;
             vehicle.userData.realPos = vehicle.position;
     }
 
@@ -853,16 +858,16 @@ class PatrolState extends YUKA.State {
     for(const entity of entities){ 
 
         // animation handler for both uuid  1 , 0
-        if(entity == vehicle && vehicle.userData.realPos != vehicle.position){    
-            if(vehicle.position.squaredDistanceTo(vehicle.userData.realPos) < 0.1 && vehicle.userData.anim =='go'){
-                vehicle.position = vehicle.userData.realPos;
+        if(entity == vehicle && vehicle.userData.going == true){  
+            let dist = vehicle.position.squaredDistanceTo(vehicle.userData.realPos);
+            if( dist < 0.1 && vehicle.userData.anim =='go'){
+                 vehicle.userData.going = false;
                 changeA('go', 'idle', vehicle);
               }
             }
 
         if (entity == vehicle || entity._uuid==vehicle._uuid ) continue; 
         //  if (vehicle.userData.type === 'Ground' && entity.userData.type === 'Air') continue;
-                  
             const distSq = vehicle.position.squaredDistanceTo(entity.position);
 
         // 1. Priority 1: Look for Enemy Troops
@@ -1049,13 +1054,11 @@ class DeployState extends YUKA.State {
     }
 
     exit(entity) {
-        // Remove clock visuals
         if (entity.clockMesh) {
             entity.clockMesh.visible = false;
             // Clean up geometry to prevent memory leaks
             entity.clockMesh.geometry.dispose();
         }
-        entity.maxSpeed = entity.userData.maxSpeed;
     }
 }
 //..............
