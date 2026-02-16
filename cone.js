@@ -71,8 +71,9 @@ let entityBar1 = document.getElementsByClassName('entity-bar1')[0];
 let entityBar2 = document.getElementsByClassName('entity-bar2')[0];
 
 /////////////////
-let uiMap = new Map() , Hname , clickedPos , BARmesh , BARmeshN ;
+let uiMap = new Map() , Hname  , BARmesh , BARmeshN ;
 let vfxArr = ['fireWave', 'tornado', 'waterWave' ,'zapWave'];
+
 function inserUItDeck(){ 
     MYdeck.forEach(e=>{ 
         // M
@@ -92,10 +93,8 @@ function inserUItDeck(){
             imgH.setAttribute('data-hname' , e);
             imgH.src= `./GameEntity/Himg/${e}.webp`;
             imgH.addEventListener('click', (i)=>{
-                Hname = i.target.dataset.hname;
-                BARmesh = BARmeshN = null;  
-                clickedPos = entityManager.entities.filter(x=>{ 
-                    if(x.name== Hname&&x._uuid== 0) return true; })[0].userData.realPos;
+                  Hname = i.target.dataset.hname;
+                  BARmesh = BARmeshN = null;  
                 });
             entityBar2.append(imgH);
 
@@ -155,7 +154,7 @@ renderer.domElement.addEventListener( 'mousedown' ,(e)=>{
 let digetN = 50;
 /////////////////////////////////////////////////////////////////////////////////////////////
 renderer.domElement.addEventListener('mouseup',async (e)=>{
-        if (isZooming) return; // Ignore if they were zooming
+   if (isZooming || !Hname && !BARmesh) return; 
 
     const contact = e.changedTouches ? e.changedTouches[0] : e;
     const dx = Math.abs(contact.clientX - startPos.x);
@@ -171,19 +170,28 @@ if (dx < THRESHOLD && dy < THRESHOLD) {
     
     if(intersectsD.length>0){
       const startPoint = intersectsD[0].point;
-            clickedPos = new THREE.Vector3().copy(startPoint);
+      let clickedPos = new THREE.Vector3().copy(startPoint);
 
-      if(!BARmesh) return;
+  if(!BARmesh){ 
+   // handle th pos changes
+    let vehicle =entityManager.entities.filter(x=>{if(x.name==Hname&&x._uuid==0)return true;})[0];
+        vehicle.userData.realPos = clickedPos;
+        wrapperSendGet['sendPOS']({for:'getPOS', N: Hname, P: clickedPos });
+        changeA('idle', 'go', vehicle)
+        findFromPathTo(vehicle , clickedPos);
+               
+    //handle the bottom bar click
+    }else{ 
       Hname = BARmeshN;
       const BARclone = SkeletonUtils.clone(BARmesh);       
+     // send data
+      wrapperSendGet['sendDEPLOY']({for:'getDEPLOY', BARmeshN ,pos: new THREE.Vector3().copy(startPoint).multiplyScalar(-1)});
 
-    // send data
-     wrapperSendGet['sendDEPLOY']({for:'getDEPLOY', BARmeshN ,pos: new THREE.Vector3().copy(startPoint).multiplyScalar(-1)});
-
-    let s = new spawn( BARclone , clickedPos , 'DEPLOY', 0);
+     let s = new spawn( BARclone , clickedPos , 'DEPLOY', 0);
         s[BARclone.userData.class]();
         BARmesh=null;
 
+     }// end else
                
     }
   }
@@ -342,6 +350,7 @@ let btnHolder = document.getElementsByClassName('btnHolder')[0];
 
 const form = new FormData();
 let roomID, sendData , getData , game ,joined;
+
 let wrapperSendGet={
 
    'sendPOS'   :(data)=> {sendData(data)} ,
@@ -831,53 +840,40 @@ class PatrolState extends YUKA.State {
       const idle = vehicle.animations.get('idle');
             idle.reset().fadeIn(vehicle.crossFadeDuration);
 
-            vehicle.userData.realPos = clickedPos = vehicle.position;
+            vehicle.userData.realPos = vehicle.position;
     }
 
-    execute(vehicle ) {
+  execute(vehicle ) {
         if (vehicle.manager === null) return;
             vehicle.mixer.update(delta)
 
         const entities = vehicle.manager.entities;
         const AR = vehicle.userData.attackRad;
 
-       for(const entity of entities){ 
+    for(const entity of entities){ 
 
-             // animation handler for both uuid  1 , 0
-            if(entity.position.squaredDistanceTo(vehicle.userData.realPos) < 0.05 && vehicle.userData.anim =='go'){
-               changeA('go', 'idle', vehicle);
-             }
+        // animation handler for both uuid  1 , 0
+        if(entity == vehicle && vehicle.userData.realPos != vehicle.position){    
+            if(vehicle.position.squaredDistanceTo(vehicle.userData.realPos) < 0.1 && vehicle.userData.anim =='go'){
+                vehicle.position = vehicle.userData.realPos;
+                changeA('go', 'idle', vehicle);
+              }
+            }
 
-
-            if (entity === vehicle || entity._uuid==vehicle._uuid ) continue; // Don't target yourself
-          //  if (vehicle.userData.type === 'Ground' && entity.userData.type === 'Air') continue;
+        if (entity == vehicle || entity._uuid==vehicle._uuid ) continue; 
+        //  if (vehicle.userData.type === 'Ground' && entity.userData.type === 'Air') continue;
                   
             const distSq = vehicle.position.squaredDistanceTo(entity.position);
 
-            // 1. Priority 1: Look for Enemy Troops
-             if ( distSq <=  AR *AR ) {
-                        vehicle.userData.targetEnemy = entity;
-                        vehicle.stateMachine.changeTo('ATTACK');
-                        return;     
-                 }
+        // 1. Priority 1: Look for Enemy Troops
+            if ( distSq <=  AR *AR ) {
+                    vehicle.userData.targetEnemy = entity;
+                    vehicle.stateMachine.changeTo('ATTACK');
+                    return;     
+                }
    
         };
-     // end of the loop /
-
-
-           if( vehicle.name != Hname || vehicle._uuid==1) return;
-
-           if( vehicle.userData.realPos == clickedPos ){
-              return;
-           }else{
-             wrapperSendGet['sendPOS']({for:'getPOS', N:vehicle.name , P: clickedPos });
-
-               vehicle.userData.realPos = clickedPos;
-               changeA('idle', 'go', vehicle)
-               findFromPathTo(vehicle , clickedPos);
-           };
-        
-            
+     // end of the loop /  
 
     }
 
@@ -975,7 +971,7 @@ class GlobalState extends YUKA.State {
       
         if (mesh) {
              
-            if(mesh.geometry){    mesh.geometry.dispose();   }
+            if(mesh.geometry){  mesh.geometry.dispose(); }
 
             if(mesh.material){
                 if(Array.isArray(mesh.material)){
@@ -995,7 +991,7 @@ class GlobalState extends YUKA.State {
             vehicle.manager.remove(vehicle);
             syncUIWithEntities();
         }
-          console.log(vehicle)
+        //  console.log(vehicle)
         if(vehicle.name== 'tower'){
             console.log(vehicle)
             let winner , looser;
@@ -1151,7 +1147,7 @@ class VfxState extends YUKA.State {
         }
     }
 }
-//...............
+
 
 
 

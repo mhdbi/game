@@ -376,7 +376,7 @@ const invitedF= async (id)=>{
                 waitingF.style.opacity= 1;
                 
             }else{
-                dots.firstChild.textContent='sending error .. retry it ';
+                dots.firstChild.textContent='sending error .. retry it.! ';
                 dots.style.color = 'red'; dots.style.textShadow = '0px 0px 3px #000';
                 setTimeout(()=>{
                     dots.style.display ='none';
