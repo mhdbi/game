@@ -198,6 +198,7 @@ const gltfLoader = new GLTFLoader(faceLoader);
                 }
 
         model.animations = gltf.animations; 
+        
      })    
 }
 /////////////////////////////////////////////////////////////////////////////
@@ -222,8 +223,10 @@ const gltfLoader = new GLTFLoader(faceLoader);
                 }
 
         model.animations = gltf.animations; 
+        
      })    
 }
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 {   // Cow
@@ -577,7 +580,7 @@ const gltfLoader = new GLTFLoader(faceLoader);
                     maxHealth : 1500 ,
                     cost : 3 ,
                     hit : 400 ,
-                    attackRad : 5 ,
+                    attackRad : 3 ,
                     maxSpeed  : .3 ,
                 }
 
@@ -721,11 +724,12 @@ const gltfLoader = new GLTFLoader(faceLoader);
                     maxHealth : 1500 ,
                     hit : 500 ,
                     cost : 4 ,
-                    attackRad : 5 ,
+                    attackRad : 3 ,
                     maxSpeed  : .3 ,
                 }
 
-        model.animations = gltf.animations; 
+        model.animations = gltf.animations;
+        
      })    
 }
 /////////////////////////////////////////////////////////////////////////////

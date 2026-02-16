@@ -387,7 +387,6 @@ const invitedF= async (id)=>{
       }
 const delFriendF = (id , arr)=>{
          playWF.style.display='none';
-         dots.style.display ='flex';
          for(let i=0; i<arr.length; i++){
             if(arr[i].id==id){
                 arr.splice(i ,1);
@@ -399,9 +398,9 @@ const delFriendF = (id , arr)=>{
  
 
 
-////////////////////////////
-////////////////////////////
-///////////////////////////
+//////////////////////////////
+//////////////////////////////
+//////////////////////////////
 //////////////////////////////
 
 

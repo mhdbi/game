@@ -93,10 +93,10 @@ function inserUItDeck(){
             imgH.src= `./GameEntity/Himg/${e}.webp`;
             imgH.addEventListener('click', (i)=>{
                 Hname = i.target.dataset.hname;
-                BARmesh = BARmeshN = null;
-                    
-                clickedPos = entityManager.entities.filter(x=>{ if(x.name== Hname) return true; })[0].userData.realPos;
-                })
+                BARmesh = BARmeshN = null;  
+                clickedPos = entityManager.entities.filter(x=>{ 
+                    if(x.name== Hname&&x._uuid== 0) return true; })[0].userData.realPos;
+                });
             entityBar2.append(imgH);
 
             // for map
@@ -220,8 +220,8 @@ function animate( time ) {
     };
 
    // play the animation 
-     spotL.position.x= 10*Math.sin(time/1000)
-     spotL.position.z= 10*Math.cos(time/1000)
+   //   spotL.position.x= 10*Math.sin(time/1000)
+   //  spotL.position.z= 10*Math.cos(time/1000)
    // end animations 
 
     entityManager.update(delta);
@@ -349,10 +349,13 @@ let wrapperSendGet={
    'sendNAME'  :(data)=> {sendData(data)} ,
 
    'getPOS'    : function(data){
-       let e = entityManager.entities.find(e=> e.name==data.N && e._uuid==1 );
-                  e.userData.realPos = data.P;
-                  findFromPathTo(e , data.P);
-                  changeA('idle' , 'go' , e);
+        // player 0 control 1 in enymy device
+       let v = entityManager.entities.find(e=> e.name==data.N && e._uuid==1 );
+       if(!v.userData) return;
+       let RP = new THREE.Vector3().copy(data.P).multiplyScalar(-1);
+                  v.userData.realPos = RP;
+                  findFromPathTo(v , RP);
+                  changeA('idle' , 'go' , v);
    },
 
    'getDEPLOY' : function(data){
@@ -853,13 +856,11 @@ class PatrolState extends YUKA.State {
 
             // 1. Priority 1: Look for Enemy Troops
              if ( distSq <=  AR *AR ) {
-
                         vehicle.userData.targetEnemy = entity;
                         vehicle.stateMachine.changeTo('ATTACK');
                         return;     
-             }
-
-           
+                 }
+   
         };
      // end of the loop /
 
@@ -869,7 +870,7 @@ class PatrolState extends YUKA.State {
            if( vehicle.userData.realPos == clickedPos ){
               return;
            }else{
-             wrapperSendGet['sendPOS']({for:'getPOS', N:vehicle.name , P:new THREE.Vector3().copy(clickedPos).multiplyScalar(-1) });
+             wrapperSendGet['sendPOS']({for:'getPOS', N:vehicle.name , P: clickedPos });
 
                vehicle.userData.realPos = clickedPos;
                changeA('idle', 'go', vehicle)
