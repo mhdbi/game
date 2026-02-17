@@ -41,12 +41,21 @@ window.setupUser = (action )=>{
            window.sw = re; 
 
         const setup = async ()=>{
+          try{
              var data= await fetch('/check-cache');
+              if(!data.ok) return await re.update();
+
                   var test = await data.json();
-                  if( test.missing ) {console.log(missing); await re.update(); }
+                  if( test.missing ) {
+                    console.log(missing); 
+                    return await re.update();
+                   }
 
                 notifINIT();
-           }
+            }catch(e){
+              return await re.update();
+            }
+          }
 
         if(navigator.serviceWorker.controller){
            setup()
@@ -143,6 +152,7 @@ window.setupUser = (action )=>{
 
 document.addEventListener('focus',()=>{
     if(window.sw){
+      console.log('focused')
        window.sw.update();
        notifINIT();
     }

@@ -1,19 +1,20 @@
 
-const version =5;
+const version = 6;
 var cacheName =`staticCahe-${version}`;
 var dynamicName="dynamicCache";
 
 let assets=[ './','./index.html','./style.css'];
   
 
-self.addEventListener("install" , (ev)=>{ 
+self.addEventListener("install" , (ev)=>{
         ev.waitUntil(
           addAssets()
            );
      
          self.skipWaiting();
-       
-});
+          }
+
+      );
 
  function addAssets(){
 
@@ -46,7 +47,7 @@ self.addEventListener("install" , (ev)=>{
 
 
 self.addEventListener('activate' ,(ev)=>{
-  clients.claim().then(c=>{      });
+  clients.claim();
   caches.keys().then((key) => {
     key.filter(key=>{ if(key!=cacheName ){ return true }}).map(key=>caches.delete(key));
       });
@@ -157,17 +158,18 @@ self.addEventListener('notificationclick', (event) => {
 function checkAssets( ev ){
     ev.respondWith(
       caches.open(cacheName).then(async (c)=>{
-      
-      var missing = false;
-          for( const a of assets  ){
-              const ca = await c.match(a);
-              if(!ca){ missing = true}           
-          };
-         // console.log(missing)
-        return  new Response(JSON.stringify({missing: missing}) ,{ headers : {'Content-Type' : 'application/json'}  } );
-      }).catch(er=>{
-        console.log(er)
+       try{
+       const match   = await Promise.all(assets.map(a=> c.match(a) ));
+       const missing = match.some(m=> m=== undefined );
+
+          return  new Response(JSON.stringify({missing: missing}) ,{ headers : {'Content-Type' : 'application/json'}  } );
+    
+       }catch(e){
+        return  new Response(JSON.stringify({missing: true}) ,{ headers : {'Content-Type' : 'application/json'}  } ); 
+       }
+         
       })
+
     )
   }
 
