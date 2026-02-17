@@ -127,6 +127,8 @@ function syncUIWithEntities() {
     };
 }
 
+inserUItDeck()
+syncUIWithEntities()
 ////////////////////////////////////////////////////////////////////
 ///////////////////////  events   /////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -685,12 +687,15 @@ window.addEventListener('resize',()=>{
 const loader = new THREE.TextureLoader();
 
 // Load the optimized images you saved from Squoosh
-const colorTexture = loader.load('./public/texture.webp');
-const normalTexture = loader.load('./public/normal.webp');
+const colorTexture = loader.load('./public/texture.webp');   
+const normalTexture = loader.load('./public/normal.webp');   
 const roughnessTexture = loader.load('./public/rofness.webp');
 
-// normalTexture.colorSpace = THREE.NoColorSpace;
+ colorTexture.colorSpace = THREE.SRGBColorSpace;
+ normalTexture.colorSpace = THREE.NoColorSpace;
+ roughnessTexture.colorSpace = THREE.NoColorSpace;
 // normalTexture.type = THREE.HalfFloatType;
+
 // We apply the tiling settings to ALL of them so they stay aligned
 [colorTexture,normalTexture, roughnessTexture].forEach(tex => {  // [ + roughnessTexture]
     tex.wrapS = THREE.RepeatWrapping;
@@ -1271,26 +1276,32 @@ class spawn{
 
 
  initV(){
+
+    ///////////////////////////////////////////////////
     const vehicle = this.vehicle;
           vehicle.userData = this.cloneM.userData;
           vehicle._uuid = this.uuid;
-
-          //////////////////////////////
           vehicle.mixer = this.mixer;
           vehicle.animations = this.animations;
           vehicle.position.copy(this.position);
           vehicle.name                = this.cloneM.name;
           vehicle.steering.active     = false;
         //  name=='tower'?vehicle.mass  = Infinity :null;
-
-        ////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    if(vehicle.name != 'tower'){ 
+            let cost = vehicle.userData.cost;
+        if ( digetN < cost || this.uuid==1) return;
+            digetN -= cost;
+            digetNUM(digetN);
+      }
+    ////////////////////////////////////////////////////
         this.pivotGroup.add(this.cloneM);
         vehicle.setRenderComponent(this.pivotGroup,(entity,renderComponent)=>{
             renderComponent.position.copy(entity.position);
             renderComponent.quaternion.copy(entity.rotation);
         });  // sync shoud be declear
 
-       ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
       vehicle.stateMachine = new YUKA.StateMachine(vehicle);
       vehicle.stateMachine.globalState = new GlobalState();
 
@@ -1300,10 +1311,7 @@ class spawn{
 
  entity(){
     let vehicle = this.initV();
-    let cost = vehicle.userData.cost;
-     if ( digetN < cost ) return;
-      digetN -= cost;
-      digetNUM(digetN);
+       if(!vehicle) return;
     ///////////////////////////////////////////////////////////////////////////////////////////
 
      const go     =  this.mixer.clipAction('go');       go.play();        go.enabled = false;
@@ -1357,10 +1365,7 @@ class spawn{
 
  vfx(){
         let vehicle = this.initV();
-        let cost = vehicle.userData.cost;
-     if ( digetN < cost ) return;
-        digetN -= cost;
-        digetNUM(digetN);
+        if(!vehicle) return;
       /////////////////////////////////////////////////////////////////////////////////
         const vfx = this.mixer.clipAction('vfx');    vfx.play();    vfx.enabled = false;
             this.animations.set('vfx' , vfx);

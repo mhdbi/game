@@ -89,6 +89,10 @@
     filter: contrast(0.1) brightness(0.5);
 }
 
+/* .entity-bar2 > img:hover{
+    filter: brightness(2);
+} */
+
 
 #oppN{
     position: absolute;
