@@ -34,28 +34,29 @@ window.setupUser = (action )=>{
 
 
  async function initSW(){
-        if(!window.navigator.onLine) return;
-        const re = await navigator.serviceWorker.getRegistration();
-        if(re ){ 
-             let sw   = await navigator.serviceWorker.ready;
-            if(!navigator.serviceWorker.controller) return setTimeout(()=>{initSW()},5000);
+     if(!'serviceWorker' in navigator || !window.navigator.onLine) return;
+ try{ 
+        await navigator.serviceWorker.register('sw.js');
+        const re   = await navigator.serviceWorker.ready;    
+           window.sw = re; 
 
-           var data= await fetch('/check-cache');
-           var test = await data.json();
-               if( test.missing ) {
-                   console.log('missing');await re.unregister(); window.location.reload();
-               }else{ 
-                  window.sw =  sw;
-                  notifINIT();
-                }
+        const setup = async ()=>{
+             var data= await fetch('/check-cache');
+                  var test = await data.json();
+                  if( test.missing ) {console.log(missing); await re.update(); }
+
+                notifINIT();
+           }
+
+        if(navigator.serviceWorker.controller){
+           setup()
         }else{
-              if('serviceWorker' in navigator){ 
-                 navigator.serviceWorker.register('sw.js').then(registration=>{
-                 window.sw = registration; 
-                 notifINIT()
-                  }).catch(e=>{console.log(e)});
-               }
-          }
+            navigator.serviceWorker.addEventListener('controllerchange', setup )  ;     
+        }
+    
+
+  }catch(e){ console.log(e) }
+                
 }
 
  async function notif(){
@@ -140,6 +141,13 @@ window.setupUser = (action )=>{
 
 
 
+document.addEventListener('focus',()=>{
+    if(window.sw){
+       window.sw.update();
+       notifINIT();
+    }
+})
+
 
 
 
@@ -148,6 +156,17 @@ window.setupUser = (action )=>{
 
 ///////////////////////////////////// install prompt/////////////////////////////////////
 
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////
 let downloadC     = document.getElementById('instruction');
 let closeDownload = document.getElementsByClassName('okyBtn')[0];
 let downLBTN      = document.getElementById('downLBTN');
@@ -187,4 +206,27 @@ notiX.addEventListener('click',    ()=>{  notificC.style.display = 'none';  })
 
 
 
+//  async function initSW(){
+//         if(!window.navigator.onLine) return;
+//         const re = await navigator.serviceWorker.getRegistration();
+//         if(re ){ 
+//              let sw   = await navigator.serviceWorker.ready;
+//             if(!navigator.serviceWorker.controller) return setTimeout(()=>{initSW()},5000);
 
+//            var data= await fetch('/check-cache');
+//            var test = await data.json();
+//                if( test.missing ) {
+//                   await re.unregister(); window.location.reload();
+//                }else{ 
+//                   window.sw =  sw;
+//                   notifINIT();
+//                 }
+//         }else{
+//               if('serviceWorker' in navigator){ 
+//                  navigator.serviceWorker.register('sw.js').then(registration=>{
+//                  window.sw = registration; 
+//                  notifINIT()
+//                   }).catch(e=>{console.log(e)});
+//                }
+//           }
+// }

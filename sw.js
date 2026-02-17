@@ -47,7 +47,7 @@ self.addEventListener("install" , (ev)=>{
 
 self.addEventListener('activate' ,(ev)=>{
   clients.claim().then(c=>{      });
- caches.keys().then((key) => {
+  caches.keys().then((key) => {
     key.filter(key=>{ if(key!=cacheName ){ return true }}).map(key=>caches.delete(key));
       });
 });

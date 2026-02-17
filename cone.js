@@ -176,7 +176,6 @@ if (dx < THRESHOLD && dy < THRESHOLD) {
    // handle th pos changes
     let vehicle =entityManager.entities.filter(x=>{if(x.name==Hname&&x._uuid==0)return true;})[0];
         vehicle.userData.realPos = clickedPos;
-        vehicle.userData.going = true;
         wrapperSendGet['sendPOS']({ for:'getPOS', N: Hname, P: clickedPos });
         changeA('idle', 'go', vehicle)
         findFromPathTo(vehicle , clickedPos);
@@ -365,7 +364,6 @@ let wrapperSendGet={
        if(!v.userData) return;
        let RP = new THREE.Vector3().copy(data.P).multiplyScalar(-1);
                   v.userData.realPos = RP;
-                  vehicle.userData.going = true;
                   findFromPathTo(v , RP);
                   changeA('idle' , 'go' , v);
    },
@@ -843,8 +841,7 @@ class PatrolState extends YUKA.State {
       const idle = vehicle.animations.get('idle');
             idle.reset().fadeIn(vehicle.crossFadeDuration);
 
-            entity.maxSpeed = entity.userData.maxSpeed;
-            vehicle.userData.going = false;
+            vehicle.maxSpeed = vehicle.userData.maxSpeed;
             vehicle.userData.realPos = vehicle.position;
     }
 
@@ -853,15 +850,14 @@ class PatrolState extends YUKA.State {
             vehicle.mixer.update(delta)
 
         const entities = vehicle.manager.entities;
-        const AR = vehicle.userData.attackRad;
+        const AR       = vehicle.userData.attackRad;
 
     for(const entity of entities){ 
 
         // animation handler for both uuid  1 , 0
-        if(entity == vehicle && vehicle.userData.going == true){  
+        if(entity == vehicle && vehicle.userData.anim =='go'){  
             let dist = vehicle.position.squaredDistanceTo(vehicle.userData.realPos);
-            if( dist < 0.1 && vehicle.userData.anim =='go'){
-                 vehicle.userData.going = false;
+            if( dist < 0.1 ){
                 changeA('go', 'idle', vehicle);
               }
             }
