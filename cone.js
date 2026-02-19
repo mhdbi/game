@@ -1076,8 +1076,7 @@ class VfxState extends YUKA.State {
   }
 
   execute(vehicle) {
-    //const delta = vehicle.manager.getTime().getDelta()
-    
+
     this.elapsed += delta;
 
     if (this.elapsed >= this.duration) {
@@ -1105,17 +1104,14 @@ class VfxState extends YUKA.State {
            
   }
 
-//   attack( target) {
-//           target.userData.health -= 500; // Deal 10 damage
+  attack( target) {
+          target.userData.health -= 500; // Deal 10 damage
         
-//           const healthPercent = target.userData.health / target.userData.maxHealth;
-        
-//           // Update the visual bar
-//           if (target.userData.healthBar) {
-//               target.userData.healthBar.updateHealth(healthPercent);
-//           }
+          const healthPercent = target.userData.health / target.userData.maxHealth;
 
-//       }
+              target.userData.healthBar.updateHealth(healthPercent);
+
+      }
 
     die(vehicle) {
         const mesh = vehicle._renderComponent; //|| vehicle.mesh;

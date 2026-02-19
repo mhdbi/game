@@ -147,7 +147,7 @@ if(!localNI){
 
 }
 
-await initSW();
+// await initSW();
 
 
 

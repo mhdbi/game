@@ -7,7 +7,7 @@
 
 
 .entity-bar1{
-     background: #a7a7a7;
+     background: #a7a7a700;
     position: absolute;
     z-index: 99;
     width: 100vw;
@@ -20,8 +20,9 @@
 
 
 #insideBar{
-    width: 100%;
-        box-shadow: inset -15px 0px 30px #bcbcbc, inset -15px 0px 10px #d8d8d8;
+   width: 100%;
+    box-shadow: inset -15px 0px 35px #505050, inset -15px 0px 15px #ffffff;
+    background: linear-gradient(45deg, #505050, #ffffff);
     padding-right: 27vw;
     overflow-y: scroll;
     display: flex;
@@ -30,10 +31,10 @@
     gap: 2vw;
 }
 
+
 #tarImg{
-     right: 0;
-    filter: drop-shadow(-3px 0px 6px #000000);
-    background: conic-gradient(from -508deg at 25%, #06060600 118deg, #000000 111deg, #000000 130deg, #0d0200 235deg, #000000 334deg);
+  right: 0;
+    background: conic-gradient(from -508deg at 25%, #06060600 118deg, #000000 111deg, #000000 130deg, #000000 235deg, #000000 334deg);
     align-items: center;
     justify-content: center;
     position: absolute;
@@ -49,41 +50,49 @@
 
 }
 
-
-
+#entity-bar2{
+ width: min(13vw, 50px);
+    height: clamp(65vh, 100vw, 80vh);
+    right: 0;
+    bottom: 10vh;
+    position: absolute;
+    display: flex;
+    overflow: visible;
+    filter: drop-shadow(-1px -1px 6px #000);
+}
+#notch{
+    width: 67%;
+    height: 6%;
+    position: absolute;
+    top: 95%;
+    z-index: -3;
+    right: 98%;
+    background: #151515;
+    clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
 .entity-bar2{
-    filter: drop-shadow(1px 1px 5px #000);
     pointer-events: none;
     right: 0;
-    bottom: 9.5vh;
-    height: clamp(65vh, 100vw, 88vh);
-    width: min(12vw, 50px);
-    display: none;
+    height: 91%;
+    width: 100%;
+    display: flex;
     background: #151515;
     z-index: 7;
     position: absolute;
-    border-start-start-radius: 2rem;
-    border-start-end-radius: 2rem;
+    border-start-end-radius: 0;
     flex-direction: column;
     justify-content: space-evenly;
-    padding-top: 1vh;
+    padding: 60% 0vh;
+    clip-path: polygon(0% 7%, 100% 0%, 100% 100%, 0% 100%, 0% 100%);
 }
 
-.entity-bar2::before{
-      content: '';
-    position: absolute;
-    right: 11vw;
-    top: 60.8vh;
-    width: 5vh;
-    height: 5vh;
-    background-color: #80808000;
-    box-shadow: 10px 5px 0px #151515, 10px 17px 0px #151515;
-    border-bottom-right-radius: 50px;
-    z-index: -1;
-}
+
+
+
 
 .entity-bar2 > img{
     height: calc(100% / 11);
+    max-width: 100%;
     aspect-ratio: 1;
     border-radius: .3rem;
     filter: contrast(0.1) brightness(0.5);
